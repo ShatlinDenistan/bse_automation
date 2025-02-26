@@ -13,7 +13,7 @@ class TestLogin:
         page.get_by_role("button", name="Login").nth(1).click()
         page.get_by_text("Incorrect username or password").click()
         page.get_by_role("button", name="Login").click()
-
         # ---------------------
         context.close()
         browser.close()
+
