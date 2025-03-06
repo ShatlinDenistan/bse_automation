@@ -3,6 +3,7 @@
 import os
 from playwright.sync_api import Playwright, expect
 from dotenv import load_dotenv
+import pytest
 
 load_dotenv(override=True)
 
@@ -10,6 +11,8 @@ load_dotenv(override=True)
 class TestLogin:
     """login tests"""
 
+    @pytest.mark.login
+    @pytest.mark.regression
     def test_login_positive_test(self, playwright: Playwright):
         """positive login test with valid user name and password"""
         # arrange
@@ -33,6 +36,8 @@ class TestLogin:
         context.close()
         browser.close()
 
+    @pytest.mark.login
+    @pytest.mark.regression
     def test_login_negative_test(self, playwright: Playwright):
         """positive login test with valid user name and password"""
         # arrange
@@ -56,6 +61,7 @@ class TestLogin:
         context.close()
         browser.close()
 
+    @pytest.mark.login
     def test_login_empty_password_test(self, playwright: Playwright):
         """negative login test with empty username"""
         browser = playwright.chromium.launch(headless=False)
@@ -71,8 +77,9 @@ class TestLogin:
         logout_button = page.get_by_role("button", name="Sign Out")
         expect(logout_button).to_be_hidden()
         context.close()
-        browser.close()   
+        browser.close()
 
+    @pytest.mark.login
     def test_login_invalid_login_credentials_test(self, playwright: Playwright):
         """negative login test with invalid username and invalid password"""
         browser = playwright.chromium.launch(headless=False)
@@ -88,4 +95,4 @@ class TestLogin:
         logout_button = page.get_by_role("button", name="Sign Out")
         expect(logout_button).to_be_hidden()
         context.close()
-        browser.close()  
+        browser.close()
