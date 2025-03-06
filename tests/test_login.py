@@ -56,10 +56,36 @@ class TestLogin:
         context.close()
         browser.close()
 
-    # SLI
-    # login with empty username
-    # login with invalid username and invalid password
+    def test_login_empty_password_test(self, playwright: Playwright):
+        """negative login test with empty username"""
+        browser = playwright.chromium.launch(headless=False)
+        context = browser.new_context()
+        page = context.new_page()
+        home_page = os.getenv("HOME_PAGE")
+        page.goto(f"{home_page}/login")
+        user_name = ""
+        password = "wrong_password"
+        page.get_by_role("textbox", name="Email").fill(user_name)
+        page.get_by_role("textbox", name="Password").fill(password)
+        page.get_by_role("button", name="Login").nth(1).click()
+        logout_button = page.get_by_role("button", name="Sign Out")
+        expect(logout_button).to_be_hidden()
+        context.close()
+        browser.close()   
 
-    # THANDEKA
-    # login with empty password
-    # login with empty username and password
+    def test_login_invalid_login_credentials_test(self, playwright: Playwright):
+        """negative login test with invalid username and invalid password"""
+        browser = playwright.chromium.launch(headless=False)
+        context = browser.new_context()
+        page = context.new_page()
+        home_page = os.getenv("HOME_PAGE")
+        page.goto(f"{home_page}/login")
+        user_name = "test@takealot.com"
+        password = "wrong_password"
+        page.get_by_role("textbox", name="Email").fill(user_name)
+        page.get_by_role("textbox", name="Password").fill(password)
+        page.get_by_role("button", name="Login").nth(1).click()
+        logout_button = page.get_by_role("button", name="Sign Out")
+        expect(logout_button).to_be_hidden()
+        context.close()
+        browser.close()  
