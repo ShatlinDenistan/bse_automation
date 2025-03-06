@@ -64,7 +64,7 @@ class TestLogin:
         home_page = os.getenv("HOME_PAGE")
         page.goto(f"{home_page}/login")
         user_name = ""
-        password = "wrong_password"
+        password = os.getenv("PASSWORD")
         page.get_by_role("textbox", name="Email").fill(user_name)
         page.get_by_role("textbox", name="Password").fill(password)
         page.get_by_role("button", name="Login").nth(1).click()
