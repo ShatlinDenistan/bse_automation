@@ -14,4 +14,5 @@ class TestLogin(TestBase):
         self.order_list_page.confirm_if_in_page()
 
         # step 3: Cancel Order
-        self.order_list_page.cancel_order("177440960")
+        is_order_canceled = self.order_list_page.cancel_order()
+        assert is_order_canceled is True, "Order was not canceled"
