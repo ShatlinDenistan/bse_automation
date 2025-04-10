@@ -8,8 +8,6 @@ import os
 import pytest
 from dotenv import load_dotenv
 from playwright.sync_api import Browser, BrowserContext, Page, Playwright
-import test
-
 from config.config import TestConfig as test_config
 from pages.login import LoginPage
 from utils.common import CommonUtils as common_utils
