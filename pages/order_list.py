@@ -18,9 +18,11 @@ class OrderListPage(PageBase):
         self.table_xpath = "//table"
 
     def confirm_if_in_page(self):
+        """Confirm if the user is on the Order List page"""
         expect(self.auth_status_label).to_be_visible(timeout=5000)
 
     def cancel_order(self):
+        """Cancel the first order in the list"""
         self.confirm_if_in_page()
         self.set_page_size(page_size=50)
         table_data = self.get_table_data(table_xpath=self.table_xpath)
