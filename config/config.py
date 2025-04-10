@@ -5,7 +5,7 @@ class TestConfig:
     """All the configurations for the tests"""
 
     API_TOKEN = f"Token {os.getenv('API_TOKEN')}"
-    HOME_PAGE = os.getenv("MAIN_APP_URL")
+    HOME_PAGE = os.getenv("HOME_PAGE")
 
     JIRA = "https://takealot.atlassian.net/"
     UPDATE_JIRA = os.getenv("UPDATE_JIRA", "False").upper() == "TRUE"

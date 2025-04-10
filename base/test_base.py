@@ -22,7 +22,6 @@ class TestBase(PageInitializer):
         self.page = _init_test
         self.step_count = 0
         self.config = TestConfig()
-        self.step_count = 0
         self.logger = logger
         self.json = json
         self.faker = Faker()
@@ -103,20 +102,3 @@ class TestBase(PageInitializer):
         If we are sure that the test does not need to wait for the page to load fully
         and ensure html loading doesnt need to be checked, use this method"""
         self.page.wait_for_load_state("domcontentloaded")
-
-
-# import os
-# from playwright.sync_api import Page
-
-# from pages.order_list import OrderListPage
-# from pages.login import LoginPage
-# from pages.side_nav import SideNav
-# from pages.top_nav import TopNav
-
-
-# class TestBase:
-#     page: Page
-#     login_page: LoginPage
-#     side_nav: SideNav
-#     top_nav: TopNav
-#     order_list_page: OrderListPage

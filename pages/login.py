@@ -1,11 +1,14 @@
 from playwright.sync_api import Page, expect
 
+from base.page_base import PageBase
 
-class LoginPage:
+
+class LoginPage(PageBase):
     """Page methods and elements for login page"""
 
     def __init__(self, page: Page):
         self.page = page
+        super().__init__(page)
         self.email_textbox = self.page.get_by_role("textbox", name="Email")
         self.password_textbox = self.page.get_by_role("textbox", name="Password")
         self.login_button = self.page.get_by_role("button", name="Login").nth(1)
@@ -16,6 +19,6 @@ class LoginPage:
 
     def login(self, username, password):
         """login into the system"""
-        self.email_textbox.fill(username)
-        self.password_textbox.fill(password)
-        self.login_button.click()
+        self.fill(self.email_textbox, username)
+        self.fill(self.password_textbox, password)
+        self.click(self.login_button)
