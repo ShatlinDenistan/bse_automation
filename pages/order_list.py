@@ -6,6 +6,33 @@ first_order_checkbox = ("//tr[td[9]][1]//td[div[contains(@class, 'ui fitted chec
 auth_status_label = ("//label[.='Auth Status']", "Authorization Status")
 auth_button = ("//button[contains(.,'Authorise')]", "Authorise Button")
 
+# New locators added from orOrderList.robot
+clear_date_range_today = ("//div[@class='ui checked checkbox']//label[text()='Today']", "Clear Date Range Today Checkbox")
+order_list_apply_filter_button = ("//button[contains(text(), 'Apply Filter')]", "Order List Apply Filter Button")
+past_10_days = ("//label[text()='Past 10 Days']", "Past 10 Days Checkbox")
+first_row_with_order_status_new_order_checkbox = (
+    "//tr[td[9]/div[contains(text(), 'New Order')]][1]//td[div[contains(@class, 'ui fitted checkbox')]/input[@type='checkbox']]",
+    "First Row with New Order Checkbox",
+)
+second_row_with_order_status_new_order_checkbox = (
+    "//tr[td[9]/div[contains(text(), 'New Order')]][2]//td[div[contains(@class, 'ui fitted checkbox')]/input[@type='checkbox']]",
+    "Second Row with New Order Checkbox",
+)
+third_row_with_order_status_new_order_checkbox = (
+    "//tr[td[9]/div[contains(text(), 'New Order')]][3]//td[div[contains(@class, 'ui fitted checkbox')]/input[@type='checkbox']]",
+    "Third Row with New Order Checkbox",
+)
+order_id_column = ("//tr[td[9]/div[contains(text(), 'New Order')]][1]//a[contains(@href, '/order/')", "Order ID Column")
+order_list_authorise_order_button = ("//button[contains(text(), 'Authorise Order(s)')", "Order List Authorise Order Button")
+authorise_orders_modal = ("//div[contains(@class, 'ui large modal transition visible active')", "Authorise Orders Modal")
+authorise_orders_modal_close_icon = ("//*[@class= 'close icon']", "Authorise Orders Modal Close Icon")
+fin_portal_global_search_field = ("//*[@name='searchText' and @type='text']", "Fin Portal Global Search Field")
+fin_portal_global_search_icon = ("//*[@class='search icon']", "Fin Portal Global Search Icon")
+authed_by_order_page_badge = ("//div[contains(text(), 'Auth by')", "Authed By Order Page Badge")
+order_list_cancel_order_button = ("//button[contains(text(), 'Cancel Order(s)')", "Order List Cancel Order Button")
+cancel_orders_modal_header = ("//div[contains(text(),'Please confirm')", "Cancel Orders Modal Header")
+cancellation_reason_dropdown = ("//div[@name='cancelReason']", "Cancellation Reason Dropdown")
+
 
 class OrderListPage(PageBase):
     def __init__(self, page: Page):

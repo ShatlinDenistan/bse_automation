@@ -26,6 +26,21 @@ class TestConfig:
     VIDEOS_PATH = "./results/videos/"
     BROWSER = os.getenv("BROWSER", "chromium")
 
+    # Timeouts
+    MAX_TIMEOUT = 60  # seconds
+    MIN_TIMEOUT = 20  # seconds
+    SLEEP = 2  # seconds
+
+
+
+    # Test Data
+
+    Deposit_Match_File = "testData/GENERIC GLOBAL 1.csv"
+    Deposit_Match_File_30 = "testData/GENERIC MORE THAN 15 RECORDS.csv"
+    Deposit_Match_File_Auth = "testData/GENERIC GLOBAL AuthNew.csv"
+    Deposit_Match_New_Order_File = "testData/NewOrderUploadFile.csv"
+    CustomerID_Doc = "testData/Customer_ID.jpeg"
+
     class PAGES:
         """All the page urls"""
 
