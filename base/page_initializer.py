@@ -16,6 +16,9 @@ from pages.reinstate_order import ReinstateOrderPage
 from pages.risk_queue import RiskQueuePage
 from pages.search import SearchPage
 from pages.vouchers import VouchersPage
+from pages.manual_auth import ManualAuthPage
+from pages.databases import Database
+from pages.manual_refund import ManualRefundPage
 
 
 class PageInitializer:
@@ -39,3 +42,6 @@ class PageInitializer:
         self.risk_queue_page = RiskQueuePage(page)
         self.search_page = SearchPage(page)
         self.vouchers_page = VouchersPage(page)
+        self.manual_auth_page = ManualAuthPage(page)
+        self.database = Database()
+        self.manual_refund_page = ManualRefundPage(page)

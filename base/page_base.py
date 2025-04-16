@@ -10,6 +10,9 @@ from playwright.sync_api import Locator, Page, Request, Response, expect
 
 from config.config import TestConfig
 from utils.common import CommonUtils as common_utils
+from utils.api_library import ApiLibrary
+from utils.cancel_order_utils import CancelOrderUtils
+from utils.csv_library import CSVLibrary
 
 
 class PageBase:
@@ -21,6 +24,9 @@ class PageBase:
         self.faker = Faker()
         self.logger = logger
         self.utils = common_utils
+        self.api_library = ApiLibrary()
+        self.cancel_order = CancelOrderUtils()
+        self.csv_library = CSVLibrary()
         self.page_size_dropdown = page.locator("//div[.='Show 15 Items']")
         self.show_50_items_span = page.locator("//span[.='50']")
         self.show_15_items_span = page.locator("//span[.='15']")
@@ -335,6 +341,12 @@ class PageBase:
         locator.evaluate("element => element.click()")
         with contextlib.suppress(Exception):
             self.log_element_interaction(f"click '{element_name}'")
+
+    def get_text(self, locator: Union[Locator, str], element_name=""):
+        """get text"""
+        locator, element_name = self.get_locator_and_name(locator, element_name)
+        text = locator.inner_text()
+        return text
 
     def click(self, locator: Union[Locator, str], element_name="", force=True):
         """click element"""

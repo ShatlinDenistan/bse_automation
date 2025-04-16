@@ -31,8 +31,6 @@ class TestConfig:
     MIN_TIMEOUT = 20  # seconds
     SLEEP = 2  # seconds
 
-
-
     # Test Data
 
     Deposit_Match_File = "testData/GENERIC GLOBAL 1.csv"
