@@ -14,6 +14,7 @@ from utils.common import CommonUtils
 from utils.api_library import ApiLibrary
 from utils.cancel_order_utils import CancelOrderUtils
 from utils.csv_library import CSVLibrary
+from utils.database_utils import DatabaseUtils
 
 
 class TestBase(PageInitializer):
@@ -31,6 +32,7 @@ class TestBase(PageInitializer):
         self.api_library = ApiLibrary()
         self.cancel_order = CancelOrderUtils()
         self.csv_library = CSVLibrary()
+        self.database_utils = DatabaseUtils()
         self.initialize_pages(self.page)
 
     def assert_expected_vs_actual(self, expected, actual):

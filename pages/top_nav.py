@@ -3,7 +3,7 @@ from playwright.sync_api import Page
 from base.page_base import PageBase
 
 
-class TopNav(PageBase):
+class TopNavComponent(PageBase):
     def __init__(self, page: Page):
         self.driver = page
         super().__init__(page)

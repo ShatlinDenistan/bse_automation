@@ -3,7 +3,7 @@ from playwright.sync_api import Page
 from base.page_base import PageBase
 
 
-class SideNav(PageBase):
+class SideNavComponent(PageBase):
     def __init__(self, page: Page):
         self.page = page
         super().__init__(page)

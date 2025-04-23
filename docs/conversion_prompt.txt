@@ -7,7 +7,8 @@ Dont need to give details in the chat about what you are doing, just do the conv
 ### Files to Convert
 
 ```
-all files under /robot folder. if they are already converted and files exist, skip them
+/Users/shatlin.denistan/workspace/takealot/bse_automation/robot/Tests/Sanity/Fin-Portal_Manual_Override_Sanity.robot
+/Users/shatlin.denistan/workspace/takealot/bse_automation/robot/Tests/Sanity/Fin-Portal_Manual_Refund_Sanity.robot
 ```
 
 ### Conversion Rules
@@ -34,11 +35,12 @@ all files under /robot folder. if they are already converted and files exist, sk
    - Example: use `self.click()` instead of `self.page.click()`
 
 3. **Test Files:**
-   - Convert test files to Python tests in `/tests` folder
+   - Convert test files to Python tests in `/tests/ui` folder. check if they should be stored in regression or sanity folder
    - Each test class must inherit from `TestBase`
    - Don't include setup/teardown as they're handled elsewhere
    - Use `self.page_name.method()` to access page objects
    - Add appropriate `@pytest.mark` decorators based on Robot Framework tags
+   - skip login or verify title methods in the tests
 
 4. **Page Initializer:**
    - For each new page class created, add a reference in `/base/page_initializer.py`
@@ -53,6 +55,8 @@ all files under /robot folder. if they are already converted and files exist, sk
 - Maintain good documentation with docstrings explaining functionality, but keep the docstrings as one liners
 - if there are [Documentation] and [tags] in robot tests, use documentation as docstring as use tags as @pytest.mark to add tags to the tests
 - Group tests cleanly into self.step. For every self.step line, ensure there is atleast one blank line above
+- refer to utils/database_utils.py for database related methods
+- also refer to /Users/shatlin.denistan/workspace/takealot/bse_automation/robot/Utilities for additional methods that may require reference or conversion
 
 ### Example Conversion
 

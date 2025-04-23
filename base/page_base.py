@@ -13,6 +13,7 @@ from utils.common import CommonUtils as common_utils
 from utils.api_library import ApiLibrary
 from utils.cancel_order_utils import CancelOrderUtils
 from utils.csv_library import CSVLibrary
+from utils.database_utils import DatabaseUtils
 
 
 class PageBase:
@@ -27,6 +28,8 @@ class PageBase:
         self.api_library = ApiLibrary()
         self.cancel_order = CancelOrderUtils()
         self.csv_library = CSVLibrary()
+        self.database_utils = DatabaseUtils()
+
         self.page_size_dropdown = page.locator("//div[.='Show 15 Items']")
         self.show_50_items_span = page.locator("//span[.='50']")
         self.show_15_items_span = page.locator("//span[.='15']")
