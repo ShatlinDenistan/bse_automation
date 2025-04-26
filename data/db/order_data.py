@@ -1,8 +1,8 @@
 from typing import List
-from data.db.test_data_service import TestDataService
-import requests
-import os
 
+import requests
+
+from data.db.test_data_service import TestDataService
 from models.order_model import OrderModel
 
 

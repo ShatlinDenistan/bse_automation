@@ -79,9 +79,12 @@ class PlaywrightUtils:
         if self.config.SHOW_STEP_MSG:
             logger.info(message)
 
-    MAIN_STEP_CSS = "position: fixed; " "top: 0; " "right: 10%; " "font-size: 13px; " "color: #FFFFFF; " "font-weight: bold; " "z-index: 2147483647; " "text-align: right; " "pointer-events: none;"
+    MAIN_STEP_CSS = """position: fixed; top: 0; right: 10%; font-size: 13px; color: #FFFFFF; font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none;"""
 
-    SUB_STEP_CSS = "position: fixed; " "top: 15px; " "right: 10%; " "font-size: 13px; " "color: #FFFFFF; " "font-weight: normal; " "z-index: 2147483647; " "text-align: right; " "pointer-events: none;"
+    SUB_STEP_CSS = (
+        "position: fixed; top: 15px; right: 10%; font-size: 13px; color: #FFFFFF; "
+        "font-weight: normal; z-index: 2147483647; text-align: right; pointer-events: none;"
+    )
 
     def _get_step_display_javascript(self, message: str) -> str:
         return f"""

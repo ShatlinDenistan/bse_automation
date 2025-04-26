@@ -140,7 +140,7 @@ def clean_up_video_folder(folder):
     """Clean up the video folder by removing files that don't contain 'test_' in their names."""
     try:
         if os.path.isdir(folder):
-            for dirpath, dirnames, filenames in os.walk(folder):
+            for dirpath, _, filenames in os.walk(folder):
                 for file in filenames:
                     if "test_" not in file:
                         os.remove(os.path.join(dirpath, file))
@@ -175,7 +175,7 @@ def setup_video_folder(folder):
     """This is no longer required. we will not clear all files in the folder before starting a test"""
     try:
         if os.path.isdir(folder):
-            for dirpath, dirnames, filenames in os.walk(folder):
+            for dirpath, _, filenames in os.walk(folder):
                 for file in filenames:
                     if fnmatch.fnmatch(file, "*.webm"):
                         os.remove(os.path.join(dirpath, file))

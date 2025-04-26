@@ -1,6 +1,6 @@
-from pos.order_list_po import OrderListPO
 import random
-import time
+
+from pos.order_list_po import OrderListPO
 
 
 class OrderListPage(OrderListPO):

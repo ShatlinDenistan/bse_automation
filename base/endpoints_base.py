@@ -5,7 +5,7 @@ from typing import Dict, List, Optional, Union, Any, TypeVar
 
 from jsonschema import validate
 from requests import Response, Session
-from requests.exceptions import RequestException, Timeout, ConnectionError
+from requests.exceptions import RequestException, Timeout, ConnectionError as RequestsConnectionError
 
 from config.config import TestConfig as test_config
 from utils.common import CommonUtils as common_utils
@@ -151,7 +151,7 @@ class EndpointsBase:
                     common_utils.log(f"ERROR: {error_msg}")
                     raise EndpointTimeoutError(error_msg) from e
 
-            except ConnectionError as e:
+            except RequestsConnectionError as e:
                 if retry_count == self.max_retries:
                     error_msg = f"Connection error after {self.max_retries} retries: {str(e)}"
                     common_utils.log(f"ERROR: {error_msg}")
@@ -412,6 +412,7 @@ class EndpointsBase:
         Returns:
             List: Combined records from all retrieved pages
         """
+        page_param = None
         if url is None:
             url = self.url
 
@@ -613,7 +614,7 @@ class EndpointsBase:
                     "expected_status": expected_status_code,
                     "response_text": raw_response.text[:500] + ("..." if len(raw_response.text) > 500 else ""),
                 }
-                raise EndpointResponseError(f"Response validation failed: {str(e)}\nDetails: {error_detail}")
+                raise EndpointResponseError(f"Response validation failed: {str(e)}\nDetails: {error_detail}") from e
 
         except json.JSONDecodeError as e:
             error_msg = f"Invalid JSON response: {str(e)}"

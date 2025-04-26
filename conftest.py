@@ -70,7 +70,7 @@ def pytest_runtest_makereport(item):
 
 
 @pytest.hookimpl
-def pytest_exception_interact(node, call):
+def pytest_exception_interact(_, call):
     """Hook to log exception info"""
     exception = call.excinfo.exconly()
     logger.info("%s", exception)

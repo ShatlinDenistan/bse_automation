@@ -1,5 +1,4 @@
 import pytest
-import random
 from base.test_base import TestBase
 
 
