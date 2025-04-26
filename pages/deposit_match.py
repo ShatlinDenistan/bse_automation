@@ -185,7 +185,7 @@ class DepositMatchPage(DepositMatchPO):
 
     def select_batch_with_new_status_orders(self, new_order_ebucks_cc_sql, order_ids):
         """Select batch with new status orders"""
-        from utils.database_utils import get_orders_from_database
+        from data.db.queries import get_orders_from_database
 
         get_orders_from_database(new_order_ebucks_cc_sql)
         order_id_string = str(order_ids[0])

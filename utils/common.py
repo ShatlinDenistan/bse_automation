@@ -351,6 +351,6 @@ class CommonUtils:
         return value
 
     @staticmethod
-    def is_valid_url_format(self, url):
+    def is_valid_url(url):
         url_pattern = re.compile(r"^https?://")
         assert bool(url_pattern.match(url)) is True

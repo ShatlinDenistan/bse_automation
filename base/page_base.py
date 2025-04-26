@@ -11,10 +11,10 @@ from playwright.sync_api import Locator, Page, expect
 from base.playwright_utils import PlaywrightUtils
 from config.config import TestConfig
 from utils.common import CommonUtils as common_utils
-from utils.api_library import ApiLibrary
+from data.db.test_data_service import ApiLibrary
 from utils.cancel_order_utils import CancelOrderUtils
-from utils.csv_library import CSVLibrary
-from utils.database_utils import DatabaseUtils
+from utils.csv_utils import CSVUtils
+from data.db.queries import DatabaseUtils
 
 
 # Module-level constants

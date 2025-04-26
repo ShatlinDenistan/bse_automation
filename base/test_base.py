@@ -11,10 +11,10 @@ from playwright.sync_api import Page
 from config.config import TestConfig
 from base.page_initializer import PageInitializer
 from utils.common import CommonUtils
-from utils.api_library import ApiLibrary
+from data.db.test_data_service import ApiLibrary
 from utils.cancel_order_utils import CancelOrderUtils
-from utils.csv_library import CSVLibrary
-from utils.database_utils import DatabaseUtils
+from utils.csv_utils import CSVUtils
+from data.db.queries import DatabaseUtils
 
 
 class TestBase(PageInitializer):
@@ -31,7 +31,7 @@ class TestBase(PageInitializer):
         self.utils = CommonUtils()
         self.api_library = ApiLibrary()
         self.cancel_order = CancelOrderUtils()
-        self.csv_library = CSVLibrary()
+        self.csv_library = CSVUtils()
         self.database_utils = DatabaseUtils()
         self.initialize_pages(self.page)
 
@@ -53,9 +53,11 @@ class TestBase(PageInitializer):
         if test_proof_record_mode is not None and test_proof_record_mode.lower() == "true":
             self.wait_for_seconds(3)
 
+    MAIN_STEP_CSS = "position: fixed; " "top: 0; " "right: 10%; " "font-size: 13px; " "color: #FFFFFF; " "font-weight: bold; " "z-index: 2147483647; " "text-align: right; " "pointer-events: none;"
+
     def _get_step_display_javascript(self, message: str) -> str:
         """
-        Returns properly formatted JavaScript for displaying steps on the frontend.
+        Returns properly formatted JavaScript for displaying steps on the frontend
         """
         return f"""
             localStorage.setItem('step_message', `{message}`);
@@ -65,7 +67,7 @@ class TestBase(PageInitializer):
                 // Create and display the message
                 var element = document.createElement('div');
                 element.classList.add("main_step");
-                element.style.cssText = 'position: fixed; top: 0; right: 10%; font-size: 13px; color: #FFFFFF; font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none; ';
+                element.style.cssText = '{self.MAIN_STEP_CSS}';
                 element.innerHTML = "<span>{message}</span>";
                 document.body.appendChild(element);
             }}

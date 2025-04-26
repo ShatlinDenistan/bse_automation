@@ -78,7 +78,7 @@ def new_page(browser: Browser, video_folder, headless):
 
 
 @pytest.fixture(scope="function", autouse=True)
-def _init_test(playwright: Playwright, _init_session_for_test, api_session, request: pytest.FixtureRequest):
+def _init_test(playwright: Playwright, _init_session_for_test, _api_session, request: pytest.FixtureRequest):
     """Fixture to initialize test without logging in."""
     browser = _get_browser(playwright, request)
     video_folder = f"{_init_session_for_test}/{get_test_class_name()}"

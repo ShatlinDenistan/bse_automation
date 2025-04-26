@@ -4,7 +4,8 @@ import os
 class TestConfig:
     """All the configurations for the tests"""
 
-    API_TOKEN = f"Token {os.getenv('API_TOKEN')}"
+    BFF_URL = os.getenv("BFF_ENV_URL")
+    TEST_DATA_SERVICE = os.getenv("TEST_DATA_SERVICE")
     HOME_PAGE = os.getenv("HOME_PAGE")
 
     JIRA = "https://takealot.atlassian.net/"
@@ -22,8 +23,8 @@ class TestConfig:
     CONTEXT_FILE = "./contexts/context.json"
 
     TRACE_ENABLED = os.getenv("TRACE_ENABLED", "False").upper() == "TRUE"
-    TRACE_PATH = "./results/trace/"
-    VIDEOS_PATH = "./results/videos/"
+    TRACE_PATH = "./ouput/trace/"
+    VIDEOS_PATH = "./output/videos/"
     BROWSER = os.getenv("BROWSER", "chromium")
 
     # Timeouts

@@ -39,8 +39,7 @@ class EndpointsBase:
 
     Attributes:
         session (Session): HTTP session for making requests
-        url (str): Base URL for API requests
-        endpoint_base (str): Base path for endpoints
+        url (str):  URL for API requests
         data (Dict): Request data/payload
         timeout (int): Request timeout in seconds
     """
@@ -48,7 +47,7 @@ class EndpointsBase:
     # Default trailing slash behavior for different API types
     trailing_slash_map = {"rest": {"get": "", "post": "/", "put": "/", "patch": "/", "delete": ""}, "json": {"get": "", "post": "", "put": "", "patch": "", "delete": ""}}
 
-    def __init__(self, session: Session, url: str, endpoint_base: str = ""):
+    def __init__(self, session: Session, endpoint: str):
         """
         Initialize the EndpointsBase instance.
 
@@ -58,8 +57,7 @@ class EndpointsBase:
             endpoint_base (str, optional): Base path for endpoints. Defaults to "".
         """
         self.session = session
-        self.url = url
-        self.endpoint_base = endpoint_base
+        self.url = f"{self.session.base_url}/{endpoint}"
         self.data = None
         self.url_for_request = None
         self.timeout = test_config.REQUEST_TIMEOUT if hasattr(test_config, "REQUEST_TIMEOUT") else 30
@@ -112,13 +110,15 @@ class EndpointsBase:
         # Initialize retry count
         retry_count = 0
         backoff_time = 1  # Start with 1 second backoff
-
+        if headers is None:
+            headers = self.session.headers
         while retry_count <= self.max_retries:
             try:
                 # Make the request with timeout
                 if method == "get":
                     raw_response = self.session.get(url=self.url_for_request, params=params, headers=headers, timeout=self.timeout)
                 elif method == "post":
+
                     raw_response = self.session.post(url=self.url_for_request, headers=headers, data=self.data, params=params, timeout=self.timeout)
                 elif method == "put":
                     raw_response = self.session.put(url=self.url_for_request, headers=headers, data=self.data, params=params, timeout=self.timeout)

@@ -10,9 +10,7 @@ from playwright.sync_api import Locator, Page, expect
 
 from config.config import TestConfig
 from utils.common import CommonUtils as common_utils
-from utils.api_library import ApiLibrary
-from utils.csv_library import CSVLibrary
-from utils.database_utils import DatabaseUtils
+from utils.csv_utils import CSVUtils
 
 
 class PlaywrightUtils:
@@ -24,9 +22,7 @@ class PlaywrightUtils:
         self.faker = Faker()
         self.logger = logger
         self.utils = common_utils
-        self.api_library = ApiLibrary()
-        self.csv_library = CSVLibrary()
-        self.database_utils = DatabaseUtils()
+        self.csv_library = CSVUtils()
 
     def go_to_page(self, page_url):
         self.wait_till_page_is_loaded()
@@ -83,36 +79,34 @@ class PlaywrightUtils:
         if self.config.SHOW_STEP_MSG:
             logger.info(message)
 
+    MAIN_STEP_CSS = "position: fixed; " "top: 0; " "right: 10%; " "font-size: 13px; " "color: #FFFFFF; " "font-weight: bold; " "z-index: 2147483647; " "text-align: right; " "pointer-events: none;"
+
+    SUB_STEP_CSS = "position: fixed; " "top: 15px; " "right: 10%; " "font-size: 13px; " "color: #FFFFFF; " "font-weight: normal; " "z-index: 2147483647; " "text-align: right; " "pointer-events: none;"
+
     def _get_step_display_javascript(self, message: str) -> str:
-        return (
-            """
+        return f"""
             // Check for and display main message from localStorage
             const mainMessage = localStorage.getItem('step_message');
-            if (mainMessage && !document.querySelector(".main_step")) {
+            if (mainMessage && !document.querySelector(".main_step")) {{
                 var mainElement = document.createElement('div');
                 mainElement.classList.add("main_step");
-                mainElement.style.cssText = 'position: fixed; top: 0; right: 10%; font-size: 13px; color: #FFFFFF; font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none;';
+                mainElement.style.cssText = '{self.MAIN_STEP_CSS}';
                 mainElement.innerHTML = "<span>" + mainMessage + "</span>";
                 document.body.appendChild(mainElement);
-            }
+            }}
 
             // Display or update sub-step message
             var subElement = document.querySelector(".sub_step");
-            if (subElement) {
-                subElement.innerHTML = "<span>"""
-            + message
-            + """</span>";
-            } else {
+            if (subElement) {{
+                subElement.innerHTML = "<span>{message}</span>";
+            }} else {{
                 subElement = document.createElement('div');
                 subElement.classList.add("sub_step");
-                subElement.style.cssText = 'position: fixed; top: 15px; right: 10%; font-size: 13px; color: #FFFFFF; font-weight: normal; z-index: 2147483647; text-align: right; pointer-events: none;';
-                subElement.innerHTML = "<span>"""
-            + message
-            + """</span>";
+                subElement.style.cssText = '{self.SUB_STEP_CSS}';
+                subElement.innerHTML = "<span>{message}</span>";
                 document.body.appendChild(subElement);
-            }
+            }}
         """
-        )
 
     def show_step_on_front_end(self, message: str):
         message = f"{message.capitalize()}"

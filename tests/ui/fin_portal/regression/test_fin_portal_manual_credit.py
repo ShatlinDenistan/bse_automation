@@ -1,6 +1,6 @@
 import pytest
 from base.test_base import TestBase
-from utils.database_utils import DatabaseUtils
+from data.db.queries import DatabaseUtils
 
 
 class TestFinPortalManualCredit(TestBase):

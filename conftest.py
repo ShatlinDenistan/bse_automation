@@ -165,12 +165,39 @@ def pytest_configure(config):
         worker_id = worker_id.replace("gw", "")
         logger.basicConfig(
             format=config.getini("log_file_format"),
-            filename=f"./results/logs/takealot_automation_{worker_id}.log",
+            filename=f"./output/logs/takealot_automation_{worker_id}.log",
         )
 
 
 @pytest.fixture(scope="session", autouse=True)
-def api_session():
+def _api_session():
     """Create the one-time API session for all tests"""
+
     session = requests.Session()
+    session.base_url = test_config.BFF_URL
+    session.test_data_service = test_config.TEST_DATA_SERVICE
+    auth_data = {
+        "email": os.getenv("USER_NAME"),
+        "password": os.getenv("PASSWORD"),
+    }
+    auth_url = f"{session.base_url}/authenticate"
+    header = {"Content-Type": "application/json"}
+    response = session.post(url=auth_url, json=auth_data, headers=header, verify=False)
+    response = response.json()
+    token = response.get("token", "")
+    session.headers = {"Content-Type": "application/json", "Authorization": token}
+    pytest.session = session
+    yield session
+
+
+@pytest.fixture(scope="class")
+def get_api_session(_api_session, request):
+    """fixture for setting up json api session"""
+    session = _api_session
+
+    if "endpoint" in request.cls.__dict__.keys():
+        session.url = f"{session.base_url}/{request.cls.endpoint_base}"
+    else:
+        session.url = session.base_url
+    request.cls.session = session
     yield session
