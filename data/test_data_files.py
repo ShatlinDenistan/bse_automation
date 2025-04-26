@@ -1,0 +1,5 @@
+DEPOSIT_MATCH_FILE = "./data/csv/generic_global_1.csv"
+DEPOSIT_MATCH_FILE_30 = "./data/csv/generic_more_than_15_records.csv"
+DEPOSIT_MATCH_FILE_AUTH = "data/csv/generic_global_authnew.csv"
+DEPOSIT_MATCH_NEW_ORDER_FILE = "./data/csv/new_order_upload_file.csv"
+CUSTOMER_ID_DOC = "./data/img/customer_id.jpeg"
