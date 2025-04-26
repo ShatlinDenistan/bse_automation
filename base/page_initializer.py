@@ -25,6 +25,7 @@ class PageInitializer:
 
     def initialize_pages(self, page: Page):
         """Test base functionality."""
+        self.page = page
         self.login_page = LoginPage(page)
         self.side_nav = SideNavComponent(page)
         self.top_nav = TopNavComponent(page)

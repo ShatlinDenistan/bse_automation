@@ -53,27 +53,31 @@ class TestBase(PageInitializer):
         if test_proof_record_mode is not None and test_proof_record_mode.lower() == "true":
             self.wait_for_seconds(3)
 
+    def _get_step_display_javascript(self, message: str) -> str:
+        """
+        Returns properly formatted JavaScript for displaying steps on the frontend.
+        """
+        return f"""
+            localStorage.setItem('step_message', `{message}`);
+
+            // Check if the element already exists
+            if (!document.querySelector(".main_step")) {{
+                // Create and display the message
+                var element = document.createElement('div');
+                element.classList.add("main_step");
+                element.style.cssText = 'position: fixed; top: 0; right: 10%; font-size: 13px; color: #FFFFFF; font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none; ';
+                element.innerHTML = "<span>{message}</span>";
+                document.body.appendChild(element);
+            }}
+        """
+
     def show_step_on_front_end(self, message: str):
         with contextlib.suppress(Exception):
             message = message.replace("\n", "<br>")
 
             if self.config.SHOW_STEP_MSG:
-                # Store the message in localStorage
-                self.page.evaluate(
-                    f"""
-                    localStorage.setItem('step_message', `{message}`);
-
-                    // Check if the element already exists
-                    if (!document.querySelector(".main_step")) {{
-                        // Create and display the message
-                        var element = document.createElement('div');
-                        element.classList.add("main_step");
-                        element.style.cssText = 'position: fixed; top: 0; right: 10%; font-size: 13px; color: #FFFFFF; font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none; ';
-                        element.innerHTML = "<span>{message}</span>";
-                        document.body.appendChild(element);
-                    }}
-                    """
-                )
+                js_code = self._get_step_display_javascript(message)
+                self.page.evaluate(js_code)
 
     def wait_till_page_is_loaded(self, timeout: int = 30, check_interval: float = 0.5, stable_checks: int = 3):
         """wait till page is loaded. When the tests fail due to page not properly loaded, use this method.
