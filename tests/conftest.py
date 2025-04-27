@@ -67,7 +67,7 @@ def new_page(browser: Browser, video_folder, headless):
         page_options["record_video_size"] = {"width": 1920, "height": 1080}
 
     page = browser.new_page(**page_options)
-    page.set_default_timeout(8000 if os.getenv("DEV") else 30000)
+    page.set_default_timeout(8000)
 
     # Load the storage state after the page is created
     if os.getenv("SAVE_CONTEXT", "True").upper() == "TRUE":

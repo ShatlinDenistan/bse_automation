@@ -35,5 +35,5 @@ class TestConfig:
 
     # Timeouts
     MAX_TIMEOUT = 60  # seconds
-    MIN_TIMEOUT = 20  # seconds
-    SLEEP = 2  # seconds
+    MIN_TIMEOUT = 15  # seconds
+    SLEEP = 5  # seconds

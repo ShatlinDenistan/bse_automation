@@ -10,6 +10,7 @@ class LoginPage(LoginPO):
 
     def login(self, username, password):
         """login into the system"""
+        self.logger.info("Pre-requisite: Login to the system")
         self.fill(self.email_textbox, username)
         self.fill(self.password_textbox, password)
         self.click(self.login_button)

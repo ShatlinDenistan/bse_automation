@@ -127,7 +127,7 @@ def log_test_name(request):
         scenario = request.function.__doc__
         if scenario:
             scenario = scenario.replace("\n", " ")
-        common_utils.log(f"\nScenario: {scenario if scenario else 'No scenario docstring added for this test'}")
+        common_utils.log(f"\nScenario: {scenario if scenario else 'No scenario docstring added for this test'}\n")
     yield
 
     report = request.node.stash[phase_report_key]

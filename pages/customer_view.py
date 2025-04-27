@@ -11,21 +11,21 @@ class CustomerViewPage(CustomerViewPO):
         """Verify that customer details are displayed correctly"""
         self.step("Verify customer details")
 
-        # self.expect_to_be_visible("text=Brian Delta")
-        # self.click(self.name_google_icon)
-        # self.wait_for_seconds(2)
+        self.expect_to_be_visible("text=Brian Delta")
+        self.click(self.name_google_icon)
+        self.wait_for_seconds(2)
 
-        # window_handles = self.page.context.pages
-        # self.page.bring_to_front()
+        window_handles = self.page.context.pages
+        self.page.bring_to_front()
 
-        # self.expect_to_be_visible("text=dev+1@take2.co.za")
-        # self.click(self.email_google_icon)
-        # self.wait_for_seconds(2)
+        self.expect_to_be_visible("text=dev+1@take2.co.za")
+        self.click(self.email_google_icon)
+        self.wait_for_seconds(2)
 
-        # window_handles = self.page.context.pages
-        # self.page.bring_to_front()
+        window_handles = self.page.context.pages
+        self.page.bring_to_front()
 
-        # assert self.verified_cellphone_icon.is_visible(), "Verified cellphone icon is not visible"
+        assert self.verified_cellphone_icon.is_visible(), "Verified cellphone icon is not visible"
 
     def verify_notes_section_with_edit_option(self):
         """Verify notes section with edit option"""
