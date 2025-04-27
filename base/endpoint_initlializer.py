@@ -10,5 +10,5 @@ class EndpointInitializer:
     def initialise_endpoints(self, session: Session):
         """Test base functionality."""
         self.session = session
-        self.cancel_order = CancelOrder(session)
-        self.cancel_order_items = CancelOrderItems(session)
+        self.cancel_order_ep = CancelOrder(session)
+        self.cancel_order_items_ep = CancelOrderItems(session)

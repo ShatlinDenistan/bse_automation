@@ -16,7 +16,7 @@ class TestManualOverride(TestBase):
         order_ids = self.order_data.get_orders("paygate_sql")
 
         self.step("Cancel Paid Order")
-        self.cancel_order.cancel_paid_order(order_ids[0])
+        self.cancel_order_ep.cancel_paid_order(order_ids[0])
 
         self.step("Search For Order")
         self.top_nav.search_for_order(order_ids[0])
@@ -45,7 +45,7 @@ class TestManualOverride(TestBase):
         order_ids = self.order_data.get_orders("payfast_sql")
 
         self.step("Cancel Paid Order")
-        self.cancel_order.cancel_paid_order(order_ids[0])
+        self.cancel_order_ep.cancel_paid_order(order_ids[0])
 
         self.step("Search For Order")
         self.top_nav.search_for_order(order_ids[0])
@@ -74,7 +74,7 @@ class TestManualOverride(TestBase):
         order_ids = self.order_data.get_orders("masterpass_sql")
 
         self.step("Cancel Paid Order")
-        self.cancel_order.cancel_paid_order(order_ids[0])
+        self.cancel_order_ep.cancel_paid_order(order_ids[0])
 
         self.step("Search For Order")
         self.top_nav.search_for_order(order_ids[0])
@@ -106,7 +106,7 @@ class TestManualOverride(TestBase):
         order_ids = self.order_data.get_orders("paygate_sql")
 
         self.step("Cancel Paid Order")
-        self.cancel_order.cancel_paid_order(order_ids[0])
+        self.cancel_order_ep.cancel_paid_order(order_ids[0])
 
         self.step("Search For Order")
         self.top_nav.search_for_order(order_ids[0])
@@ -138,7 +138,7 @@ class TestManualOverride(TestBase):
         order_ids = self.order_data.get_orders("discovery_miles_sql")
 
         self.step("Cancel Paid Order")
-        self.cancel_order.cancel_paid_order(order_ids[0])
+        self.cancel_order_ep.cancel_paid_order(order_ids[0])
 
         self.step("Search For Order")
         self.top_nav.search_for_order(order_ids[0])
@@ -167,7 +167,7 @@ class TestManualOverride(TestBase):
         order_ids = self.order_data.get_orders("paygate_sql")
 
         self.step("Cancel Paid Order")
-        self.cancel_order.cancel_paid_order(order_ids[0])
+        self.cancel_order_ep.cancel_paid_order(order_ids[0])
 
         self.step("Search For Order")
         self.top_nav.search_for_order(order_ids[0])

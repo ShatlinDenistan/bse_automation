@@ -1,16 +1,18 @@
 """Test base functionality."""
 
-import os
-import json
-import time
-import logging as logger
 import contextlib
+import json
+import logging as logger
+import os
+import time
+
 import pytest
 from faker import Faker
 from playwright.sync_api import Page
+
 from base.endpoint_initlializer import EndpointInitializer
-from config.config import TestConfig
 from base.page_initializer import PageInitializer
+from config.config import TestConfig
 from data.db.customer_data import CustomerData
 from data.db.order_data import OrderData
 from data.queries.customer_queries import CustomerQueries

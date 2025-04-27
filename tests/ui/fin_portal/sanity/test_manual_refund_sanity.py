@@ -15,7 +15,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${paygate_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -46,7 +46,7 @@ class TestManualRefundSanity(TestBase):
         self.utils.create_new_tal_orders("${customer_ids[0]}", "Credit Card")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -68,7 +68,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${masterpass_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -99,7 +99,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${sbux_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -127,7 +127,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${order_with_coupon_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -146,7 +146,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${cc_ebucks_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -174,7 +174,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${ozow_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -205,7 +205,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${donation_amount_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -236,7 +236,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${mobicred_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -267,7 +267,7 @@ class TestManualRefundSanity(TestBase):
         self.utils.create_new_tal_orders("${2420369}", "Mobicred")
 
         self.step("Cancel order item")
-        self.cancel_order.cancel_order_item("${id_order_item1[0]}")
+        self.cancel_order_ep.cancel_order_item("${id_order_item1[0]}")
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -282,7 +282,7 @@ class TestManualRefundSanity(TestBase):
         self.manual_refund_page.verify_that_refund_not_available()
 
         self.step("Cancel order item")
-        self.cancel_order.cancel_order_item("${id_order_item2[0]}")
+        self.cancel_order_ep.cancel_order_item("${id_order_item2[0]}")
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -301,7 +301,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${risky_orders_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -323,7 +323,7 @@ class TestManualRefundSanity(TestBase):
         self.order_data.get_orders("${deposit_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")

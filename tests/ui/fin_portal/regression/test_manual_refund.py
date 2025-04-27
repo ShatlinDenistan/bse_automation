@@ -14,7 +14,7 @@ class TestManualRefund(TestBase):
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order(order_id)
+        self.cancel_order_ep.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -43,7 +43,7 @@ class TestManualRefund(TestBase):
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order(order_id)
+        self.cancel_order_ep.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -72,7 +72,7 @@ class TestManualRefund(TestBase):
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order(order_id)
+        self.cancel_order_ep.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -95,7 +95,7 @@ class TestManualRefund(TestBase):
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order(order_id)
+        self.cancel_order_ep.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -124,7 +124,7 @@ class TestManualRefund(TestBase):
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order(order_id)
+        self.cancel_order_ep.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -153,7 +153,7 @@ class TestManualRefund(TestBase):
         order_id = order_data["order_ids"][0]
 
         self.step("Cancel order item")
-        self.cancel_order_items.cancel_order_item(order_data["id_order_item1"][0])
+        self.cancel_order_items_ep.cancel_order_item(order_data["id_order_item1"][0])
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -168,7 +168,7 @@ class TestManualRefund(TestBase):
         refund_date_time = self.manual_refund_page.click_refund_button_and_submit_request()
 
         self.step("Cancel second order item")
-        self.cancel_order_items.cancel_order_item(order_data["id_order_item2"][0])
+        self.cancel_order_items_ep.cancel_order_item(order_data["id_order_item2"][0])
 
         self.step("Search for order again")
         self.top_nav.search_for_order(order_id)
@@ -188,7 +188,7 @@ class TestManualRefund(TestBase):
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order(order_id)
+        self.cancel_order_ep.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -220,7 +220,7 @@ class TestManualRefund(TestBase):
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order(order_id)
+        self.cancel_order_ep.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)

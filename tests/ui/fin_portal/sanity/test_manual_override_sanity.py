@@ -18,7 +18,7 @@ class TestManualOverrideSanity(TestBase):
         self.utils.create_new_tal_orders("${customer_ids[0]}", "Credit Card")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -49,7 +49,7 @@ class TestManualOverrideSanity(TestBase):
         self.order_data.get_orders("${cc_ebucks_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -80,7 +80,7 @@ class TestManualOverrideSanity(TestBase):
         self.order_data.get_orders("${cc_ebucks_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -114,7 +114,7 @@ class TestManualOverrideSanity(TestBase):
         self.order_data.get_orders("${deposit_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -145,7 +145,7 @@ class TestManualOverrideSanity(TestBase):
         self.order_data.get_orders("${ozow_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -176,7 +176,7 @@ class TestManualOverrideSanity(TestBase):
         self.order_data.get_orders("${ebucks_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -204,7 +204,7 @@ class TestManualOverrideSanity(TestBase):
         self.utils.create_new_tal_orders("${13866233}", "sBux")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -235,7 +235,7 @@ class TestManualOverrideSanity(TestBase):
         self.order_data.get_orders("${credit_card_donation_order_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
@@ -275,7 +275,7 @@ class TestManualOverrideSanity(TestBase):
         self.order_data.get_orders("${cc_ebucks_sql}")
 
         self.step("Cancel paid order")
-        self.cancel_order.cancel_paid_order()
+        self.cancel_order_ep.cancel_paid_order()
 
         self.step("Search for order")
         self.top_nav.search_for_order("${order_ids[0]}")
