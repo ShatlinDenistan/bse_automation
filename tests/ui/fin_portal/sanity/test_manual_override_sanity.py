@@ -12,7 +12,7 @@ class TestManualOverrideSanity(TestBase):
         """Fin-Portal | Manual Override | Blacklisted Customer."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${blacklisted_sql}")
+        self.order_data.get_orders("${blacklisted_sql}")
 
         self.step("Create new TAL orders")
         self.utils.create_new_tal_orders("${customer_ids[0]}", "Credit Card")
@@ -20,11 +20,8 @@ class TestManualOverrideSanity(TestBase):
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -49,16 +46,13 @@ class TestManualOverrideSanity(TestBase):
         """Fin-Portal | Manual Override | eBucks, Credit Card And Tal Credit Part Payment."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${cc_ebucks_sql}")
+        self.order_data.get_orders("${cc_ebucks_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -83,16 +77,13 @@ class TestManualOverrideSanity(TestBase):
         """Fin-Portal | Manual Override | eBucks And Credit Card Part Payment."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${cc_ebucks_sql}")
+        self.order_data.get_orders("${cc_ebucks_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -120,16 +111,13 @@ class TestManualOverrideSanity(TestBase):
         """Fin-Portal | Manual Override | Deposit."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${deposit_sql}")
+        self.order_data.get_orders("${deposit_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -154,16 +142,13 @@ class TestManualOverrideSanity(TestBase):
         """Fin-Portal | Manual Override | Instant EFT | Ozow."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${ozow_sql}")
+        self.order_data.get_orders("${ozow_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -188,16 +173,13 @@ class TestManualOverrideSanity(TestBase):
         """Fin-Portal | Manual Override | eBucks."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${ebucks_sql}")
+        self.order_data.get_orders("${ebucks_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -224,11 +206,8 @@ class TestManualOverrideSanity(TestBase):
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -253,16 +232,13 @@ class TestManualOverrideSanity(TestBase):
         """Fin-Portal | Manual Override | Refund Additional Donation Charge."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${credit_card_donation_order_sql}")
+        self.order_data.get_orders("${credit_card_donation_order_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand customer credit and click credit button for order")
         self.customer_view.expand_customer_credit_section_and_click_credit_button()
@@ -296,19 +272,16 @@ class TestManualOverrideSanity(TestBase):
         """Fin-Portal | Manual Override | EFT | Original Payment Method Is Credit Card And eBucks."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${cc_ebucks_sql}")
+        self.order_data.get_orders("${cc_ebucks_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
-        self.customer_view.expand_customer_credit_accordion()
+        self.manual_refund_page.expand_customer_credit_accordion()
 
         self.step("Expand order items accordion and click refund")
         self.order_view.expand_order_items_accordion_and_click_refund()

@@ -1,46 +1,114 @@
 from base.page_base import PageBase
 
-# Selector constants
-MANUAL_AUTH_HEADER = "//h1[contains(text(),'Manual Auth')]"
-SEARCH_ORDER_INPUT = "//input[@id='searchOrderInput']"
-SEARCH_BUTTON = "//button[@id='searchOrderBtn']"
-ORDER_TABLE = "//table[@id='orderTable']"
-ORDER_ROWS = "//table[@id='orderTable']/tbody/tr"
-ORDER_ID_COLUMN = "//table[@id='orderTable']/tbody/tr/td[1]"
-CUSTOMER_NAME_COLUMN = "//table[@id='orderTable']/tbody/tr/td[2]"
-ORDER_DATE_COLUMN = "//table[@id='orderTable']/tbody/tr/td[3]"
-ORDER_AMOUNT_COLUMN = "//table[@id='orderTable']/tbody/tr/td[4]"
-AUTHORIZE_BUTTON = "//button[@id='authorizeBtn']"
-REJECT_BUTTON = "//button[@id='rejectBtn']"
-REASON_DROPDOWN = "//select[@id='reasonSelect']"
-COMMENTS_TEXTAREA = "//textarea[@id='commentsTextarea']"
-CONFIRM_AUTH_BUTTON = "//button[@id='confirmAuthBtn']"
-CANCEL_AUTH_BUTTON = "//button[@id='cancelAuthBtn']"
-CONFIRMATION_MODAL = "//div[@class='modal-content']"
-MODAL_OK_BUTTON = "//button[contains(@class,'btn-primary')]"
-
 
 class ManualAuthPO(PageBase):
     """Page Object class for Manual Authorization screen"""
 
-    def __init__(self, page):
-        super().__init__(page)
+    # region Header
 
-        # Initialize locators
-        self.manual_auth_header = self.locator(MANUAL_AUTH_HEADER, "Manual Auth Header")
-        self.search_order_input = self.locator(SEARCH_ORDER_INPUT, "Search Order Input")
-        self.search_button = self.locator(SEARCH_BUTTON, "Search Button")
-        self.order_table = self.locator(ORDER_TABLE, "Order Table")
-        self.order_rows = self.locator(ORDER_ROWS, "Order Rows")
-        self.order_id_column = self.locator(ORDER_ID_COLUMN, "Order ID Column")
-        self.customer_name_column = self.locator(CUSTOMER_NAME_COLUMN, "Customer Name Column")
-        self.order_date_column = self.locator(ORDER_DATE_COLUMN, "Order Date Column")
-        self.order_amount_column = self.locator(ORDER_AMOUNT_COLUMN, "Order Amount Column")
-        self.authorize_button = self.locator(AUTHORIZE_BUTTON, "Authorize Button")
-        self.reject_button = self.locator(REJECT_BUTTON, "Reject Button")
-        self.reason_dropdown = self.locator(REASON_DROPDOWN, "Reason Dropdown")
-        self.comments_textarea = self.locator(COMMENTS_TEXTAREA, "Comments Textarea")
-        self.confirm_auth_button = self.locator(CONFIRM_AUTH_BUTTON, "Confirm Authorization Button")
-        self.cancel_auth_button = self.locator(CANCEL_AUTH_BUTTON, "Cancel Authorization Button")
-        self.confirmation_modal = self.locator(CONFIRMATION_MODAL, "Confirmation Modal")
-        self.modal_ok_button = self.locator(MODAL_OK_BUTTON, "Modal OK Button")
+    @property
+    def manual_auth_header(self):
+        selector = "//h1[contains(text(),'Manual Auth')]"
+        return self.locator(selector, "Manual Auth Header")
+
+    # endregion
+
+    # region Search Section
+
+    @property
+    def search_order_input(self):
+        selector = "//input[@id='searchOrderInput']"
+        return self.locator(selector, "Search Order Input")
+
+    @property
+    def search_button(self):
+        selector = "//button[@id='searchOrderBtn']"
+        return self.locator(selector, "Search Button")
+
+    # endregion
+
+    # region Order Table Section
+
+    @property
+    def order_table(self):
+        selector = "//table[@id='orderTable']"
+        return self.locator(selector, "Order Table")
+
+    @property
+    def order_rows(self):
+        selector = "//table[@id='orderTable']/tbody/tr"
+        return self.locator(selector, "Order Rows")
+
+    @property
+    def order_id_column(self):
+        selector = "//table[@id='orderTable']/tbody/tr/td[1]"
+        return self.locator(selector, "Order ID Column")
+
+    @property
+    def customer_name_column(self):
+        selector = "//table[@id='orderTable']/tbody/tr/td[2]"
+        return self.locator(selector, "Customer Name Column")
+
+    @property
+    def order_date_column(self):
+        selector = "//table[@id='orderTable']/tbody/tr/td[3]"
+        return self.locator(selector, "Order Date Column")
+
+    @property
+    def order_amount_column(self):
+        selector = "//table[@id='orderTable']/tbody/tr/td[4]"
+        return self.locator(selector, "Order Amount Column")
+
+    # endregion
+
+    # region Action Buttons
+
+    @property
+    def authorize_button(self):
+        selector = "//button[@id='authorizeBtn']"
+        return self.locator(selector, "Authorize Button")
+
+    @property
+    def reject_button(self):
+        selector = "//button[@id='rejectBtn']"
+        return self.locator(selector, "Reject Button")
+
+    @property
+    def confirm_auth_button(self):
+        selector = "//button[@id='confirmAuthBtn']"
+        return self.locator(selector, "Confirm Authorization Button")
+
+    @property
+    def cancel_auth_button(self):
+        selector = "//button[@id='cancelAuthBtn']"
+        return self.locator(selector, "Cancel Authorization Button")
+
+    # endregion
+
+    # region Dropdowns and Textareas
+
+    @property
+    def reason_dropdown(self):
+        selector = "//select[@id='reasonSelect']"
+        return self.locator(selector, "Reason Dropdown")
+
+    @property
+    def comments_textarea(self):
+        selector = "//textarea[@id='commentsTextarea']"
+        return self.locator(selector, "Comments Textarea")
+
+    # endregion
+
+    # region Confirmation Modal
+
+    @property
+    def confirmation_modal(self):
+        selector = "//div[@class='modal-content']"
+        return self.locator(selector, "Confirmation Modal")
+
+    @property
+    def modal_ok_button(self):
+        selector = "//button[contains(@class,'btn-primary')]"
+        return self.locator(selector, "Modal OK Button")
+
+    # endregion

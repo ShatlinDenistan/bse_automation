@@ -1,158 +1,372 @@
 from base.page_base import PageBase
 
-# Module-level constants for selectors
-ALL_ORDER_ID_COLUMNS = "//td[position() = (count(//th[text()='Order ID']/preceding-sibling::th) + 1)]"
-APPLY_FILTER_BTN = "//button[contains(text(), 'Filter')]"
-CHECKBOX_DAILY_DEALS = '//*[@id="root"]/div[3]/div/div/form/div/div/div[1]/div/div/div[1]/div'
-CLEAR_FILTER_BTN = "//button[contains(text(), 'Clear Filter')]"
-CLEAR_RISK_BTN = '//body/div[@id="root"]/div[3]/div/div/table/tfoot/tr/th/div/div[1]'
-DATE_RANGE_CHECKBOX = '//*[@id="root"]/div[3]/div/div/form/div/div/div[2]/div/div[3]/div'
-DATE_RANGE_FILTER = '//*[@id="root"]/div[3]/div/div/form/div/div/div[2]/div/div[4]/div'
-MENU_BTN = '//i[@aria-hidden="true" and @class="content large icon"]'
-MINIMUM_ORDER_TOTAL_DROPDOWN = "//div[@name='minimumTotal']"
-MINIMUM_ORDER_TOTAL_R500 = "//div[@name='minimumTotal']//span[text()='500']"
-MINIMUM_ORDER_TOTAL_R0 = "//div[@name='minimumTotal']//span[text()='0']"
-MAXIMUM_ORDER_TOTAL_DROPDOWN = "//div[@name='maximumTotal']"
-MAXIMUM_ORDER_TOTAL_R5000 = "//div[@name='maximumTotal']//span[text()='5000']"
-NEXT_PAGE = '//body/div[@id="root"]/div[3]/div/div/table/tfoot/tr/th/div/div[5]/div[2]/a[2]'
-ORDER_CHECKBOX = '//body/div[@id="root"]/div[3]/div/div/table/tbody/tr[1]/td[1]/div'
-RESULTS_TABLE = '//*[@class="ui small celled compact table"]'
-RISK_QUEUE_MENU_OPTION = '//body/div[@id="root"]/div[1]/a[4]'
-PAYMENT_METHOD_CREDIT = "//span[text()='Credit']"
-PAYMENT_METHOD_DEPOSIT = "//span[text()='Deposit']"
-PAYMENT_METHOD_DROPDOWN = "//div[@name='paymentMethod']"
-PAYMENT_METHOD_PAYFAST = "//span[text()='PayFast']"
-ALL_PAYMENT_METHOD_COLUMNS = "//td[position() = (count(//th[text()='Payment Method']/preceding-sibling::th) + 7)]"
-SHIPPING_METHOD_DROPDOWN = "//div[@name='shippingMethod']"
-SHIPPING_METHOD_DELIVERY = "//span[text()='Courier']"
-VIRTUAL_ITEMS_CHECKBOX = '//*[@id="root"]/div[3]/div/div/form/div/div/div[1]/div/div/div[2]/div'
-ITEM_LIST_DDL = "//div[@class='content' and contains(text(), 'Show')]/following-sibling::div"
-LIST_FILTER_10 = "//span[text()='10']"
-
-BTN_SEND_EMAIL_TABLE = "//table/tfoot/tr/th/div/div[3]/button"
-DDL_EMAIL_TEMPLATES = "//body/div[2]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]"
-BTN_SEND_EMAIL = "//button[contains(text(),'Send Emails')]"
-EMAIL_SENT_MODAL = "/html/body/div[2]/div"
-EMAIL_SENT_MODAL_CLOSE_ICON = "//i[@class='close icon']"
-
-# Email template options
-OPTION_TEMPLATES = {
-    1: "//span[contains(text(),'Identification required: Credit card')]",
-    2: "//span[contains(text(),'Identification and card details required')]",
-    3: "//span[contains(text(),'Identification required: Payfast & Ozow')]",
-    4: "//span[contains(text(),'Identification not accepted')]",
-    5: "//span[contains(text(),'Identification not received: Payfast & Ozow')]",
-    6: "//span[contains(text(),'Identification not received: Credit card')]",
-    7: "//span[contains(text(),'Credit card refund failed')]",
-    8: "//span[contains(text(),'EFT refund failed')]",
-    9: "//span[contains(text(),'Refund delayed')]",
-    10: "//span[contains(text(),'Short paid')]",
-    11: "//span[contains(text(),'Deposit Match')]",
-    12: "//span[contains(text(),'Duplicate Payment')]",
-    13: "//span[contains(text(),'Voucher Payment')]",
-    14: "//span[contains(text(),'Generic')]",
-}
-
-# Cancel order elements
-RISK_QUEUE_CANCEL_ORDER_BUTTON = "//button[contains(text(), 'Cancel Order(s)')]"
-CANCEL_ORDERS_MODAL_HEADER = "//div[contains(text(),'Please confirm')]"
-CANCELLATION_REASON_DROPDOWN = "//div[@name='cancelReason']"
-CANCELLATION_REASON_OPTIONS = {
-    1: "//span[contains(text(), 'Customer request')]",
-    2: "//span[contains(text(), 'Supplier out of stock')]",
-    3: "//span[contains(text(), 'Fraud')]",
-    4: "//span[contains(text(), 'Damaged')]",
-    5: "//span[contains(text(), 'Incorrect Packaging')]",
-}
-CANCEL_ORDERS_MODAL_CANCEL_BUTTON = "//button[contains(text(), 'Cancel Orders')]"
-CANCEL_ORDERS_MODAL = "//div[contains(@class, 'ui large modal transition visible active')]"
-CANCEL_ORDER_MODAL_SUCCESS_MESSAGE = "//div[contains(@class, 'ui success message')]/div/div"
-CANCEL_ORDERS_MODAL_CLOSE_ICON = "//*[@class= 'close icon']"
-ORDER_ID_HYPERLINK = '//*[@id="root"]/div[3]/div/div/table/tbody/tr[1]/td[2]/a'
-FIN_PORTAL_GLOBAL_SEARCH_FIELD = "//*[@name='searchText' and @type='text']"
-FIN_PORTAL_GLOBAL_SEARCH_ICON = "//*[@class='search icon']"
-CANCELED_BY_ORDER_PAGE_BADGE = "//div[contains(text(), 'Canceled by')]"
-ORDER_ITEM_CANCELLATION_REASON = "//div[span/p[contains(@style, 'color: rgb(65, 131, 196);')]]"
-
 
 class RiskQueuePO(PageBase):
     """Page Object for the Risk Queue page."""
 
-    def __init__(self, page):
-        """Initialize Risk Queue Page Object with all locators."""
-        super().__init__(page)
+    # region General Elements
 
-        # Main navigation elements
-        self.menu_btn = self.locator(MENU_BTN, "Menu button")
-        self.risk_queue_menu_option = self.locator(RISK_QUEUE_MENU_OPTION, "Risk Queue menu option")
-        self.results_table = self.locator(RESULTS_TABLE, "Results table")
+    @property
+    def all_order_id_columns(self):
+        selector = "//td[position() = (count(//th[text()='Order ID']/preceding-sibling::th) + 1)]"
+        return self.locator(selector, "All order ID columns")
 
-        # Pagination elements
-        self.item_list_dropdown = self.locator(ITEM_LIST_DDL, "Item list dropdown")
-        self.list_filter_10 = self.locator(LIST_FILTER_10, "10 items filter")
-        self.next_page = self.locator(NEXT_PAGE, "Next page button")
+    @property
+    def results_table(self):
+        selector = '//*[@class="ui small celled compact table"]'
+        return self.locator(selector, "Results table")
 
-        # Risk management elements
-        self.order_checkbox = self.locator(ORDER_CHECKBOX, "Order checkbox")
-        self.clear_risk_btn = self.locator(CLEAR_RISK_BTN, "Clear risk button")
+    # endregion
 
-        # Filter elements
-        self.clear_filter_btn = self.locator(CLEAR_FILTER_BTN, "Clear filter button")
-        self.apply_filter_btn = self.locator(APPLY_FILTER_BTN, "Apply filter button")
+    # region Navigation Elements
 
-        # Payment method filter
-        self.payment_method_dropdown = self.locator(PAYMENT_METHOD_DROPDOWN, "Payment method dropdown")
-        self.payment_method_credit = self.locator(PAYMENT_METHOD_CREDIT, "Credit payment method")
-        self.payment_method_payfast = self.locator(PAYMENT_METHOD_PAYFAST, "PayFast payment method")
-        self.all_payment_method_columns = self.locator(ALL_PAYMENT_METHOD_COLUMNS, "All payment method columns")
+    @property
+    def menu_btn(self):
+        selector = '//i[@aria-hidden="true" and @class="content large icon"]'
+        return self.locator(selector, "Menu button")
 
-        # Shipping method filter
-        self.shipping_method_dropdown = self.locator(SHIPPING_METHOD_DROPDOWN, "Shipping method dropdown")
-        self.shipping_method_delivery = self.locator(SHIPPING_METHOD_DELIVERY, "Delivery shipping method")
+    @property
+    def risk_queue_menu_option(self):
+        selector = '//body/div[@id="root"]/div[1]/a[4]'
+        return self.locator(selector, "Risk Queue menu option")
 
-        # Order total filter
-        self.minimum_order_total_dropdown = self.locator(MINIMUM_ORDER_TOTAL_DROPDOWN, "Minimum order total dropdown")
-        self.minimum_order_total_r500 = self.locator(MINIMUM_ORDER_TOTAL_R500, "R500 minimum order total")
-        self.minimum_order_total_r0 = self.locator(MINIMUM_ORDER_TOTAL_R0, "R0 minimum order total")
-        self.maximum_order_total_dropdown = self.locator(MAXIMUM_ORDER_TOTAL_DROPDOWN, "Maximum order total dropdown")
-        self.maximum_order_total_r5000 = self.locator(MAXIMUM_ORDER_TOTAL_R5000, "R5000 maximum order total")
+    # endregion
 
-        # Additional filters
-        self.checkbox_daily_deals = self.locator(CHECKBOX_DAILY_DEALS, "Daily deals checkbox")
-        self.virtual_items_checkbox = self.locator(VIRTUAL_ITEMS_CHECKBOX, "Virtual items checkbox")
-        self.date_range_checkbox = self.locator(DATE_RANGE_CHECKBOX, "Date range checkbox")
-        self.date_range_filter = self.locator(DATE_RANGE_FILTER, "Date range filter")
+    # region Pagination Elements
 
-        # Email elements
-        self.btn_send_email_table = self.locator(BTN_SEND_EMAIL_TABLE, "Send email table button")
-        self.ddl_email_templates = self.locator(DDL_EMAIL_TEMPLATES, "Email templates dropdown")
-        self.btn_send_email = self.locator(BTN_SEND_EMAIL, "Send email button")
-        self.email_sent_modal = self.locator(EMAIL_SENT_MODAL, "Email sent modal")
-        self.email_sent_modal_close_icon = self.locator(EMAIL_SENT_MODAL_CLOSE_ICON, "Email sent modal close icon")
+    @property
+    def item_list_dropdown(self):
+        selector = "//div[@class='content' and contains(text(), 'Show')]/following-sibling::div"
+        return self.locator(selector, "Item list dropdown")
 
-        # Email template options
-        self.email_template_options = {}
-        for key, value in OPTION_TEMPLATES.items():
-            self.email_template_options[key] = self.locator(value, f"Email template option {key}")
+    @property
+    def list_filter_10(self):
+        selector = "//span[text()='10']"
+        return self.locator(selector, "10 items filter")
 
-        # Cancel order elements
-        self.risk_queue_cancel_order_button = self.locator(RISK_QUEUE_CANCEL_ORDER_BUTTON, "Cancel order button")
-        self.cancel_orders_modal_header = self.locator(CANCEL_ORDERS_MODAL_HEADER, "Cancel orders modal header")
-        self.cancellation_reason_dropdown = self.locator(CANCELLATION_REASON_DROPDOWN, "Cancellation reason dropdown")
+    @property
+    def next_page(self):
+        selector = '//body/div[@id="root"]/div[3]/div/div/table/tfoot/tr/th/div/div[5]/div[2]/a[2]'
+        return self.locator(selector, "Next page button")
 
-        # Cancellation reason options
-        self.cancellation_reason_options = {}
-        for key, value in CANCELLATION_REASON_OPTIONS.items():
-            self.cancellation_reason_options[key] = self.locator(value, f"Cancellation reason option {key}")
+    # endregion
 
-        self.cancel_orders_modal_cancel_button = self.locator(CANCEL_ORDERS_MODAL_CANCEL_BUTTON, "Cancel orders button")
-        self.cancel_orders_modal = self.locator(CANCEL_ORDERS_MODAL, "Cancel orders modal")
-        self.cancel_order_modal_success_message = self.locator(CANCEL_ORDER_MODAL_SUCCESS_MESSAGE, "Cancel order success message")
-        self.cancel_orders_modal_close_icon = self.locator(CANCEL_ORDERS_MODAL_CLOSE_ICON, "Cancel orders modal close icon")
+    # region Risk Management Elements
 
-        # Order identification elements
-        self.order_id_hyperlink = self.locator(ORDER_ID_HYPERLINK, "Order ID hyperlink")
-        self.fin_portal_global_search_field = self.locator(FIN_PORTAL_GLOBAL_SEARCH_FIELD, "Global search field")
-        self.fin_portal_global_search_icon = self.locator(FIN_PORTAL_GLOBAL_SEARCH_ICON, "Global search icon")
-        self.canceled_by_order_page_badge = self.locator(CANCELED_BY_ORDER_PAGE_BADGE, "Canceled by badge")
-        self.order_item_cancellation_reason = self.locator(ORDER_ITEM_CANCELLATION_REASON, "Order item cancellation reason")
+    @property
+    def order_checkbox(self):
+        selector = '//body/div[@id="root"]/div[3]/div/div/table/tbody/tr[1]/td[1]/div'
+        return self.locator(selector, "Order checkbox")
+
+    @property
+    def clear_risk_btn(self):
+        selector = '//body/div[@id="root"]/div[3]/div/div/table/tfoot/tr/th/div/div[1]'
+        return self.locator(selector, "Clear risk button")
+
+    # endregion
+
+    # region Filter Elements
+
+    @property
+    def clear_filter_btn(self):
+        selector = "//button[contains(text(), 'Clear Filter')]"
+        return self.locator(selector, "Clear filter button")
+
+    @property
+    def apply_filter_btn(self):
+        selector = "//button[contains(text(), 'Filter')]"
+        return self.locator(selector, "Apply filter button")
+
+    @property
+    def checkbox_daily_deals(self):
+        selector = '//*[@id="root"]/div[3]/div/div/form/div/div/div[1]/div/div/div[1]/div'
+        return self.locator(selector, "Daily deals checkbox")
+
+    @property
+    def virtual_items_checkbox(self):
+        selector = '//*[@id="root"]/div[3]/div/div/form/div/div/div[1]/div/div/div[2]/div'
+        return self.locator(selector, "Virtual items checkbox")
+
+    @property
+    def date_range_checkbox(self):
+        selector = '//*[@id="root"]/div[3]/div/div/form/div/div/div[2]/div/div[3]/div'
+        return self.locator(selector, "Date range checkbox")
+
+    @property
+    def date_range_filter(self):
+        selector = '//*[@id="root"]/div[3]/div/div/form/div/div/div[2]/div/div[4]/div'
+        return self.locator(selector, "Date range filter")
+
+    # endregion
+
+    # region Payment Method Filter
+
+    @property
+    def payment_method_dropdown(self):
+        selector = "//div[@name='paymentMethod']"
+        return self.locator(selector, "Payment method dropdown")
+
+    @property
+    def payment_method_credit(self):
+        selector = "//span[text()='Credit']"
+        return self.locator(selector, "Credit payment method")
+
+    @property
+    def payment_method_payfast(self):
+        selector = "//span[text()='PayFast']"
+        return self.locator(selector, "PayFast payment method")
+
+    @property
+    def payment_method_deposit(self):
+        selector = "//span[text()='Deposit']"
+        return self.locator(selector, "Deposit payment method")
+
+    @property
+    def all_payment_method_columns(self):
+        selector = "//td[position() = (count(//th[text()='Payment Method']/preceding-sibling::th) + 7)]"
+        return self.locator(selector, "All payment method columns")
+
+    # endregion
+
+    # region Shipping Method Filter
+
+    @property
+    def shipping_method_dropdown(self):
+        selector = "//div[@name='shippingMethod']"
+        return self.locator(selector, "Shipping method dropdown")
+
+    @property
+    def shipping_method_delivery(self):
+        selector = "//span[text()='Courier']"
+        return self.locator(selector, "Delivery shipping method")
+
+    # endregion
+
+    # region Order Total Filter
+
+    @property
+    def minimum_order_total_dropdown(self):
+        selector = "//div[@name='minimumTotal']"
+        return self.locator(selector, "Minimum order total dropdown")
+
+    @property
+    def minimum_order_total_r500(self):
+        selector = "//div[@name='minimumTotal']//span[text()='500']"
+        return self.locator(selector, "R500 minimum order total")
+
+    @property
+    def minimum_order_total_r0(self):
+        selector = "//div[@name='minimumTotal']//span[text()='0']"
+        return self.locator(selector, "R0 minimum order total")
+
+    @property
+    def maximum_order_total_dropdown(self):
+        selector = "//div[@name='maximumTotal']"
+        return self.locator(selector, "Maximum order total dropdown")
+
+    @property
+    def maximum_order_total_r5000(self):
+        selector = "//div[@name='maximumTotal']//span[text()='5000']"
+        return self.locator(selector, "R5000 maximum order total")
+
+    # endregion
+
+    # region Email Elements
+
+    @property
+    def btn_send_email_table(self):
+        selector = "//table/tfoot/tr/th/div/div[3]/button"
+        return self.locator(selector, "Send email table button")
+
+    @property
+    def ddl_email_templates(self):
+        selector = "//body/div[2]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]"
+        return self.locator(selector, "Email templates dropdown")
+
+    @property
+    def btn_send_email(self):
+        selector = "//button[contains(text(),'Send Emails')]"
+        return self.locator(selector, "Send email button")
+
+    @property
+    def email_sent_modal(self):
+        selector = "/html/body/div[2]/div"
+        return self.locator(selector, "Email sent modal")
+
+    @property
+    def email_sent_modal_close_icon(self):
+        selector = "//i[@class='close icon']"
+        return self.locator(selector, "Email sent modal close icon")
+
+    # endregion
+
+    # region Email Template Options
+
+    @property
+    def email_template_identification_cc(self):
+        selector = "//span[contains(text(),'Identification required: Credit card')]"
+        return self.locator(selector, "Email template: Identification required (Credit card)")
+
+    @property
+    def email_template_identification_and_card(self):
+        selector = "//span[contains(text(),'Identification and card details required')]"
+        return self.locator(selector, "Email template: Identification and card details required")
+
+    @property
+    def email_template_identification_payfast(self):
+        selector = "//span[contains(text(),'Identification required: Payfast & Ozow')]"
+        return self.locator(selector, "Email template: Identification required (Payfast & Ozow)")
+
+    @property
+    def email_template_identification_not_accepted(self):
+        selector = "//span[contains(text(),'Identification not accepted')]"
+        return self.locator(selector, "Email template: Identification not accepted")
+
+    @property
+    def email_template_identification_not_received_payfast(self):
+        selector = "//span[contains(text(),'Identification not received: Payfast & Ozow')]"
+        return self.locator(selector, "Email template: Identification not received (Payfast & Ozow)")
+
+    @property
+    def email_template_identification_not_received_cc(self):
+        selector = "//span[contains(text(),'Identification not received: Credit card')]"
+        return self.locator(selector, "Email template: Identification not received (Credit card)")
+
+    @property
+    def email_template_cc_refund_failed(self):
+        selector = "//span[contains(text(),'Credit card refund failed')]"
+        return self.locator(selector, "Email template: Credit card refund failed")
+
+    @property
+    def email_template_eft_refund_failed(self):
+        selector = "//span[contains(text(),'EFT refund failed')]"
+        return self.locator(selector, "Email template: EFT refund failed")
+
+    @property
+    def email_template_refund_delayed(self):
+        selector = "//span[contains(text(),'Refund delayed')]"
+        return self.locator(selector, "Email template: Refund delayed")
+
+    @property
+    def email_template_short_paid(self):
+        selector = "//span[contains(text(),'Short paid')]"
+        return self.locator(selector, "Email template: Short paid")
+
+    @property
+    def email_template_deposit_match(self):
+        selector = "//span[contains(text(),'Deposit Match')]"
+        return self.locator(selector, "Email template: Deposit Match")
+
+    @property
+    def email_template_duplicate_payment(self):
+        selector = "//span[contains(text(),'Duplicate Payment')]"
+        return self.locator(selector, "Email template: Duplicate Payment")
+
+    @property
+    def email_template_voucher_payment(self):
+        selector = "//span[contains(text(),'Voucher Payment')]"
+        return self.locator(selector, "Email template: Voucher Payment")
+
+    @property
+    def email_template_generic(self):
+        selector = "//span[contains(text(),'Generic')]"
+        return self.locator(selector, "Email template: Generic")
+
+    # endregion
+
+    # region Cancel Order Elements
+
+    @property
+    def risk_queue_cancel_order_button(self):
+        selector = "//button[contains(text(), 'Cancel Order(s)')]"
+        return self.locator(selector, "Cancel order button")
+
+    @property
+    def cancel_orders_modal_header(self):
+        selector = "//div[contains(text(),'Please confirm')]"
+        return self.locator(selector, "Cancel orders modal header")
+
+    @property
+    def cancellation_reason_dropdown(self):
+        selector = "//div[@name='cancelReason']"
+        return self.locator(selector, "Cancellation reason dropdown")
+
+    @property
+    def cancel_orders_modal_cancel_button(self):
+        selector = "//button[contains(text(), 'Cancel Orders')]"
+        return self.locator(selector, "Cancel orders button")
+
+    @property
+    def cancel_orders_modal(self):
+        selector = "//div[contains(@class, 'ui large modal transition visible active')]"
+        return self.locator(selector, "Cancel orders modal")
+
+    @property
+    def cancel_order_modal_success_message(self):
+        selector = "//div[contains(@class, 'ui success message')]/div/div"
+        return self.locator(selector, "Cancel order success message")
+
+    @property
+    def cancel_orders_modal_close_icon(self):
+        selector = "//*[@class= 'close icon']"
+        return self.locator(selector, "Cancel orders modal close icon")
+
+    # endregion
+
+    # region Cancellation Reason Options
+
+    @property
+    def cancellation_reason_customer_request(self):
+        selector = "//span[contains(text(), 'Customer request')]"
+        return self.locator(selector, "Cancellation reason: Customer request")
+
+    @property
+    def cancellation_reason_supplier_out_of_stock(self):
+        selector = "//span[contains(text(), 'Supplier out of stock')]"
+        return self.locator(selector, "Cancellation reason: Supplier out of stock")
+
+    @property
+    def cancellation_reason_fraud(self):
+        selector = "//span[contains(text(), 'Fraud')]"
+        return self.locator(selector, "Cancellation reason: Fraud")
+
+    @property
+    def cancellation_reason_damaged(self):
+        selector = "//span[contains(text(), 'Damaged')]"
+        return self.locator(selector, "Cancellation reason: Damaged")
+
+    @property
+    def cancellation_reason_incorrect_packaging(self):
+        selector = "//span[contains(text(), 'Incorrect Packaging')]"
+        return self.locator(selector, "Cancellation reason: Incorrect Packaging")
+
+    # endregion
+
+    # region Order Identification Elements
+
+    @property
+    def order_id_hyperlink(self):
+        selector = '//*[@id="root"]/div[3]/div/div/table/tbody/tr[1]/td[2]/a'
+        return self.locator(selector, "Order ID hyperlink")
+
+    @property
+    def fin_portal_global_search_field(self):
+        selector = "//*[@name='searchText' and @type='text']"
+        return self.locator(selector, "Global search field")
+
+    @property
+    def fin_portal_global_search_icon(self):
+        selector = "//*[@class='search icon']"
+        return self.locator(selector, "Global search icon")
+
+    @property
+    def canceled_by_order_page_badge(self):
+        selector = "//div[contains(text(), 'Canceled by')]"
+        return self.locator(selector, "Canceled by badge")
+
+    @property
+    def order_item_cancellation_reason(self):
+        selector = "//div[span/p[contains(@style, 'color: rgb(65, 131, 196);')]]"
+        return self.locator(selector, "Order item cancellation reason")
+
+    # endregion

@@ -1,5 +1,4 @@
 from pos.order_view_po import OrderViewPO
-import time
 
 
 class OrderViewPage(OrderViewPO):
@@ -7,13 +6,13 @@ class OrderViewPage(OrderViewPO):
 
     def add_admin_notes(self):
         """Add admin notes to a customer."""
-        self.wait_for_element_visible(self.note_dd)
+        self.wait_till_element_visible(self.note_dd)
         self.click(self.note_dd)
         self.click(self.add_notes_btn)
-        self.fill_text(self.notes_txt_field, "Automation Admin Note")
+        self.fill(self.notes_txt_field, "Automation Admin Note")
         self.click(self.confirm_add_btn)
 
-        self.wait_for_element_visible(self.note_confirm_message)
+        self.wait_till_element_visible(self.note_confirm_message)
         note_message_text = self.get_text(self.note_confirm_message)
         note_message_text = note_message_text.replace("Request failed with status code 403\n×\n", "")
 
@@ -23,19 +22,19 @@ class OrderViewPage(OrderViewPO):
 
     def update_to_blacklist(self):
         """Blacklist a customer."""
-        self.wait_for_element_visible(self.blacklist_cust_btn)
+        self.wait_till_element_visible(self.blacklist_cust_btn)
         self.click(self.blacklist_cust_btn)
         self.click(self.fraud_reason_list)
         self.click(self.fraud_reason_selection)
 
-        self.fill_text(self.fin_note, "Automation Testing")
+        self.fill(self.fin_note, "Automation Testing")
         self.click(self.confirm_blacklist)
 
         # Handle alert
         self.accept_alert()
 
-        self.wait(3)
-        self.wait_for_element_visible(self.note_confirm_message)
+        self.wait_for_seconds(3)
+        self.wait_till_element_visible(self.note_confirm_message)
         message = self.get_text(self.note_confirm_message)
         message = message.replace("Request failed with status code 403\n×\n", "")
 
@@ -45,15 +44,15 @@ class OrderViewPage(OrderViewPO):
 
     def update_to_whitelist(self):
         """Whitelist a customer."""
-        self.wait_for_element_visible(self.whitelist_cust_btn)
+        self.wait_till_element_visible(self.whitelist_cust_btn)
         self.click(self.whitelist_cust_btn)
         self.click(self.confirm_whitelist)
 
         # Handle alert
         self.accept_alert()
 
-        self.wait(6)
-        self.wait_for_element_visible(self.note_confirm_message)
+        self.wait_for_seconds(6)
+        self.wait_till_element_visible(self.note_confirm_message)
         message = self.get_text(self.note_confirm_message)
         message = message.replace("Request failed with status code 403\n×\n", "")
 
@@ -63,7 +62,7 @@ class OrderViewPage(OrderViewPO):
 
     def cancel_all_order_items(self):
         """Cancel all items in an order."""
-        self.wait_for_element_visible(self.cancel_all_item_btn)
+        self.wait_till_element_visible(self.cancel_all_item_btn)
         self.click(self.cancel_all_item_btn)
         self.click(self.cancellation_reason)
 
@@ -88,7 +87,7 @@ class OrderViewPage(OrderViewPO):
         self.scroll_to_element(self.send_email_btn)
         self.click(self.send_email_btn)
 
-        self.wait_for_element_visible(self.note_confirm_message)
+        self.wait_till_element_visible(self.note_confirm_message)
         message = self.get_text(self.note_confirm_message)
         message = message.replace("\n×\nRequest failed with status code 404\n×", "")
 
@@ -98,10 +97,10 @@ class OrderViewPage(OrderViewPO):
 
     def mark_order_as_risky(self):
         """Mark an order as risky."""
-        self.wait_for_element_visible(self.mark_as_risky_btn)
+        self.wait_till_element_visible(self.mark_as_risky_btn)
         self.click(self.mark_as_risky_btn)
 
-        self.fill_text(self.mark_as_risky_reason, "Automation Test Risky Reason")
+        self.fill(self.mark_as_risky_reason, "Automation Test Risky Reason")
         self.click(self.add_reason_btn)
 
         flagged_as_risk_text = self.get_text(self.flagged_as_risk)
@@ -111,11 +110,11 @@ class OrderViewPage(OrderViewPO):
 
     def verify_audit_log_entry(self, action_type):
         """Verify an entry in the audit log."""
-        self.wait_for_element_visible(self.order_ellipsis_menu)
+        self.wait_till_element_visible(self.order_ellipsis_menu)
         self.click(self.order_ellipsis_menu)
         self.click(self.audit_log_menu_option)
 
-        self.wait_for_element_visible(self.audit_log_action_type)
+        self.wait_till_element_visible(self.audit_log_action_type)
         action_type_text = self.get_text(self.audit_log_action_type)
 
         assert action_type in action_type_text, f"Audit log does not contain entry for {action_type}"
@@ -124,10 +123,10 @@ class OrderViewPage(OrderViewPO):
 
     def manually_authorize_an_order(self):
         """Manually authorize an order."""
-        self.wait_for_element_visible(self.authorise_now_btn)
+        self.wait_till_element_visible(self.authorise_now_btn)
         self.click(self.authorise_now_btn)
 
-        self.wait_for_element_visible(self.authorise_now_modal_message)
+        self.wait_till_element_visible(self.authorise_now_modal_message)
         success_message = self.get_text(self.authorise_now_modal_message)
 
         assert "Successfully processed 1 item(s)" in success_message, "Order was not authorized successfully"
@@ -138,7 +137,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_tracking_information_for_cancelled_order(self, heading):
         """Verify tracking information for a cancelled order."""
-        self.wait_for_element_visible(self.order_fullfilment_accordion)
+        self.wait_till_element_visible(self.order_fullfilment_accordion)
         self.click(self.order_fullfilment_accordion)
 
         order_tracking_heading_text = self.get_text(self.order_tracking_heading)
@@ -148,7 +147,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_order_tracking_heading(self, heading):
         """Verify the order tracking heading."""
-        self.wait_for_element_visible(self.order_fullfilment_accordion)
+        self.wait_till_element_visible(self.order_fullfilment_accordion)
         self.click(self.order_fullfilment_accordion)
 
         order_tracking_heading_text = self.get_text(self.order_tracking_heading)
@@ -158,7 +157,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_order_tracking_for_digital_products_only_order(self):
         """Verify tracking information for digital products only order."""
-        self.wait_for_element_visible(self.order_fullfilment_accordion)
+        self.wait_till_element_visible(self.order_fullfilment_accordion)
         self.click(self.order_fullfilment_accordion)
 
         order_tracking_user_info_text = self.get_text(self.order_tracking_user_info)
@@ -170,10 +169,10 @@ class OrderViewPage(OrderViewPO):
         """Edit customer details."""
         self.click(self.edit_customer_btn)
 
-        self.fill_text(self.cust_name, "Mike")
-        self.fill_text(self.cust_surname, "Jackson")
-        self.fill_text(self.business_name, "Automation Test PTY LTD")
-        self.fill_text(self.vat_number, "9876543211")
+        self.fill(self.cust_name, "Mike")
+        self.fill(self.cust_surname, "Jackson")
+        self.fill(self.business_name, "Automation Test PTY LTD")
+        self.fill(self.vat_number, "9876543211")
 
         self.click(self.acc_status_ddl)
         self.click(self.acc_status)
@@ -185,7 +184,7 @@ class OrderViewPage(OrderViewPO):
         self.click(self.block_vou_check)
         self.click(self.confirm_btn)
 
-        self.wait_for_element_visible(self.pop_up)
+        self.wait_till_element_visible(self.pop_up)
         message = self.get_text(self.pop_up)
 
         assert "Customer status data updated successfully" in message, "Customer details were not updated successfully"
@@ -197,13 +196,13 @@ class OrderViewPage(OrderViewPO):
         self.click(self.order_ellipsis_menu)
         self.click(self.order_events_menu)
 
-        self.wait_for_element_visible(self.event_log_results)
+        self.wait_till_element_visible(self.event_log_results)
 
         return True
 
     def verify_part_payment_methods_badges(self):
         """Verify part payment methods badges."""
-        self.wait_for_element_visible(self.first_payment_method_badge)
+        self.wait_till_element_visible(self.first_payment_method_badge)
 
         first_payment_method_text = self.get_text(self.first_payment_method_badge)
         second_payment_method_text = self.get_text(self.second_payment_method_badge)
@@ -215,13 +214,13 @@ class OrderViewPage(OrderViewPO):
 
     def add_order_notes(self):
         """Add notes to an order."""
-        self.wait_for_element_visible(self.order_notes_accordion)
+        self.wait_till_element_visible(self.order_notes_accordion)
         self.click(self.order_notes_btn)
 
-        self.fill_text(self.order_notes_text_field, "Automation Test: Order Note")
+        self.fill(self.order_notes_text_field, "Automation Test: Order Note")
         self.click(self.add_notes_confirm_btn)
 
-        self.wait_for_element_visible(self.note_added_message)
+        self.wait_till_element_visible(self.note_added_message)
         add_note_message_text = self.get_text(self.note_added_message)
 
         assert "Note successfully added to Order" in add_note_message_text, "Order note was not added successfully"
@@ -230,14 +229,14 @@ class OrderViewPage(OrderViewPO):
 
     def add_fin_notes(self):
         """Add financial notes."""
-        self.wait(10)
-        self.wait_for_element_visible(self.fin_notes_accordion)
+        self.wait_for_seconds(10)
+        self.wait_till_element_visible(self.fin_notes_accordion)
         self.click(self.add_fin_notes_btn)
 
-        self.fill_text(self.fin_notes_text_field, "Automation Test: Fin Note")
+        self.fill(self.fin_notes_text_field, "Automation Test: Fin Note")
         self.click(self.add_fin_notes_confirm_btn)
 
-        self.wait_for_element_visible(self.note_added_message)
+        self.wait_till_element_visible(self.note_added_message)
         add_note_message_text = self.get_text(self.note_added_message)
 
         assert "Note successfully added to Customer" in add_note_message_text, "Financial note was not added successfully"
@@ -246,15 +245,15 @@ class OrderViewPage(OrderViewPO):
 
     def add_customer_notes(self):
         """Add customer notes."""
-        self.wait(10)
-        self.wait_for_element_visible(self.customer_notes_accordion)
+        self.wait_for_seconds(10)
+        self.wait_till_element_visible(self.customer_notes_accordion)
         self.click(self.customer_notes_accordion)
         self.click(self.add_customer_notes_btn)
 
-        self.fill_text(self.customer_notes_text_field, "Automation Test: Customer Note")
+        self.fill(self.customer_notes_text_field, "Automation Test: Customer Note")
         self.click(self.add_customer_notes_confirm_btn)
 
-        self.wait_for_element_visible(self.note_added_message)
+        self.wait_till_element_visible(self.note_added_message)
         add_note_message_text = self.get_text(self.note_added_message)
 
         assert "Note successfully added to Customer" in add_note_message_text, "Customer note was not added successfully"
@@ -271,7 +270,7 @@ class OrderViewPage(OrderViewPO):
         self.click(self.customer_request_cancel_reason)
         self.click(self.confirm_cancelling_btn)
 
-        self.wait_for_element_visible(self.cancellation_results)
+        self.wait_till_element_visible(self.cancellation_results)
         message = self.get_text(self.cancellation_results)
 
         assert "Orderitem has successfully been cancelled" in message, "Order item was not cancelled successfully"
@@ -280,7 +279,7 @@ class OrderViewPage(OrderViewPO):
 
     def view_payment_ledger(self):
         """View payment ledger information."""
-        self.wait_for_element_visible(self.payment_ledger_accordion)
+        self.wait_till_element_visible(self.payment_ledger_accordion)
         self.click(self.payment_ledger_accordion)
 
         first_payment_provider_text = self.get_text(self.payment_ledger_first_provider)
@@ -296,13 +295,13 @@ class OrderViewPage(OrderViewPO):
 
     def bookmark_an_order(self):
         """Bookmark an order."""
-        self.wait_for_element_visible(self.bookmark_icon)
+        self.wait_till_element_visible(self.bookmark_icon)
         self.click(self.bookmark_icon)
 
-        self.fill_text(self.bookmark_notes, "Testing")
+        self.fill(self.bookmark_notes, "Testing")
         self.click(self.done_button)
 
-        self.wait(3)
+        self.wait_for_seconds(3)
         counter = self.get_text(self.bookmark_counter)
         assert counter == "1", "Bookmark counter is not 1"
 
@@ -314,7 +313,7 @@ class OrderViewPage(OrderViewPO):
         self.click(self.remove_bookmarks_checkbox)
         self.click(self.remove_btn)
 
-        self.wait_for_element_visible(self.progress_bar)
+        self.wait_till_element_visible(self.progress_bar)
         self.click(self.close_modal)
 
         msg = self.get_text(self.confirmation_msg)
@@ -324,7 +323,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_order_financials(self, order_total, order_shipping, order_discount):
         """Verify order financial information."""
-        self.wait_for_element_visible(self.order_financials_accordion)
+        self.wait_till_element_visible(self.order_financials_accordion)
         self.click(self.order_financials_accordion)
 
         # Verify Order Items Amount
@@ -353,23 +352,23 @@ class OrderViewPage(OrderViewPO):
 
     def view_order_audit_logs(self):
         """View order audit logs."""
-        self.wait_for_element_visible(self.order_ellipsis_menu)
+        self.wait_till_element_visible(self.order_ellipsis_menu)
         self.click(self.order_ellipsis_menu)
         self.click(self.audit_log_menu_option)
 
-        self.wait_for_element_visible(self.logs_table)
+        self.wait_till_element_visible(self.logs_table)
 
         return True
 
     def view_address(self):
         """View address on Google Maps."""
-        self.wait_for_element_visible(self.cust_acc_number)
+        self.wait_till_element_visible(self.cust_acc_number)
         self.hover(self.cust_acc_number)
 
-        self.wait_for_element_visible(self.address_google_icon)
+        self.wait_till_element_visible(self.address_google_icon)
         self.click(self.address_google_icon)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Handle new window - return to original window instead of switching
 
@@ -403,11 +402,11 @@ class OrderViewPage(OrderViewPO):
 
         # Order Notes
         self.scroll_to_element(self.order_notes_accordion)
-        self.wait_for_element_visible(self.order_comments)
+        self.wait_till_element_visible(self.order_comments)
 
         # Cust Info
         self.hover(self.cust_acc_number)
-        self.wait_for_element_visible(self.cust_info_popup)
+        self.wait_till_element_visible(self.cust_info_popup)
 
         cust_status_check = self.get_text(self.cust_status)
         assert "active" in cust_status_check, "Customer status is not active"
@@ -423,10 +422,10 @@ class OrderViewPage(OrderViewPO):
 
     def get_rrn_details(self):
         """Get RRN (Retrieval Reference Number) details."""
-        self.wait_for_element_visible(self.rrn)
+        self.wait_till_element_visible(self.rrn)
         self.click(self.rrn)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Handle new window - return RRN number instead of switching
         rrn_text = self.get_text(self.rrn)
@@ -435,7 +434,7 @@ class OrderViewPage(OrderViewPO):
 
     def update_order_item_to_shipped(self):
         """Update order item status to shipped."""
-        self.wait_for_element_visible(self.edit_order_item_menu)
+        self.wait_till_element_visible(self.edit_order_item_menu)
 
         item_status = self.get_text(self.return_canceled_tag)
         assert "Return Canceled" in item_status, "Item status is not Return Canceled"
@@ -444,7 +443,7 @@ class OrderViewPage(OrderViewPO):
         self.click(self.update_status_menu_option)
         self.click(self.update_to_shipped_button)
 
-        self.wait(4)
+        self.wait_for_seconds(4)
 
         item_status_after = self.get_text(self.shipped_tag)
         assert "Shipped" in item_status_after, "Item was not updated to Shipped"
@@ -453,7 +452,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_payment_ledger_logs(self):
         """Verify payment ledger logs."""
-        self.wait_for_element_visible(self.payment_ledger_accordion)
+        self.wait_till_element_visible(self.payment_ledger_accordion)
         self.click(self.payment_ledger_accordion)
 
         payment_provider_text = self.get_text(self.payment_ledger_payment_provider)
@@ -467,25 +466,25 @@ class OrderViewPage(OrderViewPO):
         self.click(self.email_logs_accordion)
         self.click(self.view_email_btn)
 
-        self.wait_for_element_visible(self.email_view)
+        self.wait_till_element_visible(self.email_view)
 
         return True
 
     def view_order_items_information(self):
         """View order items information."""
-        self.wait_for_element_visible(self.order_items_accordion)
+        self.wait_till_element_visible(self.order_items_accordion)
 
         order_item_status_text = self.get_text(self.order_item_status)
         assert order_item_status_text == "Canceled", f"Order item status is {order_item_status_text}, expected Canceled"
 
         order_item_canceled_by_text = self.get_text(self.order_item_canceled_by)
-        assert order_item_canceled_by_text == "auto_cancel", f"Order item was not canceled by auto_cancel"
+        assert order_item_canceled_by_text == "auto_cancel", "Order item was not canceled by auto_cancel"
 
         return order_item_status_text, order_item_canceled_by_text
 
     def verify_show_items_and_pagination(self):
         """Verify show items dropdown and pagination."""
-        self.wait_for_element_visible(self.order_items_show_items)
+        self.wait_till_element_visible(self.order_items_show_items)
         self.click(self.order_items_show_items)
 
         # Simulate arrow keys press
@@ -493,18 +492,18 @@ class OrderViewPage(OrderViewPO):
         self.press_key("ArrowUp")
         self.press_key("Enter")
 
-        self.wait(1)
+        self.wait_for_seconds(1)
         self.click(self.order_items_pagination_page_two)
 
         return True
 
     def view_coupon_history(self):
         """View coupon history."""
-        self.wait_for_element_visible(self.coupon_history_accordion)
+        self.wait_till_element_visible(self.coupon_history_accordion)
         self.scroll_to_element(self.coupon_history_accordion)
         self.click(self.coupon_history_accordion)
 
-        is_coupon_visible = self.is_element_visible(self.coupon_code)
+        is_coupon_visible = self.is_visible(self.coupon_code)
 
         return is_coupon_visible
 
@@ -516,7 +515,7 @@ class OrderViewPage(OrderViewPO):
         self.click(self.order_fullfilment_accordion)
         self.scroll_to_element(self.instruction_dropped_datetime)
 
-        self.wait_for_element_visible(self.order_tracking_heading)
+        self.wait_till_element_visible(self.order_tracking_heading)
         order_tracking_heading_text = self.get_text(self.order_tracking_heading)
         assert heading in order_tracking_heading_text, f"Tracking heading does not contain '{heading}'"
 
@@ -544,7 +543,7 @@ class OrderViewPage(OrderViewPO):
         order_item_text = self.get_text(self.order_item)
         self.click(self.track_btn)
 
-        self.wait_for_element_visible(self.waybill_no)
+        self.wait_till_element_visible(self.waybill_no)
         waybill_no_text = self.get_text(self.waybill_no)
         assert "Waybill No: MDX133806010" in waybill_no_text, "Waybill number is incorrect"
 
@@ -563,7 +562,7 @@ class OrderViewPage(OrderViewPO):
         """Verify order not ready for collection message."""
         self.click(self.order_fullfilment_accordion)
 
-        self.wait_for_element_visible(self.order_tracking_heading)
+        self.wait_till_element_visible(self.order_tracking_heading)
         is_ready_text = self.get_text(self.signed_by)
         assert "Note: We'll send you an SMS or email once your order is ready for collection" in is_ready_text, "Not ready for collection message is missing"
 
@@ -579,7 +578,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_refund_history_information(self):
         """Verify refund history information."""
-        self.wait_for_element_visible(self.refund_history_accordion)
+        self.wait_till_element_visible(self.refund_history_accordion)
         self.click(self.refund_history_accordion)
 
         self.scroll_to_element(self.refund_history_accordion)
@@ -624,10 +623,10 @@ class OrderViewPage(OrderViewPO):
 
     def verify_the_google_search(self):
         """Verify Google search functionality."""
-        self.wait_for_element_visible(self.search_google_icon)
+        self.wait_till_element_visible(self.search_google_icon)
         self.click(self.search_google_icon)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Handle new window - return True instead of switching
 
@@ -635,7 +634,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_order_total_on_canceled_order(self):
         """Verify order total on a canceled order."""
-        self.wait_for_element_visible(self.order_financials_accordion)
+        self.wait_till_element_visible(self.order_financials_accordion)
         self.click(self.order_financials_accordion)
 
         order_total_amount_text = self.get_text(self.order_total_amount)
@@ -647,7 +646,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_order_total_on_return_item(self):
         """Verify order total on a return item."""
-        self.wait_for_element_visible(self.order_financials_accordion)
+        self.wait_till_element_visible(self.order_financials_accordion)
         self.click(self.order_financials_accordion)
 
         order_total_amount_text = self.get_text(self.order_total_amount)
@@ -683,7 +682,7 @@ class OrderViewPage(OrderViewPO):
         self.click(self.order_fullfilment_accordion)
         self.scroll_to_element(self.instruction_dropped_date1)
 
-        self.wait_for_element_visible(self.order_tracking_heading1)
+        self.wait_till_element_visible(self.order_tracking_heading1)
         order_tracking_heading1_txt = self.get_text(self.order_tracking_heading1)
         assert "Delivered Thu, 30 May 2024" in order_tracking_heading1_txt, "First tracking heading is incorrect"
 
@@ -739,7 +738,7 @@ class OrderViewPage(OrderViewPO):
         self.scroll_to_element(self.waybill_number_link)
         self.click(self.waybill_number_link)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Handle new window - return waybill number instead of switching
         waybill_number = self.get_text(self.waybill_number_link)
@@ -751,7 +750,7 @@ class OrderViewPage(OrderViewPO):
         self.click(self.order_fullfilment_accordion)
 
         self.scroll_to_element(self.order_tracking_first_consignment)
-        self.wait_for_element_visible(self.first_consigment_delivered_date)
+        self.wait_till_element_visible(self.first_consigment_delivered_date)
 
         delivered_datetime_txt = self.get_text(self.first_consigment_delivered_date)
         assert "Delivered Wed, 15 Dec 2021" in delivered_datetime_txt, "Consignment delivery date is incorrect"
@@ -791,19 +790,19 @@ class OrderViewPage(OrderViewPO):
     def verify_ip_address(self):
         """Verify IP address information."""
         self.click(self.ip_address_icon)
-        self.wait_for_element_visible(self.ip_address_model)
+        self.wait_till_element_visible(self.ip_address_model)
 
-        ip_address_txt = self.get_value(self.ip_address)
+        ip_address_txt = self.get_text(self.ip_address)
         assert "41.115.115.60" in ip_address_txt, "IP address is incorrect"
 
         return ip_address_txt
 
     def hover_over_customer_id(self):
         """Hover over customer ID to show customer information."""
-        self.wait_for_element_visible(self.cust_acc_number)
+        self.wait_till_element_visible(self.cust_acc_number)
         self.hover(self.cust_acc_number)
 
-        self.wait_for_element_visible(self.cust_info_popup)
+        self.wait_till_element_visible(self.cust_info_popup)
 
         return True
 
@@ -825,10 +824,10 @@ class OrderViewPage(OrderViewPO):
         self.click(self.order_fullfilment_accordion)
         self.scroll_to_element(self.order_tracking_first_consignment)
 
-        self.wait_for_element_visible(self.first_consigment_track_btn)
+        self.wait_till_element_visible(self.first_consigment_track_btn)
         self.click(self.first_consigment_track_btn)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         tracking_waybill_number_txt = self.get_text(self.tracking_waybill_number)
         assert "MDX144323298" in tracking_waybill_number_txt, "Tracking waybill number is incorrect"
@@ -845,7 +844,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_collection_not_yet_ready(self):
         """Verify collection not yet ready message."""
-        self.wait_for_element_visible(self.order_fullfilment_accordion)
+        self.wait_till_element_visible(self.order_fullfilment_accordion)
         self.click(self.order_fullfilment_accordion)
 
         collection_estimate_date_text = self.get_text(self.collection_estimate_date)
@@ -858,7 +857,7 @@ class OrderViewPage(OrderViewPO):
 
     def verify_delivery_not_yet_shipped(self):
         """Verify delivery not yet shipped message."""
-        self.wait_for_element_visible(self.order_fullfilment_accordion)
+        self.wait_till_element_visible(self.order_fullfilment_accordion)
         self.click(self.order_fullfilment_accordion)
 
         delivery_estimate_date_text = self.get_text(self.delivery_estimate_date)

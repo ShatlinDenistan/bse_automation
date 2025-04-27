@@ -15,7 +15,7 @@ class RiskQueuePage(RiskQueuePO):
         """Navigate to the Risk Queue page."""
         self.click(self.menu_btn)
         self.click(self.risk_queue_menu_option)
-        self.wait_for_element(self.results_table)
+        self.wait_till_element_visible(self.results_table)
 
     def click_show_items_dropdown_and_select_10_items(self):
         """Select 10 items from the show items dropdown."""
@@ -25,7 +25,7 @@ class RiskQueuePage(RiskQueuePO):
     def navigate_to_next_page(self):
         """Navigate to the next page in the results."""
         self.click(self.next_page)
-        self.wait_for_element(self.results_table)
+        self.wait_till_element_visible(self.results_table)
 
     def select_an_order_to_clear_risk(self):
         """Select an order and clear its risk status."""
@@ -39,7 +39,7 @@ class RiskQueuePage(RiskQueuePO):
     def filter_using_payment_method(self):
         """Apply filters based on payment method."""
         self.click(self.clear_filter_btn)
-        self.wait_for_element(self.results_table)
+        self.wait_till_element_visible(self.results_table)
         self.click(self.payment_method_dropdown)
 
         # Randomly select payment method
@@ -60,20 +60,22 @@ class RiskQueuePage(RiskQueuePO):
     def filter_using_shipping_method(self):
         """Apply filters based on shipping method."""
         self.click(self.clear_filter_btn)
-        self.wait_for_element(self.results_table)
+        self.wait_till_element_visible(self.results_table)
         self.click(self.shipping_method_dropdown)
         self.click(self.shipping_method_delivery)
         self.click(self.apply_filter_btn)
 
         # Verify shipping method is Express Delivery
-        shipping_method_elements = self.page.locator(ALL_ORDER_ID_COLUMNS).all()
-        for element in shipping_method_elements:
-            assert "Express Delivery" in element.inner_text(), "Shipping method mismatch"
+        shipping_method_elements = self.all_order_id_columns.count()
+        for i in range(shipping_method_elements):
+            shipping_method_element = self.all_order_id_columns.nth(i)
+            shipping_method_text = shipping_method_element.inner_text()
+            assert "Express Delivery" in shipping_method_text, f"Shipping method mismatch: Expected 'Express Delivery' but got {shipping_method_text}"
 
     def filter_using_minimum_amount(self):
         """Filter orders using minimum amount filter."""
         self.click(self.clear_filter_btn)
-        self.wait_for_element(self.results_table)
+        self.wait_till_element_visible(self.results_table)
         self.click(self.minimum_order_total_dropdown)
         self.click(self.minimum_order_total_r500)
         self.click(self.apply_filter_btn)
@@ -89,7 +91,7 @@ class RiskQueuePage(RiskQueuePO):
     def filter_using_maximum_amount(self):
         """Filter orders using maximum amount filter."""
         self.click(self.clear_filter_btn)
-        self.wait_for_element(self.results_table)
+        self.wait_till_element_visible(self.results_table)
         self.click(self.minimum_order_total_dropdown)
         self.click(self.minimum_order_total_r0)
         self.click(self.maximum_order_total_dropdown)
@@ -107,7 +109,7 @@ class RiskQueuePage(RiskQueuePO):
     def filter_using_multiple_filters(self):
         """Apply multiple filters at once."""
         self.click(self.clear_filter_btn)
-        self.wait_for_element(self.results_table)
+        self.wait_till_element_visible(self.results_table)
         self.click(self.virtual_items_checkbox)
         self.click(self.date_range_checkbox)
         self.click(self.payment_method_dropdown)
@@ -132,16 +134,16 @@ class RiskQueuePage(RiskQueuePO):
     def filter_using_daily_deal(self):
         """Apply filter for daily deal orders."""
         self.click(self.clear_filter_btn)
-        self.wait_for_element(self.checkbox_daily_deals)
+        self.wait_till_element_visible(self.checkbox_daily_deals)
         self.click(self.checkbox_daily_deals)
         self.click(self.apply_filter_btn)
-        self.wait_for_element(self.results_table)
+        self.wait_till_element_visible(self.results_table)
 
     def filter_using_date_range(self):
         """Apply filter for a specific date range."""
         self.click(self.clear_filter_btn)
         self.click(self.date_range_filter)
-        self.fill_text(self.date_range_filter, "01-05-2024 - 31-05-2024")
+        self.fill(self.date_range_filter, "01-05-2024 - 31-05-2024")
         self.click(self.apply_filter_btn)
 
         # Verify dates are in May 2024
@@ -168,7 +170,7 @@ class RiskQueuePage(RiskQueuePO):
 
     def verify_email_sent_success_message(self):
         """Verify the email sent success message."""
-        self.wait_for_element(self.email_sent_modal)
+        self.wait_till_element_visible(self.email_sent_modal)
         email_sent_text = self.get_text(self.email_sent_modal)
         assert "Successfully processed" in email_sent_text, "Email success message not found"
         self.click(self.email_sent_modal_close_icon)
@@ -179,7 +181,7 @@ class RiskQueuePage(RiskQueuePO):
         self.click(self.risk_queue_cancel_order_button)
         self.page.wait_for_timeout(2000)
 
-        self.wait_for_element(self.cancel_orders_modal_header)
+        self.wait_till_element_visible(self.cancel_orders_modal_header)
         cancel_orders_header_text = self.get_text(self.cancel_orders_modal_header)
         assert "Please confirm if you would like to cancel selected orders." in cancel_orders_header_text, "Cancel orders header text mismatch"
 
@@ -192,7 +194,7 @@ class RiskQueuePage(RiskQueuePO):
         self.selected_reason = self.get_text(self.cancellation_reason_dropdown)
         self.click(self.cancel_orders_modal_cancel_button)
 
-        self.wait_for_element(self.cancel_orders_modal)
+        self.wait_till_element_visible(self.cancel_orders_modal)
         cancel_orders_modal_text = self.get_text(self.cancel_orders_modal)
         assert "Cancelling Orders" in cancel_orders_modal_text, "Cancelling orders text not found"
 
@@ -204,7 +206,7 @@ class RiskQueuePage(RiskQueuePO):
 
     def verify_canceled_order_status(self):
         """Verify the status of a canceled order."""
-        self.fill_text(self.fin_portal_global_search_field, self.order_id_text)
+        self.fill(self.fin_portal_global_search_field, self.order_id_text)
         self.click(self.fin_portal_global_search_icon)
         self.scroll_to_element(self.canceled_by_order_page_badge)
 

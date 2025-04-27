@@ -33,7 +33,7 @@ Fin-Portal | Edit Order | Add Discount Amount Greater Than Order Total Amount
     Navigate to Edit Order Screen
     Calculate Discount Amount Input Value
     Verify That Invalid Discount Amount Message
-    
+
 Fin-Portal | Edit Order | Add Discount and Shipping Amounts
     [Documentation]    Verify that applying discount and shipping fee to a new order updates the Order's Auth Amount
     [Tags]    QABA-532    QABA-536

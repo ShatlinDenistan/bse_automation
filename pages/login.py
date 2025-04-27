@@ -1,34 +1,12 @@
-from playwright.sync_api import Page, expect
-import time
-
-from base.page_base import PageBase
+from pos.login_po import LoginPO
 
 
-class LoginPage(PageBase):
+class LoginPage(LoginPO):
     """Page methods and elements for login page"""
-
-    def __init__(self, page: Page):
-        self.page = page
-        super().__init__(page)
-        # General login elements
-        self.email_textbox = self.page.get_by_role("textbox", name="Email")
-        self.password_textbox = self.page.get_by_role("textbox", name="Password")
-        self.login_button = self.page.get_by_role("button", name="Login").nth(1)
-
-        # Fin-Portal specific elements
-        self.fin_portal_login_heading = self.page.locator("xpath=//div[contains(text(),'Log In User')]")
-        self.fin_portal_username_input = self.page.locator("xpath=//body/div[2]/div[1]/div[2]/form[1]/div[1]/input[1]")
-        self.fin_portal_password_input = self.page.locator("xpath=//body/div[2]/div[1]/div[2]/form[1]/div[2]/input[1]")
-        self.fin_portal_login_button = self.page.locator("xpath=//body/div[2]/div[1]/div[3]/button[1]")
-
-        # CS-Admin specific elements
-        self.cs_admin_email_input = self.page.locator("xpath=//input[@name='email']")
-        self.cs_admin_password_input = self.page.locator("xpath=//input[@name='password']")
-        self.cs_admin_login_button = self.page.locator("xpath=//*[@class='ui green basic button']")
 
     def confirm_if_in_page(self):
         """Confirm if in login page"""
-        expect(self.email_textbox).to_be_visible()
+        self.expect_to_be_visible(self.login_button)
 
     def login(self, username, password):
         """login into the system"""
@@ -55,7 +33,7 @@ class LoginPage(PageBase):
         self.fin_portal_login_button.click()
 
         # Wait for login to complete
-        time.sleep(5)
+        self.wait_for_seconds(5)
 
     def login_cs_admin(self, username, password):
         """
@@ -76,4 +54,4 @@ class LoginPage(PageBase):
         self.cs_admin_login_button.click()
 
         # Wait for login to complete
-        time.sleep(5)
+        self.wait_for_seconds(5)

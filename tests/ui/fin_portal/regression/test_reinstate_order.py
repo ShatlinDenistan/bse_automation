@@ -12,10 +12,10 @@ class TestReinstateOrder(TestBase):
         """Verify that a user can reinstate a fully auto canceled order."""
 
         self.step("Get auto-canceled orders from database")
-        self.database.get_orders_from_database("auto_canceled_orders_sql")
+        order_ids = self.order_data.get_orders("auto_canceled_orders_sql")
 
         self.step("Search for the auto-canceled order")
-        self.order_list_page.search_for_order(self.database.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Reinstate the order")
         self.reinstate_order_page.reinstate_order()
@@ -30,10 +30,10 @@ class TestReinstateOrder(TestBase):
         """Verify that a user can reinstate an auto cancelled order that has Staff discount."""
 
         self.step("Get auto-canceled orders with staff discount from database")
-        self.database.get_orders_from_database("auto_canceled_orders_with_staff_discount.sql")
+        order_ids = self.order_data.get_orders("auto_canceled_orders_with_staff_discount.sql")
 
         self.step("Search for the auto-canceled order with staff discount")
-        self.order_list_page.search_for_order(self.database.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Reinstate the order")
         self.reinstate_order_page.reinstate_order()
@@ -54,10 +54,10 @@ class TestReinstateOrder(TestBase):
         """Verify that a user can reinstate an auto cancelled order that has Shipping and Coupon Discount."""
 
         self.step("Get auto-canceled orders with shipping and coupon discount from database")
-        self.database.get_orders_from_database("auto_canceled_order_with_charges.sql")
+        order_ids = self.order_data.get_orders("auto_canceled_order_with_charges.sql")
 
         self.step("Search for the auto-canceled order with shipping and coupon discount")
-        self.order_list_page.search_for_order(self.database.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Reinstate the order")
         self.reinstate_order_page.reinstate_order()
@@ -75,10 +75,10 @@ class TestReinstateOrder(TestBase):
         """Verify that when an order is NOT auto canceled the reinstate order button is not available."""
 
         self.step("Get orders canceled by other means than auto-cancel from database")
-        self.database.get_orders_from_database("canceled_order_except_auto_canceled.sql")
+        order_ids = self.order_data.get_orders("canceled_order_except_auto_canceled.sql")
 
         self.step("Search for the order that was not auto-canceled")
-        self.order_list_page.search_for_order(self.database.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Verify that reinstate button is not available")
-        assert self.reinstate_order_page.verify_reinstate_button_not_available(self.database.order_ids[0]), "Reinstate button is visible but should not be"
+        assert self.reinstate_order_page.verify_reinstate_button_not_available(order_ids[0]), "Reinstate button is visible but should not be"

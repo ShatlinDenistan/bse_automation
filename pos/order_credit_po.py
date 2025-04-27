@@ -1,71 +1,149 @@
 from base.page_base import PageBase
 
-# Module-level constants for all XPath selectors
-BTN_CUSTOMER_CUDION = "//span[contains(text(),'Customer Credit')]"
-BTN_CREDIT = "//*[contains(text(),'Allocate credit')]"
-TXT_CREDIT_AMOUNT = "//input[@name='amount']"
-TXT_CREDIT_COMMENTS = "//textarea[@name='adminNote']"
-DROPDOWN_CREDIT_REASON = "//*[@name='reason']"
-REASON_GOODWILL = "//*[@role='option']/span[contains(text(),'Goodwill')]"
-REASON_LATE_DELIVERY_FEE = "//*[@role='option']/span[contains(text(),'Late delivery fee')]"
-VALIDATION_ERROR = "//*[@class='ui negative message']/div/div"
-REASON_SUB_LATE_DELIVERY = "//*[@role='option']/span[contains(text(),'Subscription late delivery fee')]"
-REASON_CREDIT_BREACH = "//*[@role='option']/span[contains(text(),'Credit breach')]"
-TXT_JIRA_NUMBER = "//input[@name='extra']"
-REASON_B2B_BULK_ORDER = "//*[@role='option']/span[contains(text(),'B2B bulk orders')]"
-REASON_FAILED_EFT_REFUNDS = "//*[@role='option']/span[contains(text(),'Failed EFT refunds')]"
-ACCORDION_ORDER_ITEMS = "//span[contains(text(),'Order Items')]"
-BTN_ORDER_ITEM_MENU = "//div[@class='accordion ui']//*[@class='ui simple dropdown']/i"
-CREDIT_ITEM_OPTION = "//*[contains(text(),'Credit Item')]"
-REASON_SYSTEM_ERROR = "//*[@role='option']/span[contains(text(),'System error: Credit removal failed')]"
-TXT_RFN_NUMBER = "//*[@placeholder='Please enter a RFN number']"
-REASON_DUPLICATE_PAYMENT = "//*[@role='option']/span[contains(text(),'Duplicate payment')]"
-REASON_COD_RETURN = "//*[@role='option']/span[contains(text(),'COD return')]"
-ACCORDION_ORDER_FINANCIALS = "//*[contains(text(),'Order Financials')]"
-ORDER_FINANCIALS_RETURN_CANCELLED = "//*[contains(text(),'Order Financials')]/parent::div//*[contains(text(),'Return Cancelled')]//following-sibling::td"
-ORDER_FINANCIALS_CANCELLED = "//*[contains(text(),'Order Financials')]/parent::div//*[contains(text(),'Cancelled')]//following-sibling::td"
-REASON_CREDIT_ERROR = "//*[@role='option']/span[contains(text(),'Credit error')]"
-
 
 class OrderCreditPO(PageBase):
     """Page Object class for Order Credit functionality"""
 
-    def __init__(self, page):
-        """Initialize the OrderCreditPO class with locators"""
-        super().__init__(page)
+    # region Customer Credit Section
 
-        # Customer credit section locators
-        self.btn_customer_credit = self.locator(BTN_CUSTOMER_CUDION, "Customer Credit button")
-        self.btn_allocate_credit = self.locator(BTN_CREDIT, "Allocate Credit button")
+    @property
+    def btn_customer_credit(self):
+        selector = "//span[contains(text(),'Customer Credit')]"
+        return self.locator(selector, "Customer Credit button")
 
-        # Credit form locators
-        self.txt_credit_amount = self.locator(TXT_CREDIT_AMOUNT, "Credit amount field")
-        self.txt_credit_comments = self.locator(TXT_CREDIT_COMMENTS, "Credit comments field")
-        self.dropdown_credit_reason = self.locator(DROPDOWN_CREDIT_REASON, "Credit reason dropdown")
+    @property
+    def btn_allocate_credit(self):
+        selector = "//*[contains(text(),'Allocate credit')]"
+        return self.locator(selector, "Allocate Credit button")
 
-        # Credit reasons
-        self.reason_goodwill = self.locator(REASON_GOODWILL, "Goodwill reason option")
-        self.reason_late_delivery_fee = self.locator(REASON_LATE_DELIVERY_FEE, "Late delivery fee reason option")
-        self.reason_sub_late_delivery = self.locator(REASON_SUB_LATE_DELIVERY, "Subscription late delivery fee reason option")
-        self.reason_credit_breach = self.locator(REASON_CREDIT_BREACH, "Credit breach reason option")
-        self.reason_b2b_bulk_order = self.locator(REASON_B2B_BULK_ORDER, "B2B bulk orders reason option")
-        self.reason_failed_eft_refunds = self.locator(REASON_FAILED_EFT_REFUNDS, "Failed EFT refunds reason option")
-        self.reason_system_error = self.locator(REASON_SYSTEM_ERROR, "System error reason option")
-        self.reason_duplicate_payment = self.locator(REASON_DUPLICATE_PAYMENT, "Duplicate payment reason option")
-        self.reason_cod_return = self.locator(REASON_COD_RETURN, "COD return reason option")
-        self.reason_credit_error = self.locator(REASON_CREDIT_ERROR, "Credit error reason option")
+    # endregion
 
-        # Additional fields
-        self.txt_jira_number = self.locator(TXT_JIRA_NUMBER, "JIRA number field")
-        self.txt_rfn_number = self.locator(TXT_RFN_NUMBER, "RFN number field")
-        self.validation_error = self.locator(VALIDATION_ERROR, "Validation error message")
+    # region Credit Form Section
 
-        # Order items section
-        self.accordion_order_items = self.locator(ACCORDION_ORDER_ITEMS, "Order Items accordion")
-        self.btn_order_item_menu = self.locator(BTN_ORDER_ITEM_MENU, "Order Item menu button")
-        self.credit_item_option = self.locator(CREDIT_ITEM_OPTION, "Credit Item option")
+    @property
+    def txt_credit_amount(self):
+        selector = "//input[@name='amount']"
+        return self.locator(selector, "Credit amount field")
 
-        # Order financials section
-        self.accordion_order_financials = self.locator(ACCORDION_ORDER_FINANCIALS, "Order Financials accordion")
-        self.order_financials_return_cancelled = self.locator(ORDER_FINANCIALS_RETURN_CANCELLED, "Order Financials Return Cancelled amount")
-        self.order_financials_cancelled = self.locator(ORDER_FINANCIALS_CANCELLED, "Order Financials Cancelled amount")
+    @property
+    def txt_credit_comments(self):
+        selector = "//textarea[@name='adminNote']"
+        return self.locator(selector, "Credit comments field")
+
+    @property
+    def dropdown_credit_reason(self):
+        selector = "//*[@name='reason']"
+        return self.locator(selector, "Credit reason dropdown")
+
+    @property
+    def validation_error(self):
+        selector = "//*[@class='ui negative message']/div/div"
+        return self.locator(selector, "Validation error message")
+
+    # endregion
+
+    # region Credit Reasons
+
+    @property
+    def reason_goodwill(self):
+        selector = "//*[@role='option']/span[contains(text(),'Goodwill')]"
+        return self.locator(selector, "Goodwill reason option")
+
+    @property
+    def reason_late_delivery_fee(self):
+        selector = "//*[@role='option']/span[contains(text(),'Late delivery fee')]"
+        return self.locator(selector, "Late delivery fee reason option")
+
+    @property
+    def reason_sub_late_delivery(self):
+        selector = "//*[@role='option']/span[contains(text(),'Subscription late delivery fee')]"
+        return self.locator(selector, "Subscription late delivery fee reason option")
+
+    @property
+    def reason_credit_breach(self):
+        selector = "//*[@role='option']/span[contains(text(),'Credit breach')]"
+        return self.locator(selector, "Credit breach reason option")
+
+    @property
+    def reason_b2b_bulk_order(self):
+        selector = "//*[@role='option']/span[contains(text(),'B2B bulk orders')]"
+        return self.locator(selector, "B2B bulk orders reason option")
+
+    @property
+    def reason_failed_eft_refunds(self):
+        selector = "//*[@role='option']/span[contains(text(),'Failed EFT refunds')]"
+        return self.locator(selector, "Failed EFT refunds reason option")
+
+    @property
+    def reason_system_error(self):
+        selector = "//*[@role='option']/span[contains(text(),'System error: Credit removal failed')]"
+        return self.locator(selector, "System error reason option")
+
+    @property
+    def reason_duplicate_payment(self):
+        selector = "//*[@role='option']/span[contains(text(),'Duplicate payment')]"
+        return self.locator(selector, "Duplicate payment reason option")
+
+    @property
+    def reason_cod_return(self):
+        selector = "//*[@role='option']/span[contains(text(),'COD return')]"
+        return self.locator(selector, "COD return reason option")
+
+    @property
+    def reason_credit_error(self):
+        selector = "//*[@role='option']/span[contains(text(),'Credit error')]"
+        return self.locator(selector, "Credit error reason option")
+
+    # endregion
+
+    # region Additional Fields
+
+    @property
+    def txt_jira_number(self):
+        selector = "//input[@name='extra']"
+        return self.locator(selector, "JIRA number field")
+
+    @property
+    def txt_rfn_number(self):
+        selector = "//*[@placeholder='Please enter a RFN number']"
+        return self.locator(selector, "RFN number field")
+
+    # endregion
+
+    # region Order Items Section
+
+    @property
+    def accordion_order_items(self):
+        selector = "//span[contains(text(),'Order Items')]"
+        return self.locator(selector, "Order Items accordion")
+
+    @property
+    def btn_order_item_menu(self):
+        selector = "//div[@class='accordion ui']//*[@class='ui simple dropdown']/i"
+        return self.locator(selector, "Order Item menu button")
+
+    @property
+    def credit_item_option(self):
+        selector = "//*[contains(text(),'Credit Item')]"
+        return self.locator(selector, "Credit Item option")
+
+    # endregion
+
+    # region Order Financials Section
+
+    @property
+    def accordion_order_financials(self):
+        selector = "//*[contains(text(),'Order Financials')]"
+        return self.locator(selector, "Order Financials accordion")
+
+    @property
+    def order_financials_return_cancelled(self):
+        selector = "//*[contains(text(),'Order Financials')]/parent::div//*[contains(text(),'Return Cancelled')]//following-sibling::td"
+        return self.locator(selector, "Order Financials Return Cancelled amount")
+
+    @property
+    def order_financials_cancelled(self):
+        selector = "//*[contains(text(),'Order Financials')]/parent::div//*[contains(text(),'Cancelled')]//following-sibling::td"
+        return self.locator(selector, "Order Financials Cancelled amount")
+
+    # endregion

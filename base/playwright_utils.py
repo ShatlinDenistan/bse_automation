@@ -81,10 +81,7 @@ class PlaywrightUtils:
 
     MAIN_STEP_CSS = """position: fixed; top: 0; right: 10%; font-size: 13px; color: #FFFFFF; font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none;"""
 
-    SUB_STEP_CSS = (
-        "position: fixed; top: 15px; right: 10%; font-size: 13px; color: #FFFFFF; "
-        "font-weight: normal; z-index: 2147483647; text-align: right; pointer-events: none;"
-    )
+    SUB_STEP_CSS = "position: fixed; top: 15px; right: 10%; font-size: 13px; color: #FFFFFF; " "font-weight: normal; z-index: 2147483647; text-align: right; pointer-events: none;"
 
     def _get_step_display_javascript(self, message: str) -> str:
         return f"""
@@ -289,7 +286,7 @@ class PlaywrightUtils:
         expect(self.page.locator(item_to_select)).to_be_visible(timeout=10000)
         select_locator.click()
 
-    def reload(self):
+    def reload_page(self):
         self.page.reload()
         self.wait_till_page_is_loaded()
 
@@ -341,6 +338,76 @@ class PlaywrightUtils:
         else:
             time.sleep(seconds)
 
+    def wait_for_text(self, text, timeout=5000):
+        self.wait_till_page_is_loaded()
+        start_time = time.time()
+        while time.time() - start_time < timeout / 1000:
+            if text in self.page.content():
+                return
+            self.wait_for_seconds(1)
+        raise AssertionError(f"Text '{text}' not found in page content within {timeout} milliseconds")
+
+    def get_text(self, locator: Locator):
+        self.wait_till_page_is_loaded()
+        if hasattr(locator, "text_content"):
+            return locator.text_content()
+        elif hasattr(locator, "inner_text"):
+            return locator.inner_text()
+        else:
+            raise AttributeError(f"can not get text from Locator '{locator}' ")
+
+    def is_enabled(self, locator: Locator):
+        self.wait_till_page_is_loaded()
+        if hasattr(locator, "is_enabled"):
+            return locator.is_enabled()
+        else:
+            raise AttributeError(f"can not get enabled status from Locator '{locator}' ")
+
+    def press_key(
+        self,
+        key,
+        locator: Locator = None,
+    ):
+        self.wait_till_page_is_loaded()
+        if locator is not None:
+            locator.press(key)
+        else:
+            self.page.keyboard.press(key)
+
+    def accept_alert(self):
+        self.wait_till_page_is_loaded()
+        with contextlib.suppress(Exception):
+            self.page.on("dialog", lambda dialog: dialog.accept())
+            self.page.evaluate("window.alert = function() {};")
+
+    def scroll_to_element(self, locator: Locator):
+        self.wait_till_page_is_loaded()
+        locator.scroll_into_view_if_needed()
+
+    def wait_for_element_enabled(self, locator: Locator, timeout=5000):
+        self.wait_till_page_is_loaded()
+        try:
+            expect(locator).to_be_enabled(timeout=timeout)
+        except AssertionError as exc:
+            raise AssertionError(f"Element '{locator.name}' not enabled within {timeout} milliseconds") from exc
+
+    def is_disabled(self, locator: Locator):
+        self.wait_till_page_is_loaded()
+        if hasattr(locator, "is_disabled"):
+            return locator.is_disabled()
+        else:
+            raise AttributeError(f"can not get disabled status from Locator '{locator}' ")
+
+    def hover(self, locator: Locator):
+        self.wait_till_page_is_loaded()
+        if hasattr(locator, "hover"):
+            locator.hover()
+        else:
+            raise AttributeError(f"can not hover on Locator '{locator}' ")
+
+    def wait_for_element_to_be_visible(self, locator: Locator, timeout=5000):
+        expect(locator).to_be_visible(timeout=timeout)
+
     def wait_till_dom_is_loaded(self):
         if hasattr(self, "page") and self.page:
             self.page.wait_for_load_state("domcontentloaded")
@@ -366,3 +433,20 @@ class PlaywrightUtils:
                 previous_content = current_content
                 self.wait_for_milliseconds(check_interval * 100)
             return False
+
+    def evaluate(self, js_code):
+        return self.page.evaluate(js_code)
+
+    def wait_till_element_visible(self, locator: Locator, timeout=5000):
+        self.wait_till_page_is_loaded()
+        try:
+            expect(locator).to_be_visible(timeout=timeout)
+        except AssertionError as exc:
+            raise AssertionError(f"Element '{locator.name}' not visible within {timeout} milliseconds") from exc
+
+    def expect_to_be_visible(self, locator: Locator, timeout=5000):
+        self.wait_till_page_is_loaded()
+        try:
+            expect(locator).to_be_visible(timeout=timeout)
+        except AssertionError as exc:
+            raise AssertionError(f"Element '{locator.name}' not visible within {timeout} milliseconds") from exc

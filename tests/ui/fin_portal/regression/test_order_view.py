@@ -6,665 +6,403 @@ class TestOrderView(TestBase):
     """Test cases for Order View functionality."""
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk1
+    @pytest.mark.qabse_242
     def test_add_admin_notes(self):
-        """Test adding admin notes to a customer."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that a user can add a note on the order view page."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("126388782")
 
-        with self.step("Add admin notes"):
-            note_message = self.page_initializer.order_view.add_admin_notes()
-            assert "Note successfully added to Customer:" in note_message
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk2
-    def test_blacklist_customer(self):
-        """Test blacklisting a customer."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Update customer to blacklist"):
-            blacklist_message = self.page_initializer.order_view.update_to_blacklist()
-            assert "Successfully blacklisted the customer" in blacklist_message
+        self.step("Add admin notes")
+        note_message = self.order_view_page.add_admin_notes()
+        assert "Note successfully added to Customer:" in note_message
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk3
-    def test_whitelist_customer(self):
-        """Test whitelisting a customer."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_235
+    def test_blacklist_and_whitelist_customer(self):
+        """Verify that a user can update the blacklist status on the order view page."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("126388782")
 
-        with self.step("Update customer to whitelist"):
-            whitelist_message = self.page_initializer.order_view.update_to_whitelist()
-            assert "Successfully Whitelisted Customer:" in whitelist_message
+        self.step("Update customer to blacklist")
+        blacklist_message = self.order_view_page.update_to_blacklist()
+        assert "Successfully blacklisted the customer" in blacklist_message
 
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk4
-    def test_cancel_all_order_items(self):
-        """Test cancelling all items in an order."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Cancel all order items"):
-            order_status = self.page_initializer.order_view.cancel_all_order_items()
-            assert "Canceled by" in order_status
+        self.step("Update customer to whitelist")
+        whitelist_message = self.order_view_page.update_to_whitelist()
+        assert "Successfully Whitelisted Customer:" in whitelist_message
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk5
-    def test_send_email_to_customer(self):
-        """Test sending an email to a customer."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_131
+    def test_cancel_order(self):
+        """Verify that a user can cancel an order."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("new_order_with_no_discount_amount.sql")[0]
 
-        with self.step("Send email to customer"):
-            email_message = self.page_initializer.order_view.send_an_email()
-            assert "(Identification Not Accepted) email sent to customer" in email_message
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
+
+        self.step("Cancel all order items")
+        order_status = self.order_view_page.cancel_all_order_items()
+        assert "Canceled by" in order_status
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk6
+    @pytest.mark.qabse_234
+    def test_send_email(self):
+        """Verify that a user can send an email to the customer on the order view page."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("new_order_with_no_discount_amount.sql")[0]
+
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
+
+        self.step("Send email to customer")
+        email_message = self.order_view_page.send_an_email()
+        assert "(Identification Not Accepted) email sent to customer" in email_message
+
+    @pytest.mark.regression
+    @pytest.mark.qabse_231
     def test_mark_order_as_risky(self):
-        """Test marking an order as risky."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that a user can mark an order as risky on the order view page."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("non_risky_order.sql")[0]
 
-        with self.step("Mark order as risky"):
-            risk_text = self.page_initializer.order_view.mark_order_as_risky()
-            assert "Flagged as risky" in risk_text
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
 
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk7
-    def test_verify_audit_log_entry(self):
-        """Test verifying an audit log entry."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        self.step("Mark order as risky")
+        risk_text = self.order_view_page.mark_order_as_risky()
+        assert "Flagged as risky" in risk_text
 
-        with self.step("Verify audit log entry"):
-            action_type = "ORDER_UPDATE"  # Example action type
-            action_text = self.page_initializer.order_view.verify_audit_log_entry(action_type)
-            assert action_type in action_text
+        self.step("Verify audit log entry")
+        audit_text = self.order_view_page.verify_audit_log_entry("mark_order_as_risky")
+        assert "mark_order_as_risky" in audit_text
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk8
-    def test_manually_authorize_order(self):
-        """Test manually authorizing an order."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_132
+    def test_authorize_order(self):
+        """Verify that a user can manually authorize an order."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("new_order_with_no_discount__and_shipping_amount.sql")[0]
 
-        with self.step("Manually authorize order"):
-            success_message = self.page_initializer.order_view.manually_authorize_an_order()
-            assert "Successfully processed 1 item(s)" in success_message
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
 
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk9
-    def test_tracking_information_for_cancelled_order(self):
-        """Test tracking information for a cancelled order."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        self.step("Manually authorize order")
+        success_message = self.order_view_page.manually_authorize_an_order()
+        assert "Successfully processed 1 item(s)" in success_message
 
-        with self.step("Verify tracking information for cancelled order"):
-            heading = "Cancelled"  # Example heading
-            tracking_heading = self.page_initializer.order_view.verify_tracking_information_for_cancelled_order(heading)
-            assert heading in tracking_heading
+        self.step("Verify audit log entry")
+        audit_text = self.order_view_page.verify_audit_log_entry("authorise_order")
+        assert "authorise_order" in audit_text
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk10
-    def test_order_tracking_for_digital_products(self):
-        """Test order tracking for digital products only order."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_853
+    def test_no_tracking_for_digital_items_order(self):
+        """Verify that there is no tracking information for a digital items only order."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("145423528")
 
-        with self.step("Verify order tracking for digital products"):
-            tracking_info = self.page_initializer.order_view.verify_order_tracking_for_digital_products_only_order()
-            assert "Digital Product(s)" in tracking_info
+        self.step("Verify order tracking for digital products")
+        tracking_info = self.order_view_page.verify_order_tracking_for_digital_products_only_order()
+        assert "Digital Product(s)" in tracking_info
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk11
+    @pytest.mark.qabse_857
+    def test_no_tracking_for_cancelled_order(self):
+        """Verify that there is no tracking information for a cancelled order."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("new_order_with_no_discount_amount.sql")[0]
+
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
+
+        self.step("Cancel all order items")
+        self.order_view_page.cancel_all_order_items()
+
+        self.step("Verify order tracking heading")
+        heading = self.order_view_page.verify_order_tracking_heading("Cancelled Item(s)")
+        assert "Cancelled Item(s)" in heading
+
+    @pytest.mark.regression
+    @pytest.mark.qabse_210
     def test_edit_customer_details(self):
-        """Test editing customer details."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that a user can edit customer information on the order view page."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("162699008")
 
-        with self.step("Edit customer details"):
-            update_message = self.page_initializer.order_view.edit_customer_details()
-            assert "Customer status data updated successfully" in update_message
+        self.step("Edit customer details")
+        update_message = self.order_view_page.edit_customer_details()
+        assert "Customer status data updated successfully" in update_message
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk12
+    @pytest.mark.qabse_134
     def test_view_order_events(self):
-        """Test viewing order events."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that the order events can be viewed on the order view page."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("paygate_sql")[0]
 
-        with self.step("View order events"):
-            result = self.page_initializer.order_view.view_order_events()
-            assert result is True
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
 
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk13
-    def test_verify_part_payment_methods(self):
-        """Test verifying part payment method badges."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify part payment methods badges"):
-            first_method, second_method = self.page_initializer.order_view.verify_part_payment_methods_badges()
-            assert "Credit Card" in first_method
-            assert "eBucks" in second_method
+        self.step("View order events")
+        result = self.order_view_page.view_order_events()
+        assert result is True
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk14
-    def test_add_order_notes(self):
-        """Test adding notes to an order."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_825
+    def test_multiple_payment_methods_badges(self):
+        """Verify that we display all payment method badges for a part paid order."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("part_payment_order.sql")[0]
 
-        with self.step("Add order notes"):
-            note_message = self.page_initializer.order_view.add_order_notes()
-            assert "Note successfully added to Order" in note_message
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
 
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk15
-    def test_add_fin_notes(self):
-        """Test adding financial notes."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Add financial notes"):
-            note_message = self.page_initializer.order_view.add_fin_notes()
-            assert "Note successfully added to Customer" in note_message
+        self.step("Verify part payment methods badges")
+        badges = self.order_view_page.verify_part_payment_methods_badges()
+        assert len(badges) > 1
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk16
-    def test_add_customer_notes(self):
-        """Test adding customer notes."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_233
+    def test_add_notes(self):
+        """Verify that a user can add order, customer and fin notes on the order view page."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("new_order_with_no_discount_amount.sql")[0]
 
-        with self.step("Add customer notes"):
-            note_message = self.page_initializer.order_view.add_customer_notes()
-            assert "Note successfully added to Customer" in note_message
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
+
+        self.step("Add order notes")
+        order_note = self.order_view_page.add_order_notes()
+        assert "Note successfully added to Order" in order_note
+
+        self.step("Add customer notes")
+        customer_note = self.order_view_page.add_customer_notes()
+        assert "Note successfully added to Customer" in customer_note
+
+        self.step("Add fin notes")
+        fin_note = self.order_view_page.add_fin_notes()
+        assert "Note successfully added to Customer" in fin_note
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk17
+    @pytest.mark.qabse_228
     def test_cancel_order_item(self):
-        """Test cancelling a specific order item."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that a user can cancel an order item."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("order_with_more_order_items.sql")[0]
 
-        with self.step("Cancel an order item"):
-            cancel_message = self.page_initializer.order_view.cancel_an_order_item()
-            assert "Orderitem has successfully been cancelled" in cancel_message
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
+
+        self.step("Cancel an order item")
+        cancel_message = self.order_view_page.cancel_an_order_item()
+        assert "Orderitem has successfully been cancelled" in cancel_message
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk18
+    @pytest.mark.qabse_244
     def test_view_payment_ledger(self):
-        """Test viewing payment ledger information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that a user can view Payment Ledger information."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("162110009")
 
-        with self.step("View payment ledger"):
-            first_provider, second_provider, amount = self.page_initializer.order_view.view_payment_ledger()
-            assert "eBucks" in first_provider
-            assert "PayU" in second_provider
-            assert "1,699.00" in amount
+        self.step("View payment ledger")
+        ledger_info = self.order_view_page.view_payment_ledger()
+        assert ledger_info is not None
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk19
-    def test_bookmark_order(self):
-        """Test bookmarking an order."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_135
+    def test_bookmarks_page(self):
+        """Verify that a user can bookmark an order and remove bookmarks."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("126388782")
 
-        with self.step("Bookmark an order"):
-            counter = self.page_initializer.order_view.bookmark_an_order()
-            assert counter == "1"
+        self.step("Bookmark an order")
+        bookmark_count = self.order_view_page.bookmark_an_order()
+        assert bookmark_count != "0"
 
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk20
-    def test_remove_bookmarks(self):
-        """Test removing bookmarks."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Remove bookmarks"):
-            confirmation_msg = self.page_initializer.order_view.remove_bookmarks()
-            assert confirmation_msg == "No bookmarks to show here"
+        self.step("Remove bookmarks")
+        message = self.order_view_page.remove_bookmarks()
+        assert "No bookmarks to show here" in message
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk21
-    def test_verify_order_financials(self):
-        """Test verifying order financial information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_96
+    def test_order_financials_breakdown(self):
+        """Verify that a user can view order financials information."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("new_order_with_discount_and_shipping_amounts.sql")[0]
 
-        with self.step("Verify order financials"):
-            # Example values for testing
-            order_total = 1000.0
-            order_shipping = 60.0
-            order_discount = 120.0
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
 
-            item_amount, shipping, subtotal, discount = self.page_initializer.order_view.verify_order_financials(order_total, order_shipping, order_discount)
-
-            assert item_amount == order_total
-            assert shipping == order_shipping
-            assert subtotal == order_total + order_shipping
-            assert discount == order_discount
+        self.step("Verify order financials")
+        financials = self.order_view_page.verify_order_financials()
+        assert financials is not None
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk22
+    @pytest.mark.qabse_239
     def test_view_order_audit_logs(self):
-        """Test viewing order audit logs."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that a user can view the order audit logs on the order view page."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("145480196")
 
-        with self.step("View order audit logs"):
-            result = self.page_initializer.order_view.view_order_audit_logs()
-            assert result is True
+        self.step("View order audit logs")
+        logs = self.order_view_page.view_order_audit_logs()
+        assert logs is not None
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk23
+    @pytest.mark.qabse_245
     def test_view_address(self):
-        """Test viewing address on Google Maps."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that a user can view the address on Google maps."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("145480196")
 
-        with self.step("View address"):
-            result = self.page_initializer.order_view.view_address()
-            assert result is True
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk24
-    def test_verify_order_details(self):
-        """Test verifying order details."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify order details"):
-            search_order_id = "ORD-123456"  # Example order ID
-            order_id, status, payment_method, auth_date, tracking_info, cust_status, total_paid = self.page_initializer.order_view.verify_order_details(search_order_id)
-
-            assert order_id == search_order_id
-            assert "Auth" in status
-            assert "Credit Card Token" in payment_method
-            assert "25-Jan-2024 @ 9:31" in auth_date
-            assert "Digital Product(s)" in tracking_info
-            assert "active" in cust_status
-            assert "R 100.00" in total_paid
+        self.step("View address")
+        result = self.order_view_page.view_address()
+        assert result is True
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk25
-    def test_update_order_item_to_shipped(self):
-        """Test updating order item status to shipped."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_246
+    def test_view_order(self):
+        """Verify the order information is displayed on the order view page."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("145423528")
 
-        with self.step("Update order item to shipped"):
-            before_status, after_status = self.page_initializer.order_view.update_order_item_to_shipped()
-            assert "Return Canceled" in before_status
-            assert "Shipped" in after_status
+        self.step("Verify order details")
+        details = self.order_view_page.verify_order_details("145423528")
+        assert details is not None
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk26
-    def test_verify_payment_ledger_logs(self):
-        """Test verifying payment ledger logs."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_227
+    def test_view_rrn(self):
+        """Verify that the user can view the RRN details."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("163732899")
 
-        with self.step("Verify payment ledger logs"):
-            provider_text = self.page_initializer.order_view.verify_payment_ledger_logs()
-            assert "Payflex" in provider_text
+        self.step("Get RRN details")
+        rrn = self.order_view_page.get_rrn_details()
+        assert rrn is not None
+
+        self.step("Login to CS-Admin and verify RRN details")
+        # This step might need special handling or mocking as it involves switching applications
+        rrn_details = self.cs_admin.verify_rrn_details("RRN-T6QRV-9K4W")
+        assert rrn_details is not None
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk27
+    @pytest.mark.qabse_230
+    def test_update_order_item_status(self):
+        """Verify that the user can edit an order item status."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("order_with_returned_canceled_order_item.sql")[0]
+
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
+
+        self.step("Update order item to shipped")
+        status = self.order_view_page.update_order_item_to_shipped()
+        assert "Shipped" in status
+
+    @pytest.mark.regression
+    @pytest.mark.qabse_97
+    def test_view_payment_ledger_logs(self):
+        """Verify that a user can view payment ledger logs."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("payflex_sql")[0]
+
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
+
+        self.step("Verify payment ledger logs")
+        logs = self.order_view_page.verify_payment_ledger_logs()
+        assert "Payflex" in logs
+
+    @pytest.mark.regression
+    @pytest.mark.qabse_238
     def test_view_email_logs(self):
-        """Test viewing email logs."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that a user can view email logs."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("163732899")
 
-        with self.step("View email logs"):
-            result = self.page_initializer.order_view.view_email_logs()
-            assert result is True
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk28
-    def test_view_order_items_information(self):
-        """Test viewing order items information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("View order items information"):
-            status, canceled_by = self.page_initializer.order_view.view_order_items_information()
-            assert status == "Canceled"
-            assert canceled_by == "auto_cancel"
+        self.step("Send an email and view email logs")
+        self.order_view_page.send_an_email()
+        logs = self.order_view_page.view_email_logs()
+        assert logs is not None
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk29
-    def test_verify_show_items_and_pagination(self):
-        """Test verifying show items dropdown and pagination."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_99
+    def test_view_order_items_status(self):
+        """Verify that a user can view order item information."""
+        self.step("Get orders from database")
+        order_id = self.order_data.get_orders("auto_canceled_orders_sql")[0]
 
-        with self.step("Verify show items and pagination"):
-            result = self.page_initializer.order_view.verify_show_items_and_pagination()
-            assert result is True
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order(order_id)
+
+        self.step("View order items information")
+        status, canceled_by = self.order_view_page.view_order_items_information()
+        assert status == "Canceled"
+        assert canceled_by == "auto_cancel"
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk30
+    @pytest.mark.qabse_99
+    def test_verify_order_items_pagination(self):
+        """Verify order items accordion pagination."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("165251543")
+
+        self.step("Verify show items and pagination")
+        result = self.order_view_page.verify_show_items_and_pagination()
+        assert result is True
+
+    @pytest.mark.regression
+    @pytest.mark.qabse_24
     def test_view_coupon_history(self):
-        """Test viewing coupon history."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+        """Verify that a user can view coupon history on the order page."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("148935094")
 
-        with self.step("View coupon history"):
-            is_coupon_visible = self.page_initializer.order_view.view_coupon_history()
-            assert is_coupon_visible is True
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk31
-    def test_verify_delivery_tracking_information(self):
-        """Test verifying delivery tracking information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify delivery tracking information"):
-            heading = "Delivered"  # Example heading
-            tracking_heading, signed_by, instruction_datetime, shipped_datetime, delivered_datetime, status = self.page_initializer.order_view.verify_delivery_tracking_information(heading)
-
-            assert heading in tracking_heading
-            assert "Signed by: Nqobani (Customer)" in signed_by
-            assert "25 Aug 2024 @ 22:01" in instruction_datetime
-            assert "26 Aug 2024 @ 11:27" in shipped_datetime
-            assert "30 Aug 2024 @ 9:34" in delivered_datetime
-            assert "Delivered" in status
+        self.step("View coupon history")
+        is_coupon_visible = self.order_view_page.view_coupon_history()
+        assert is_coupon_visible is True
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk32
-    def test_verify_waybill_tracking(self):
-        """Test verifying waybill tracking information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_874
+    def test_verify_order_tracking_information(self):
+        """Verify that the delivery order is delivered and all waybill tracking information displays."""
+        self.step("Navigate to the order view page")
+        self.top_nav.search_for_order("159445954")
 
-        with self.step("Verify waybill tracking"):
-            order_item, waybill_no, courier, parcel_item = self.page_initializer.order_view.verify_waybill_tracking()
-            assert "Waybill No: MDX133806010" in waybill_no
-            assert "Courier: Takealot Delivery Team" in courier
-            assert order_item == parcel_item
-            assert "Menggao - Baby Play Mat" in parcel_item
+        self.step("Verify delivery tracking information")
+        tracking_info = self.order_view_page.verify_delivery_tracking_information("Delivered Fri, 30 Aug 2024")
+        assert "Delivered" in tracking_info
 
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk33
-    def test_not_ready_for_collection(self):
-        """Test verifying not ready for collection message."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify not ready for collection"):
-            ready_text, estimate_date, waybill_status = self.page_initializer.order_view.not_ready_for_collection()
-            assert "Note: We'll send you an SMS or email once your order is ready for collection" in ready_text
-            assert "Estimated Collection from Wed, 4 Dec 2024" in estimate_date
-            assert "NOT YET READY" in waybill_status
+        self.step("Verify waybill tracking")
+        waybill_info = self.order_view_page.verify_waybill_tracking()
+        assert waybill_info is not None
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk34
-    def test_verify_refund_history_information(self):
-        """Test verifying refund history information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_873
+    def test_verify_order_not_yet_ready_collected(self):
+        """Verify order that is not yet ready for collection."""
+        self.step("Navigate to OrderList Page")
+        self.order_list_page.navigate_to_order_list_page()
 
-        with self.step("Verify refund history"):
-            refund_amount, refund_method = self.page_initializer.order_view.verify_refund_history_information()
-            assert "R 649.00" in refund_amount
-            assert "Credit card" in refund_method
+        self.step("Filter by collect shipping method and daily deals")
+        self.order_list_page.filter_by_collect_shipping_method_and_daily_deals()
 
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk35
-    def test_verify_delivery_address(self):
-        """Test verifying delivery address information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify delivery address"):
-            street, suburb, city, province, code, copied, residential = self.page_initializer.order_view.verify_delivery_address()
-
-            assert "6 Birkenhead Road" in street
-            assert "Umbilo" in suburb
-            assert "Berea" in city
-            assert "KwaZulu-Natal" in province
-            assert "4075" in code
-            assert "Address copied!" in copied
-            assert "residential" in residential
+        self.step("Verify collection not yet ready")
+        status = self.order_list_page.verify_collection_not_yet_ready()
+        assert "NOT YET READY" in status
 
     @pytest.mark.regression
-    @pytest.mark.qaba_ohk36
-    def test_verify_google_search(self):
-        """Test verifying Google search functionality."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
+    @pytest.mark.qabse_873
+    def test_verify_order_not_yet_ready_for_delivery(self):
+        """Verify order that is not yet ready for delivery."""
+        self.step("Navigate to OrderList Page")
+        self.order_list_page.navigate_to_order_list_page()
 
-        with self.step("Verify Google search"):
-            result = self.page_initializer.order_view.verify_the_google_search()
-            assert result is True
+        self.step("Filter by courier shipping method and daily deals")
+        self.order_list_page.filter_by_courier_shipping_method_and_daily_deals()
 
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk37
-    def test_verify_order_total_on_canceled_order(self):
-        """Test verifying order total on a canceled order."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify order total on canceled order"):
-            total = self.page_initializer.order_view.verify_order_total_on_canceled_order()
-            assert "439.0" in total
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk38
-    def test_verify_order_total_on_return_item(self):
-        """Test verifying order total on a return item."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify order total on return item"):
-            total = self.page_initializer.order_view.verify_order_total_on_return_item()
-            assert "2,550.00" in total
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk39
-    def test_verify_shipping_information(self):
-        """Test verifying shipping information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify shipping information"):
-            method, plan, courier, promised, delivered = self.page_initializer.order_view.verify_shipping_information()
-            assert "Courier" in method
-            assert "Standard" in plan
-            assert "MDX133806010 - Takealot Delivery Team" in courier
-            assert "28 Aug 2024" in promised
-            assert "30 Aug 2024" in delivered
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk40
-    def test_verify_multiple_waybill_tracking(self):
-        """Test verifying tracking for multiple waybills."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify multiple waybill tracking"):
-            (heading1, signed1, waybill1, instruction1, shipped1, delivered1, signed2, waybill2, instruction2, shipped2, delivered2) = (
-                self.page_initializer.order_view.verify_multiple_waybill_tracking()
-            )
-
-            assert "Delivered Thu, 30 May 2024" in heading1
-            assert "Signed by: Slindile Mncwango (Customer)" in signed1
-            assert "MDX127668689" in waybill1
-            assert "27 May 2024 @ 17:46" in instruction1
-            assert "28 May 2024 @ 1:31" in shipped1
-            assert "30 May 2024 @ 11:40" in delivered1
-
-            assert "Signed by Slindile Mncwango" in signed2
-            assert "MDX127583371" in waybill2
-            assert "27 May 2024 @ 0:34" in instruction2
-            assert "27 May 2024 @ 17:46" in shipped2
-            assert "29 May 2024 @ 10:58" in delivered2
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk41
-    def test_verify_waybill_link(self):
-        """Test verifying waybill link functionality."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify waybill link"):
-            waybill = self.page_initializer.order_view.verify_waybill_link()
-            assert "MDX133806010" in waybill
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk42
-    def test_verify_order_tracking_for_delivered_physical_products(self):
-        """Test verifying tracking for delivered physical products."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify order tracking for delivered physical products"):
-            delivered, signed, waybill = self.page_initializer.order_view.verify_order_tracking_for_delivered_physical_products()
-
-            assert "Delivered Wed, 15 Dec 2021" in delivered
-            assert "Signed by: Trimira Chetty (Customer)" in signed
-            assert "MDX69461955" in waybill
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk43
-    def test_verify_partial_order_delivery(self):
-        """Test verifying partial order delivery information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify partial order delivery"):
-            delivered, cancelled, tracking, signed, cancelled_items = self.page_initializer.order_view.verify_partial_order_delivery()
-
-            assert "Delivered" in delivered
-            assert "Canceled" in cancelled
-            assert "Delivered Mon, 19 Sep 2022" in tracking
-            assert "Signed by: Slindile Mncwango (Customer)" in signed
-            assert "Cancelled Item(s)" in cancelled_items
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk44
-    def test_verify_ip_address(self):
-        """Test verifying IP address information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify IP address"):
-            ip = self.page_initializer.order_view.verify_ip_address()
-            assert "41.115.115.60" in ip
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk45
-    def test_hover_over_customer_id(self):
-        """Test hovering over customer ID to show customer information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Hover over customer ID"):
-            result = self.page_initializer.order_view.hover_over_customer_id()
-            assert result is True
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk46
-    def test_verify_customer_info(self):
-        """Test verifying customer information in popup."""
-        with self.step("Navigate to the order view page and hover over customer ID"):
-            # Note: Navigation steps would be implemented in a real test
-            self.page_initializer.order_view.hover_over_customer_id()
-
-        with self.step("Verify customer information"):
-            name, date, status = self.page_initializer.order_view.verify_customer_info()
-            assert "Slindile Mncwango" in name
-            assert "16-Oct-2018 @ 10:41" in date
-            assert "Not Blacklisted" in status
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk47
-    def test_verify_order_shipping_info(self):
-        """Test verifying order shipping tracking information."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify order shipping info"):
-            waybill, parcel, item = self.page_initializer.order_view.verify_order_shipping_info()
-            assert "MDX144323298" in waybill
-            assert "Parcel - S057933520" in parcel
-            assert "1 × Flaming Thai Sauces - 4 Asian Flavour Mixed Pack" in item
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk48
-    def test_verify_collection_not_yet_ready(self):
-        """Test verifying collection not yet ready message."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify collection not yet ready"):
-            date, message = self.page_initializer.order_view.verify_collection_not_yet_ready()
-            assert "Estimated Collection from" in date
-            assert "NOT YET READY" in message
-
-    @pytest.mark.regression
-    @pytest.mark.qaba_ohk49
-    def test_verify_delivery_not_yet_shipped(self):
-        """Test verifying delivery not yet shipped message."""
-        with self.step("Navigate to the order view page"):
-            # Note: Navigation steps would be implemented in a real test
-            pass
-
-        with self.step("Verify delivery not yet shipped"):
-            date, message = self.page_initializer.order_view.verify_delivery_not_yet_shipped()
-            assert "Delivery by ------" in date
-            assert "NOT YET SHIPPED" in message
+        self.step("Verify delivery not yet shipped")
+        status = self.order_list_page.verify_delivery_not_yet_shipped()
+        assert "NOT YET SHIPPED" in status

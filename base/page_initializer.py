@@ -15,7 +15,6 @@ from pages.manual_refund import ManualRefundPage
 from pages.order_list import OrderListPage
 from pages.reinstate_order import ReinstateOrderPage
 from pages.risk_queue import RiskQueuePage
-from pages.search import SearchPage
 from pages.vouchers import VouchersPage
 from pages.order_view import OrderViewPage
 
@@ -41,7 +40,6 @@ class PageInitializer:
         self.order_list_page = OrderListPage(page)
         self.reinstate_order_page = ReinstateOrderPage(page)
         self.risk_queue_page = RiskQueuePage(page)
-        self.search_page = SearchPage(page)
         self.vouchers_page = VouchersPage(page)
         self.order_list_page = OrderListPage(page)
         self.order_view_page = OrderViewPage(page)

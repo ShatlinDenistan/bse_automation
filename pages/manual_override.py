@@ -4,9 +4,6 @@ from pos.manual_override_po import ManualOverridePO
 class ManualOverridePage(ManualOverridePO):
     """Page class for Manual Override functionality"""
 
-    def __init__(self, page):
-        super().__init__(page)
-
     def verify_page_loaded(self):
         """Verify that the manual override page is loaded"""
         self.step("Verifying manual override page is loaded")
@@ -57,4 +54,4 @@ class ManualOverridePage(ManualOverridePO):
     def get_order_count(self):
         """Get the number of orders in the table"""
         self.step("Getting order count")
-        return self.get_locator_count(self.order_rows)
+        return self.order_rows.count()

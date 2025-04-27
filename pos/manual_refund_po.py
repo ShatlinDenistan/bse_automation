@@ -1,39 +1,91 @@
 from base.page_base import PageBase
 
 
-# Module-level constants for locators
-CUSTOMER_CREDIT_ACCORDION = "//div[contains(text(),' available credit')]"
-REFUND_BUTTON = "${btnRefund}"
-SUBMIT_REFUND_REQUEST_BUTTON = "${btnSubmittingRefundReq}"
-OKAY_BUTTON = "${btnOkay}"
-VIEW_REFUND_LOG_BUTTON = "//a[contains(text(),'View Refund Log')]"
-NOT_ELIGIBLE_FOR_REFUND = "//li[contains(text(),'Order ${order_ids[0]} is not eligible for refund.')]"
-BANK_ACCOUNT_INPUT = "//input[@autocomplete='off' and @name='bankAccount' and @type='text']"
-BANK_DROPDOWN = "//div[@name='bank' and @role='listbox' and @class='ui fluid selection dropdown']"
-CAPITEC_BANK_OPTION = "//span[contains(text(),'Capitec Bank')]"
-BRANCH_DROPDOWN = "//div[contains(text(),'- - Select branch - -')]"
-CAPITEC_BANK_CPC_OPTION = "//span[contains(text(),'Capitec Bank CPC')]"
-PROCEED_BUTTON = "//button[contains(text(),'Proceed')]"
-REFUND_AMOUNT_DISPLAY = "/html/body/div[1]/div[3]/div/div/div/div[2]/div/div[1]/div/div/div[1]/div/div/table/tbody/tr/td[2]"
-
-
 class ManualRefundPO(PageBase):
     """Page Object for Manual Refund functionality"""
 
-    def __init__(self, page):
-        super().__init__(page)
+    # region UI Section Elements
 
-        # Initialize elements using self.locator
-        self.customer_credit_accordion = self.locator(CUSTOMER_CREDIT_ACCORDION, "Customer credit accordion")
-        self.refund_button = self.locator(REFUND_BUTTON, "Refund button")
-        self.submit_refund_request_button = self.locator(SUBMIT_REFUND_REQUEST_BUTTON, "Submit refund request button")
-        self.okay_button = self.locator(OKAY_BUTTON, "Okay button")
-        self.view_refund_log_button = self.locator(VIEW_REFUND_LOG_BUTTON, "View refund log button")
-        self.not_eligible_for_refund = self.locator(NOT_ELIGIBLE_FOR_REFUND, "Not eligible for refund message")
-        self.bank_account_input = self.locator(BANK_ACCOUNT_INPUT, "Bank account input")
-        self.bank_dropdown = self.locator(BANK_DROPDOWN, "Bank dropdown")
-        self.capitec_bank_option = self.locator(CAPITEC_BANK_OPTION, "Capitec Bank option")
-        self.branch_dropdown = self.locator(BRANCH_DROPDOWN, "Branch dropdown")
-        self.capitec_bank_cpc_option = self.locator(CAPITEC_BANK_CPC_OPTION, "Capitec Bank CPC option")
-        self.proceed_button = self.locator(PROCEED_BUTTON, "Proceed button")
-        self.refund_amount_display = self.locator(REFUND_AMOUNT_DISPLAY, "Refund amount display")
+    @property
+    def customer_credit_accordion(self):
+        selector = "//div[contains(text(),' available credit')]"
+        return self.locator(selector, "Customer credit accordion")
+
+    @property
+    def refund_amount_display(self):
+        selector = "/html/body/div[1]/div[3]/div/div/div/div[2]/div/div[1]/div/div/div[1]/div/div/table/tbody/tr/td[2]"
+        return self.locator(selector, "Refund amount display")
+
+    @property
+    def not_eligible_for_refund(self):
+        selector = "//li[contains(text(),'Order ${order_ids[0]} is not eligible for refund.')]"
+        return self.locator(selector, "Not eligible for refund message")
+
+    # endregion
+
+    # region Button Elements
+
+    @property
+    def refund_button(self):
+        selector = "${btnRefund}"
+        return self.locator(selector, "Refund button")
+
+    @property
+    def submit_refund_request_button(self):
+        selector = "${btnSubmittingRefundReq}"
+        return self.locator(selector, "Submit refund request button")
+
+    @property
+    def okay_button(self):
+        selector = "${btnOkay}"
+        return self.locator(selector, "Okay button")
+
+    @property
+    def view_refund_log_button(self):
+        selector = "//a[contains(text(),'View Refund Log')]"
+        return self.locator(selector, "View refund log button")
+
+    @property
+    def proceed_button(self):
+        selector = "//button[contains(text(),'Proceed')]"
+        return self.locator(selector, "Proceed button")
+
+    # endregion
+
+    # region Input Field Elements
+
+    @property
+    def bank_account_input(self):
+        selector = "//input[@autocomplete='off' and @name='bankAccount' and @type='text']"
+        return self.locator(selector, "Bank account input")
+
+    @property
+    def txt_jira_number(self):
+        selector = "//input[@name='extra']"
+        return self.locator(selector, "JIRA number field")
+
+    # endregion
+
+    # region Dropdown Elements
+
+    @property
+    def bank_dropdown(self):
+        selector = "//div[@name='bank' and @role='listbox' and @class='ui fluid selection dropdown']"
+        return self.locator(selector, "Bank dropdown")
+
+    @property
+    def branch_dropdown(self):
+        selector = "//div[contains(text(),'- - Select branch - -')]"
+        return self.locator(selector, "Branch dropdown")
+
+    @property
+    def capitec_bank_option(self):
+        selector = "//span[contains(text(),'Capitec Bank')]"
+        return self.locator(selector, "Capitec Bank option")
+
+    @property
+    def capitec_bank_cpc_option(self):
+        selector = "//span[contains(text(),'Capitec Bank CPC')]"
+        return self.locator(selector, "Capitec Bank CPC option")
+
+    # endregion

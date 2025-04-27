@@ -1,6 +1,6 @@
-from pos.reinstate_order_po import ReinstateOrderPO
 import re
 import time
+from pos.reinstate_order_po import ReinstateOrderPO
 
 
 class ReinstateOrderPage(ReinstateOrderPO):

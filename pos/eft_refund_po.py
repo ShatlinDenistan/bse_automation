@@ -1,235 +1,504 @@
 from base.page_base import PageBase
 
-# Module-level constants
-OPTION1_XPATH = "//span[contains(text(),'Identification required: Credit card')]"
-OPTION2_XPATH = "//span[contains(text(),'Identification and card details required')]"
-OPTION3_XPATH = "//span[contains(text(),'Identification required: Payfast & Ozow')]"
-OPTION4_XPATH = "//span[contains(text(),'Identification not accepted')]"
-OPTION5_XPATH = "//span[contains(text(),'Identification not received: Payfast & Ozow')]"
-OPTION6_XPATH = "//span[contains(text(),'Identification not received: Credit card')]"
-OPTION7_XPATH = "//span[contains(text(),'Credit card refund failed')]"
-OPTION8_XPATH = "//span[contains(text(),'EFT refund failed')]"
-OPTION9_XPATH = "//span[contains(text(),'Refund delayed')]"
-OPTION10_XPATH = "//span[contains(text(),'Short paid')]"
-OPTION11_XPATH = "//span[contains(text(),'Deposit Match')]"
-OPTION12_XPATH = "//span[contains(text(),'Duplicate Payment')]"
-OPTION13_XPATH = "//span[contains(text(),'Voucher Payment')]"
-OPTION14_XPATH = "//span[contains(text(),'Generic')]"
-
-BTN_MENU = "//body/div[@id='root']/div[2]/a[1]/i[1]"
-BTN_EFT_REFUND_MENU = "//body/div[@id='root']/div[1]/a[6]"
-EFT_REFUNDS_TABLE = "//table"
-BTN_SEND_EMAIL_TABLE = "//table/tfoot/tr/th/div/div[3]/button"
-DDL_EMAIL_TEMPLATES = "//body/div[2]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]"
-BTN_SEND_EMAIL = "//button[contains(text(),'Send Emails')]"
-EMAIL_SENT_MODAL = "/html/body/div[2]/div"
-EMAIL_SENT_MODAL_CLOSE_ICON = "//body/div[2]/div[1]/i[1]"
-
-BTN_MANUAL_EFT = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[6]/div/button'
-TXT_ORDER_ID = '//input[@name="orderID" and @placeholder="Enter Order ID" and @type="text"]'
-TXT_ZENDESK_TICKET = '//input[@name="zendeskTicket" and @placeholder="Enter Zendesk Ticket Number" and @type="text"]'
-TXT_CUSTOMER_NAME = '//input[@name="customerName" and @placeholder="Enter Customer Name" and @type="text"]'
-TXT_REFUND_AMOUNT_MANUAL_EFT = '//input[@name="refundAmount" and @placeholder="Enter Refund Amount" and @type="text"]'
-TXT_BANK_ACCOUNT_MANUAL_EFT = '//input[@name="bankAccount" and @placeholder="Enter Bank Account Number" and @type="text"]'
-DDL_BANK_NAME_MANUAL_EFT = "//body/div[2]/div[1]/div[2]/div[1]/form[1]/div[1]/div[6]/div[2]/div[1]/div[1]"
-DDL_BRANCH_NAME_MANUAL_EFT = '//div[@name="branchCode"]'
-BTN_SUBMIT_MANUAL_EFT = "/html/body/div[2]/div/div[2]/div/form/div/div[8]/div/div/div[1]/button"
-DDL_BANK_NAME_MANUAL_EFT_FNB_NAMIBIA = "/html/body/div[2]/div/div[2]/div/form/div/div[6]/div[2]/div/div/div[2]"
-DDL_BRANCH_NAME_MANUAL_EFT_ALL_NAMIBIA = "/html/body/div[2]/div/div[2]/div/form/div/div[7]/div[2]/div/div/div[2]/div"
-CONFIRMATION_HEADER_MANUAL_EFT = "//div[contains(text(),'Credit Deduction')]"
-CONFIRMATION_TEXT_MANUAL_EFT = '//div[contains(text(),"Don\'t forget to remove credit.")]'
-BTN_OKAY_MANUAL_EFT = "//button[contains(text(),'Okay')]"
-SUCCESS_MANUAL_EFT = "//div[contains(text(),'EFT Refund Created Successfully.')]"
-
-DDL_STATUS_FILTER = "//div[contains(text(),'Select refund status')]"
-DDL_CLEAR_STATUS_FILTER = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[1]/div/div/i'
-DDL_STATUS_FILTER_PENDING = "//span[contains(text(),'Pending')]"
-DDL_STATUS_FILTER_EXPORTED = "//span[contains(text(),'Exported')]"
-DDL_STATUS_FILTER_DECLINED = "//span[contains(text(),'Declined')]"
-
-BTN_APPLY_FILTER = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[5]/div[1]/button'
-BTN_CLEAR_FILTER = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[5]/div[2]/button'
-
-DDL_TYPE_FILTER = "//div[contains(text(),'Select refund type')]"
-DDL_CLEAR_TYPE_FILTER = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[2]/div/div/i'
-DDL_TYPE_FILTER_SELF_SERVICE = "//span[contains(text(),'Self Service')]"
-DDL_TYPE_FILTER_REFUND = "//span[contains(text(),'Refund')]"
-DDL_TYPE_FILTER_MANUAL_OVERRIDE = "//span[contains(text(),'Manual Override')]"
-DDL_TYPE_FILTER_MANUAL_EFT = "//span[contains(text(),'Manual EFT')]"
-
-DDL_FILTER_BY = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[4]/div/div/div'
-DDL_FILTER_BY_CUSTOMER_ID = "//span[contains(text(),'Customer ID')]"
-CUSTOMER_NAME = "//table/tbody/tr/td[8]/a"
-FILTER_BY_SEARCH = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[4]/div/div/input'
-CUSTOMER_INFO = '//*[@id="root"]/div[3]/div/div/div/div/div/div[2]/div/div[1]/div/div/div/div[1]/div[1]/div[1]/span'
-DDL_FILTER_BY_ORDER_ID = "//span[contains(text(),'Order ID')]"
-ORDER_ID_EFT_REFUNDS_TABLE2 = "//table/tbody/tr/td[6]"
-ORDER_ID_EFT_REFUNDS_TABLE1 = "//table/tbody/tr[15]/td[6]"
-DDL_FILTER_BY_BANK_ACCOUNT_NUMBER = "//span[contains(text(),'Bank Account Number')]"
-BANK_ACC_EFT_REFUNDS_TABLE = "//table/tbody/tr/td[10]"
-DDL_FILTER_BY_ZENDESK_TICKET_NUMBER = "//span[contains(text(),'Zendesk Ticket Number')]"
-ZENDESK_TICKET_EFT_REFUNDS_TABLE = "//table/tbody/tr/td[7]"
-DDL_SHOW_250_ITEMS = "//table/tfoot/tr/th/div/div[5]/div[1]/div[2]/div[6]"
-
-CHK_DATE_RANGE_TODAY = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[3]/div/div[1]/div[1]/div/label'
-DDL_DATE_RANGE = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[3]/div/div[2]/div/div/input'
-FLD_DATE_CREATED = "//table/tbody/tr[1]/td[4]"
-DDL_SHOW_ITEMS = "//div[contains(text(),'Show 15 Items')]"
-DDL_SHOW_30_ITEMS = "//table/tfoot/tr/th/div/div[5]/div[1]/div[2]/div[3]"
-LAST_PAGE = "//table/tfoot/tr/th/div/div[5]/div[2]/a[7]"
-
-ORDERID_LINK_TEXT = "//tbody/tr[1]/td[6]/a[1]"
-
-EFT_REFUNDS_TABLE_FIRST_CHECKBOX = "//table/tbody/tr[1]/td[1]/div"
-EFT_REFUNDS_TABLE_SECOND_CHECKBOX = "//table/tbody/tr[2]/td[1]/div"
-EFT_REFUNDS_TABLE_THIRD_CHECKBOX = "//table/tbody/tr[3]/td[1]/div"
-EFT_REFUNDS_TABLE_FIRST_ORDER = "//table/tbody/tr[1]/td[6]/a"
-EFT_REFUNDS_TABLE_SECOND_ORDER = "//table/tbody/tr[2]/td[6]/a"
-EFT_REFUNDS_TABLE_THIRD_ORDER = "//table/tbody/tr[3]/td[6]/a"
-
-BTN_EXPORT_REQUEST = "//table/tfoot/tr/th/div/div[1]/button"
-EXPORT_MODAL = "/html/body/div[2]/div/div[1]"
-ERROR_MODAL = "/html/body/div[2]/div/div[2]/div/div/div"
-DDL_EXPORT_BANK = "/html/body/div[2]/div/div[2]/div/form/div[1]/div"
-DDL_NEDBANK = "/html/body/div[2]/div/div[2]/div/form/div[1]/div/div[2]/div[1]/span"
-DDL_ABSA = "/html/body/div[2]/div/div[2]/div/form/div[1]/div/div[2]/div[2]/span"
-BTN_EXPORT = "/html/body/div[2]/div/div[2]/div/form/div[2]/button[2]"
-EXPORT_STATUS = "/html/body/div[2]/div/div[2]/div/div/table/tbody/tr/td[1]"
-BTN_EXPORT_CLOSE_ICON = "/html/body/div[2]/div/i"
-
-BTN_DECLINE_EFT_REQUESTS = "//table/tfoot/tr/th/div/div[2]/button"
-DECLINE_MODAL = "/html/body/div[2]/div"
-BTN_CONFIRM_DECLINE = "/html/body/div[2]/div/div[2]/div/form/div[2]/button[1]"
-FLD_DECLINE_CANCELLATION_REASON = "/html/body/div[2]/div/div[2]/div/form/div[1]/div/input"
-DECLINE_CONFIRM_MODAL = "/html/body/div[2]/div/div[1]"
-DECLINE_CONFIRM_MODAL_SUCCESS = "/html/body/div[2]/div/div[2]/div/div/div[2]/div/div/div"
-CLOSE_DECLINE_CONFIRM = "/html/body/div[2]/div/i"
-DECLINE_TEXT = "/html/body/div[2]/div/div[2]/div/div/div[2]/div/div/p/span[1]/text()[3]"
-
-EXPORTED_FILE_DOWNLOAD_ICON = "//table/tbody/tr/td[12]/a/i"
-EFT_REFUNDS_TABLE_FIRST_FILE_TEXT = "//table/tbody/tr/td[12]/a"
-
 
 class EftRefundPO(PageBase):
     """Page Object class for EFT Refund functionality."""
 
-    def __init__(self, page):
-        """Initialize the EFT Refund PO."""
-        super().__init__(page)
+    # region Menu Buttons
 
-        # Initialize elements using self.locator() with descriptive names
-        self.btn_menu = self.locator(BTN_MENU, "Menu button")
-        self.btn_eft_refund_menu = self.locator(BTN_EFT_REFUND_MENU, "EFT Refund menu button")
-        self.eft_refunds_table = self.locator(EFT_REFUNDS_TABLE, "EFT Refunds table")
-        self.btn_send_email_table = self.locator(BTN_SEND_EMAIL_TABLE, "Send email button")
-        self.ddl_email_templates = self.locator(DDL_EMAIL_TEMPLATES, "Email templates dropdown")
-        self.btn_send_email = self.locator(BTN_SEND_EMAIL, "Send emails button")
-        self.email_sent_modal = self.locator(EMAIL_SENT_MODAL, "Email sent modal")
-        self.email_sent_modal_close_icon = self.locator(EMAIL_SENT_MODAL_CLOSE_ICON, "Email sent modal close button")
+    @property
+    def btn_menu(self):
+        selector = "//body/div[@id='root']/div[2]/a[1]/i[1]"
+        return self.locator(selector, "Menu button")
 
-        # Manual EFT elements
-        self.btn_manual_eft = self.locator(BTN_MANUAL_EFT, "Manual EFT button")
-        self.txt_order_id = self.locator(TXT_ORDER_ID, "Order ID text field")
-        self.txt_zendesk_ticket = self.locator(TXT_ZENDESK_TICKET, "Zendesk ticket text field")
-        self.txt_customer_name = self.locator(TXT_CUSTOMER_NAME, "Customer name text field")
-        self.txt_refund_amount_manual_eft = self.locator(TXT_REFUND_AMOUNT_MANUAL_EFT, "Refund amount text field")
-        self.txt_bank_account_manual_eft = self.locator(TXT_BANK_ACCOUNT_MANUAL_EFT, "Bank account text field")
-        self.ddl_bank_name_manual_eft = self.locator(DDL_BANK_NAME_MANUAL_EFT, "Bank name dropdown")
-        self.ddl_branch_name_manual_eft = self.locator(DDL_BRANCH_NAME_MANUAL_EFT, "Branch name dropdown")
-        self.btn_submit_manual_eft = self.locator(BTN_SUBMIT_MANUAL_EFT, "Submit manual EFT button")
-        self.ddl_bank_name_manual_eft_fnb_namibia = self.locator(DDL_BANK_NAME_MANUAL_EFT_FNB_NAMIBIA, "FNB Namibia option")
-        self.ddl_branch_name_manual_eft_all_namibia = self.locator(DDL_BRANCH_NAME_MANUAL_EFT_ALL_NAMIBIA, "All Namibia branch option")
-        self.confirmation_header_manual_eft = self.locator(CONFIRMATION_HEADER_MANUAL_EFT, "Credit deduction confirmation header")
-        self.confirmation_text_manual_eft = self.locator(CONFIRMATION_TEXT_MANUAL_EFT, "Credit deduction confirmation text")
-        self.btn_okay_manual_eft = self.locator(BTN_OKAY_MANUAL_EFT, "Okay button")
-        self.success_manual_eft = self.locator(SUCCESS_MANUAL_EFT, "Success message")
+    @property
+    def btn_eft_refund_menu(self):
+        selector = "//body/div[@id='root']/div[1]/a[6]"
+        return self.locator(selector, "EFT Refund menu button")
 
-        # Filter elements
-        self.ddl_status_filter = self.locator(DDL_STATUS_FILTER, "Status filter dropdown")
-        self.ddl_clear_status_filter = self.locator(DDL_CLEAR_STATUS_FILTER, "Clear status filter button")
-        self.ddl_status_filter_pending = self.locator(DDL_STATUS_FILTER_PENDING, "Pending status option")
-        self.ddl_status_filter_exported = self.locator(DDL_STATUS_FILTER_EXPORTED, "Exported status option")
-        self.ddl_status_filter_declined = self.locator(DDL_STATUS_FILTER_DECLINED, "Declined status option")
+    # region Tables
 
-        self.btn_apply_filter = self.locator(BTN_APPLY_FILTER, "Apply filter button")
-        self.btn_clear_filter = self.locator(BTN_CLEAR_FILTER, "Clear filter button")
+    @property
+    def eft_refunds_table(self):
+        selector = "//table"
+        return self.locator(selector, "EFT Refunds table")
 
-        self.ddl_type_filter = self.locator(DDL_TYPE_FILTER, "Type filter dropdown")
-        self.ddl_clear_type_filter = self.locator(DDL_CLEAR_TYPE_FILTER, "Clear type filter button")
-        self.ddl_type_filter_self_service = self.locator(DDL_TYPE_FILTER_SELF_SERVICE, "Self Service type option")
-        self.ddl_type_filter_refund = self.locator(DDL_TYPE_FILTER_REFUND, "Refund type option")
-        self.ddl_type_filter_manual_override = self.locator(DDL_TYPE_FILTER_MANUAL_OVERRIDE, "Manual Override type option")
-        self.ddl_type_filter_manual_eft = self.locator(DDL_TYPE_FILTER_MANUAL_EFT, "Manual EFT type option")
+    # region Email Section
 
-        self.ddl_filter_by = self.locator(DDL_FILTER_BY, "Filter by dropdown")
-        self.ddl_filter_by_customer_id = self.locator(DDL_FILTER_BY_CUSTOMER_ID, "Customer ID filter option")
-        self.customer_name = self.locator(CUSTOMER_NAME, "Customer name link")
-        self.filter_by_search = self.locator(FILTER_BY_SEARCH, "Filter search field")
-        self.customer_info = self.locator(CUSTOMER_INFO, "Customer info")
-        self.ddl_filter_by_order_id = self.locator(DDL_FILTER_BY_ORDER_ID, "Order ID filter option")
-        self.order_id_eft_refunds_table2 = self.locator(ORDER_ID_EFT_REFUNDS_TABLE2, "Order ID in table")
-        self.order_id_eft_refunds_table1 = self.locator(ORDER_ID_EFT_REFUNDS_TABLE1, "Order ID in table (row 15)")
-        self.ddl_filter_by_bank_account_number = self.locator(DDL_FILTER_BY_BANK_ACCOUNT_NUMBER, "Bank Account Number filter option")
-        self.bank_acc_eft_refunds_table = self.locator(BANK_ACC_EFT_REFUNDS_TABLE, "Bank account in table")
-        self.ddl_filter_by_zendesk_ticket_number = self.locator(DDL_FILTER_BY_ZENDESK_TICKET_NUMBER, "Zendesk ticket filter option")
-        self.zendesk_ticket_eft_refunds_table = self.locator(ZENDESK_TICKET_EFT_REFUNDS_TABLE, "Zendesk ticket in table")
-        self.ddl_show_250_items = self.locator(DDL_SHOW_250_ITEMS, "Show 250 items option")
+    @property
+    def btn_send_email_table(self):
+        selector = "//table/tfoot/tr/th/div/div[3]/button"
+        return self.locator(selector, "Send email button")
 
-        self.chk_date_range_today = self.locator(CHK_DATE_RANGE_TODAY, "Today date range checkbox")
-        self.ddl_date_range = self.locator(DDL_DATE_RANGE, "Date range field")
-        self.fld_date_created = self.locator(FLD_DATE_CREATED, "Date created field")
-        self.ddl_show_items = self.locator(DDL_SHOW_ITEMS, "Show items dropdown")
-        self.ddl_show_30_items = self.locator(DDL_SHOW_30_ITEMS, "Show 30 items option")
-        self.last_page = self.locator(LAST_PAGE, "Last page button")
+    @property
+    def ddl_email_templates(self):
+        selector = "//body/div[2]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]"
+        return self.locator(selector, "Email templates dropdown")
 
-        self.orderid_link_text = self.locator(ORDERID_LINK_TEXT, "Order ID link")
+    @property
+    def btn_send_email(self):
+        selector = "//button[contains(text(),'Send Emails')]"
+        return self.locator(selector, "Send emails button")
 
-        # Table row elements
-        self.eft_refunds_table_first_checkbox = self.locator(EFT_REFUNDS_TABLE_FIRST_CHECKBOX, "First checkbox in table")
-        self.eft_refunds_table_second_checkbox = self.locator(EFT_REFUNDS_TABLE_SECOND_CHECKBOX, "Second checkbox in table")
-        self.eft_refunds_table_third_checkbox = self.locator(EFT_REFUNDS_TABLE_THIRD_CHECKBOX, "Third checkbox in table")
-        self.eft_refunds_table_first_order = self.locator(EFT_REFUNDS_TABLE_FIRST_ORDER, "First order in table")
-        self.eft_refunds_table_second_order = self.locator(EFT_REFUNDS_TABLE_SECOND_ORDER, "Second order in table")
-        self.eft_refunds_table_third_order = self.locator(EFT_REFUNDS_TABLE_THIRD_ORDER, "Third order in table")
+    @property
+    def email_sent_modal(self):
+        selector = "/html/body/div[2]/div"
+        return self.locator(selector, "Email sent modal")
 
-        # Export request elements
-        self.btn_export_request = self.locator(BTN_EXPORT_REQUEST, "Export request button")
-        self.export_modal = self.locator(EXPORT_MODAL, "Export modal")
-        self.error_modal = self.locator(ERROR_MODAL, "Error modal")
-        self.ddl_export_bank = self.locator(DDL_EXPORT_BANK, "Export bank dropdown")
-        self.ddl_nedbank = self.locator(DDL_NEDBANK, "Nedbank option")
-        self.ddl_absa = self.locator(DDL_ABSA, "Absa option")
-        self.btn_export = self.locator(BTN_EXPORT, "Export button")
-        self.export_status = self.locator(EXPORT_STATUS, "Export status")
-        self.btn_export_close_icon = self.locator(BTN_EXPORT_CLOSE_ICON, "Export close button")
+    @property
+    def email_sent_modal_close_icon(self):
+        selector = "//body/div[2]/div[1]/i[1]"
+        return self.locator(selector, "Email sent modal close button")
 
-        # Decline request elements
-        self.btn_decline_eft_requests = self.locator(BTN_DECLINE_EFT_REQUESTS, "Decline EFT requests button")
-        self.decline_modal = self.locator(DECLINE_MODAL, "Decline modal")
-        self.btn_confirm_decline = self.locator(BTN_CONFIRM_DECLINE, "Confirm decline button")
-        self.fld_decline_cancellation_reason = self.locator(FLD_DECLINE_CANCELLATION_REASON, "Decline cancellation reason field")
-        self.decline_confirm_modal = self.locator(DECLINE_CONFIRM_MODAL, "Decline confirm modal")
-        self.decline_confirm_modal_success = self.locator(DECLINE_CONFIRM_MODAL_SUCCESS, "Decline confirm success message")
-        self.close_decline_confirm = self.locator(CLOSE_DECLINE_CONFIRM, "Close decline confirm button")
+    # region Manual EFT Section
 
-        # File download elements
-        self.exported_file_download_icon = self.locator(EXPORTED_FILE_DOWNLOAD_ICON, "Exported file download icon")
-        self.eft_refunds_table_first_file_text = self.locator(EFT_REFUNDS_TABLE_FIRST_FILE_TEXT, "First file text in table")
+    @property
+    def btn_manual_eft(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[6]/div/button'
+        return self.locator(selector, "Manual EFT button")
 
-        # Email template options
-        self.option_templates = {
-            1: self.locator(OPTION1_XPATH, "Identification required: Credit card option"),
-            2: self.locator(OPTION2_XPATH, "Identification and card details required option"),
-            3: self.locator(OPTION3_XPATH, "Identification required: Payfast & Ozow option"),
-            4: self.locator(OPTION4_XPATH, "Identification not accepted option"),
-            5: self.locator(OPTION5_XPATH, "Identification not received: Payfast & Ozow option"),
-            6: self.locator(OPTION6_XPATH, "Identification not received: Credit card option"),
-            7: self.locator(OPTION7_XPATH, "Credit card refund failed option"),
-            8: self.locator(OPTION8_XPATH, "EFT refund failed option"),
-            9: self.locator(OPTION9_XPATH, "Refund delayed option"),
-            10: self.locator(OPTION10_XPATH, "Short paid option"),
-            11: self.locator(OPTION11_XPATH, "Deposit Match option"),
-            12: self.locator(OPTION12_XPATH, "Duplicate Payment option"),
-            13: self.locator(OPTION13_XPATH, "Voucher Payment option"),
-            14: self.locator(OPTION14_XPATH, "Generic option"),
-        }
+    @property
+    def txt_order_id(self):
+        selector = '//input[@name="orderID" and @placeholder="Enter Order ID" and @type="text"]'
+        return self.locator(selector, "Order ID input")
+
+    @property
+    def txt_zendesk_ticket(self):
+        selector = '//input[@name="zendeskTicket" and @placeholder="Enter Zendesk Ticket Number" and @type="text"]'
+        return self.locator(selector, "Zendesk Ticket input")
+
+    @property
+    def txt_customer_name(self):
+        selector = '//input[@name="customerName" and @placeholder="Enter Customer Name" and @type="text"]'
+        return self.locator(selector, "Customer Name input")
+
+    @property
+    def txt_refund_amount_manual_eft(self):
+        selector = '//input[@name="refundAmount" and @placeholder="Enter Refund Amount" and @type="text"]'
+        return self.locator(selector, "Refund Amount input")
+
+    @property
+    def txt_bank_account_manual_eft(self):
+        selector = '//input[@name="bankAccount" and @placeholder="Enter Bank Account Number" and @type="text"]'
+        return self.locator(selector, "Bank Account input")
+
+    @property
+    def ddl_bank_name_manual_eft(self):
+        selector = "//body/div[2]/div[1]/div[2]/div[1]/form[1]/div[1]/div[6]/div[2]/div[1]/div[1]"
+        return self.locator(selector, "Bank Name dropdown")
+
+    @property
+    def ddl_bank_name_manual_eft_fnb_namibia(self):
+        selector = "/html/body/div[2]/div/div[2]/div/form/div/div[6]/div[2]/div/div/div[2]"
+        return self.locator(selector, "FNB Namibia bank option")
+
+    @property
+    def ddl_branch_name_manual_eft(self):
+        selector = '//div[@name="branchCode"]'
+        return self.locator(selector, "Branch Name dropdown")
+
+    @property
+    def ddl_branch_name_manual_eft_all_namibia(self):
+        selector = "/html/body/div[2]/div/div[2]/div/form/div/div[7]/div[2]/div/div/div[2]/div"
+        return self.locator(selector, "All Namibia branch option")
+
+    @property
+    def btn_submit_manual_eft(self):
+        selector = "/html/body/div[2]/div/div[2]/div/form/div/div[8]/div/div/div[1]/button"
+        return self.locator(selector, "Submit Manual EFT button")
+
+    @property
+    def confirmation_header_manual_eft(self):
+        selector = "//div[contains(text(),'Credit Deduction')]"
+        return self.locator(selector, "Confirmation Header")
+
+    @property
+    def confirmation_text_manual_eft(self):
+        selector = '//div[contains(text(),"Don\'t forget to remove credit.")]'
+        return self.locator(selector, "Confirmation Text")
+
+    @property
+    def btn_okay_manual_eft(self):
+        selector = "//button[contains(text(),'Okay')]"
+        return self.locator(selector, "Okay button")
+
+    @property
+    def success_manual_eft(self):
+        selector = "//div[contains(text(),'EFT Refund Created Successfully.')]"
+        return self.locator(selector, "Success message")
+
+    # region Filter elements
+
+    @property
+    def ddl_status_filter(self):
+        selector = "//div[contains(text(),'Select refund status')]"
+        return self.locator(selector, "Status filter dropdown")
+
+    @property
+    def ddl_clear_status_filter(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[1]/div/div/i'
+        return self.locator(selector, "Clear status filter button")
+
+    @property
+    def ddl_status_filter_pending(self):
+        selector = "//span[contains(text(),'Pending')]"
+        return self.locator(selector, "Pending status option")
+
+    @property
+    def ddl_status_filter_exported(self):
+        selector = "//span[contains(text(),'Exported')]"
+        return self.locator(selector, "Exported status option")
+
+    @property
+    def ddl_status_filter_declined(self):
+        selector = "//span[contains(text(),'Declined')]"
+        return self.locator(selector, "Declined status option")
+
+    @property
+    def btn_apply_filter(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[5]/div[1]/button'
+        return self.locator(selector, "Apply filter button")
+
+    @property
+    def btn_clear_filter(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[5]/div[2]/button'
+        return self.locator(selector, "Clear filter button")
+
+    @property
+    def ddl_type_filter(self):
+        selector = "//div[contains(text(),'Select refund type')]"
+        return self.locator(selector, "Type filter dropdown")
+
+    @property
+    def ddl_clear_type_filter(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[2]/div/div/i'
+        return self.locator(selector, "Clear type filter button")
+
+    @property
+    def ddl_type_filter_self_service(self):
+        selector = "//span[contains(text(),'Self Service')]"
+        return self.locator(selector, "Self Service type option")
+
+    @property
+    def ddl_type_filter_refund(self):
+        selector = "//span[contains(text(),'Refund')]"
+        return self.locator(selector, "Refund type option")
+
+    @property
+    def ddl_type_filter_manual_override(self):
+        selector = "//span[contains(text(),'Manual Override')]"
+        return self.locator(selector, "Manual Override type option")
+
+    @property
+    def ddl_type_filter_manual_eft(self):
+        selector = "//span[contains(text(),'Manual EFT')]"
+        return self.locator(selector, "Manual EFT type option")
+
+    # region Search filters
+
+    @property
+    def ddl_filter_by(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[4]/div/div/div'
+        return self.locator(selector, "Filter by dropdown")
+
+    @property
+    def ddl_filter_by_customer_id(self):
+        selector = "//span[contains(text(),'Customer ID')]"
+        return self.locator(selector, "Customer ID filter option")
+
+    @property
+    def customer_name(self):
+        selector = "//table/tbody/tr/td[8]/a"
+        return self.locator(selector, "Customer name link")
+
+    @property
+    def filter_by_search(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[4]/div/div/input'
+        return self.locator(selector, "Filter search field")
+
+    @property
+    def customer_info(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div/div[2]/div/div[1]/div/div/div/div[1]/div[1]/div[1]/span'
+        return self.locator(selector, "Customer info")
+
+    @property
+    def ddl_filter_by_order_id(self):
+        selector = "//span[contains(text(),'Order ID')]"
+        return self.locator(selector, "Order ID filter option")
+
+    @property
+    def order_id_eft_refunds_table2(self):
+        selector = "//table/tbody/tr/td[6]"
+        return self.locator(selector, "Order ID in table")
+
+    @property
+    def order_id_eft_refunds_table1(self):
+        selector = "//table/tbody/tr[15]/td[6]"
+        return self.locator(selector, "Order ID in table (row 15)")
+
+    @property
+    def ddl_filter_by_bank_account_number(self):
+        selector = "//span[contains(text(),'Bank Account Number')]"
+        return self.locator(selector, "Bank Account Number filter option")
+
+    @property
+    def bank_acc_eft_refunds_table(self):
+        selector = "//table/tbody/tr/td[10]"
+        return self.locator(selector, "Bank account in table")
+
+    @property
+    def ddl_filter_by_zendesk_ticket_number(self):
+        selector = "//span[contains(text(),'Zendesk Ticket Number')]"
+        return self.locator(selector, "Zendesk ticket filter option")
+
+    @property
+    def zendesk_ticket_eft_refunds_table(self):
+        selector = "//table/tbody/tr/td[7]"
+        return self.locator(selector, "Zendesk ticket in table")
+
+    # region Pagination and display options
+
+    @property
+    def ddl_show_250_items(self):
+        selector = "//table/tfoot/tr/th/div/div[5]/div[1]/div[2]/div[6]"
+        return self.locator(selector, "Show 250 items option")
+
+    @property
+    def chk_date_range_today(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[3]/div/div[1]/div[1]/div/label'
+        return self.locator(selector, "Today date range checkbox")
+
+    @property
+    def ddl_date_range(self):
+        selector = '//*[@id="root"]/div[3]/div/div/div/div/div[2]/form/div/div/div/div[3]/div/div[2]/div/div/input'
+        return self.locator(selector, "Date range field")
+
+    @property
+    def fld_date_created(self):
+        selector = "//table/tbody/tr[1]/td[4]"
+        return self.locator(selector, "Date created field")
+
+    @property
+    def ddl_show_items(self):
+        selector = "//div[contains(text(),'Show 15 Items')]"
+        return self.locator(selector, "Show items dropdown")
+
+    @property
+    def ddl_show_30_items(self):
+        selector = "//table/tfoot/tr/th/div/div[5]/div[1]/div[2]/div[3]"
+        return self.locator(selector, "Show 30 items option")
+
+    @property
+    def last_page(self):
+        selector = "//table/tfoot/tr/th/div/div[5]/div[2]/a[7]"
+        return self.locator(selector, "Last page button")
+
+    @property
+    def orderid_link_text(self):
+        selector = "//tbody/tr[1]/td[6]/a[1]"
+        return self.locator(selector, "Order ID link")
+
+    # region Table row elements
+
+    @property
+    def eft_refunds_table_first_checkbox(self):
+        selector = "//table/tbody/tr[1]/td[1]/div"
+        return self.locator(selector, "First checkbox in table")
+
+    @property
+    def eft_refunds_table_second_checkbox(self):
+        selector = "//table/tbody/tr[2]/td[1]/div"
+        return self.locator(selector, "Second checkbox in table")
+
+    @property
+    def eft_refunds_table_third_checkbox(self):
+        selector = "//table/tbody/tr[3]/td[1]/div"
+        return self.locator(selector, "Third checkbox in table")
+
+    @property
+    def eft_refunds_table_first_order(self):
+        selector = "//table/tbody/tr[1]/td[6]/a"
+        return self.locator(selector, "First order in table")
+
+    @property
+    def eft_refunds_table_second_order(self):
+        selector = "//table/tbody/tr[2]/td[6]/a"
+        return self.locator(selector, "Second order in table")
+
+    @property
+    def eft_refunds_table_third_order(self):
+        selector = "//table/tbody/tr[3]/td[6]/a"
+        return self.locator(selector, "Third order in table")
+
+    # region Export request elements
+
+    @property
+    def btn_export_request(self):
+        selector = "//table/tfoot/tr/th/div/div[1]/button"
+        return self.locator(selector, "Export request button")
+
+    @property
+    def export_modal(self):
+        selector = "/html/body/div[2]/div/div[1]"
+        return self.locator(selector, "Export modal")
+
+    @property
+    def error_modal(self):
+        selector = "/html/body/div[2]/div/div[2]/div/div/div"
+        return self.locator(selector, "Error modal")
+
+    @property
+    def ddl_export_bank(self):
+        selector = "/html/body/div[2]/div/div[2]/div/form/div[1]/div"
+        return self.locator(selector, "Export bank dropdown")
+
+    @property
+    def ddl_nedbank(self):
+        selector = "/html/body/div[2]/div/div[2]/div/form/div[1]/div/div[2]/div[1]/span"
+        return self.locator(selector, "Nedbank option")
+
+    @property
+    def ddl_absa(self):
+        selector = "/html/body/div[2]/div/div[2]/div/form/div[1]/div/div[2]/div[2]/span"
+        return self.locator(selector, "Absa option")
+
+    @property
+    def btn_export(self):
+        selector = "/html/body/div[2]/div/div[2]/div/form/div[2]/button[2]"
+        return self.locator(selector, "Export button")
+
+    @property
+    def export_status(self):
+        selector = "/html/body/div[2]/div/div[2]/div/div/table/tbody/tr/td[1]"
+        return self.locator(selector, "Export status")
+
+    @property
+    def btn_export_close_icon(self):
+        selector = "/html/body/div[2]/div/i"
+        return self.locator(selector, "Export close button")
+
+    # region Decline request elements
+
+    @property
+    def btn_decline_eft_requests(self):
+        selector = "//table/tfoot/tr/th/div/div[2]/button"
+        return self.locator(selector, "Decline EFT requests button")
+
+    @property
+    def decline_modal(self):
+        selector = "/html/body/div[2]/div"
+        return self.locator(selector, "Decline modal")
+
+    @property
+    def btn_confirm_decline(self):
+        selector = "/html/body/div[2]/div/div[2]/div/form/div[2]/button[1]"
+        return self.locator(selector, "Confirm decline button")
+
+    @property
+    def fld_decline_cancellation_reason(self):
+        selector = "/html/body/div[2]/div/div[2]/div/form/div[1]/div/input"
+        return self.locator(selector, "Decline cancellation reason field")
+
+    @property
+    def decline_confirm_modal(self):
+        selector = "/html/body/div[2]/div/div[1]"
+        return self.locator(selector, "Decline confirm modal")
+
+    @property
+    def decline_confirm_modal_success(self):
+        selector = "/html/body/div[2]/div/div[2]/div/div/div[2]/div/div/div"
+        return self.locator(selector, "Decline confirm success message")
+
+    @property
+    def close_decline_confirm(self):
+        selector = "/html/body/div[2]/div/i"
+        return self.locator(selector, "Close decline confirm button")
+
+    @property
+    def decline_text(self):
+        selector = "/html/body/div[2]/div/div[2]/div/div/div[2]/div/div/p/span[1]/text()[3]"
+        return self.locator(selector, "Decline text")
+
+    # region File download elements
+
+    @property
+    def exported_file_download_icon(self):
+        selector = "//table/tbody/tr/td[12]/a/i"
+        return self.locator(selector, "Exported file download icon")
+
+    @property
+    def eft_refunds_table_first_file_text(self):
+        selector = "//table/tbody/tr/td[12]/a"
+        return self.locator(selector, "First file text in table")
+
+    # region Email template options
+
+    @property
+    def option1_identification_required_credit_card(self):
+        selector = "//span[contains(text(),'Identification required: Credit card')]"
+        return self.locator(selector, "Identification required: Credit card option")
+
+    @property
+    def option2_identification_and_card_details_required(self):
+        selector = "//span[contains(text(),'Identification and card details required')]"
+        return self.locator(selector, "Identification and card details required option")
+
+    @property
+    def option3_identification_required_payfast_ozow(self):
+        selector = "//span[contains(text(),'Identification required: Payfast & Ozow')]"
+        return self.locator(selector, "Identification required: Payfast & Ozow option")
+
+    @property
+    def option4_identification_not_accepted(self):
+        selector = "//span[contains(text(),'Identification not accepted')]"
+        return self.locator(selector, "Identification not accepted option")
+
+    @property
+    def option5_identification_not_received_payfast_ozow(self):
+        selector = "//span[contains(text(),'Identification not received: Payfast & Ozow')]"
+        return self.locator(selector, "Identification not received: Payfast & Ozow option")
+
+    @property
+    def option6_identification_not_received_credit_card(self):
+        selector = "//span[contains(text(),'Identification not received: Credit card')]"
+        return self.locator(selector, "Identification not received: Credit card option")
+
+    @property
+    def option7_credit_card_refund_failed(self):
+        selector = "//span[contains(text(),'Credit card refund failed')]"
+        return self.locator(selector, "Credit card refund failed option")
+
+    @property
+    def option8_eft_refund_failed(self):
+        selector = "//span[contains(text(),'EFT refund failed')]"
+        return self.locator(selector, "EFT refund failed option")
+
+    @property
+    def option9_refund_delayed(self):
+        selector = "//span[contains(text(),'Refund delayed')]"
+        return self.locator(selector, "Refund delayed option")
+
+    @property
+    def option10_short_paid(self):
+        selector = "//span[contains(text(),'Short paid')]"
+        return self.locator(selector, "Short paid option")
+
+    @property
+    def option11_deposit_match(self):
+        selector = "//span[contains(text(),'Deposit Match')]"
+        return self.locator(selector, "Deposit Match option")
+
+    @property
+    def option12_duplicate_payment(self):
+        selector = "//span[contains(text(),'Duplicate Payment')]"
+        return self.locator(selector, "Duplicate Payment option")
+
+    @property
+    def option13_voucher_payment(self):
+        selector = "//span[contains(text(),'Voucher Payment')]"
+        return self.locator(selector, "Voucher Payment option")
+
+    @property
+    def option14_generic(self):
+        selector = "//span[contains(text(),'Generic')]"
+        return self.locator(selector, "Generic option")

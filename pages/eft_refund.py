@@ -7,10 +7,6 @@ from pos.eft_refund_po import EftRefundPO
 class EftRefundPage(EftRefundPO):
     """Page class for EFT Refund functionality."""
 
-    def __init__(self, page):
-        """Initialize the EFT Refund page."""
-        super().__init__(page)
-
     def navigate_to_eft_refunds_page(self):
         """Navigate to the EFT Refunds page."""
         self.click(self.btn_menu)
@@ -46,9 +42,9 @@ class EftRefundPage(EftRefundPO):
         """Verify the email success message is displayed and has correct text."""
         email_sent_text = self.get_text(self.email_sent_modal)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
         assert "Sending 2 Emails" in email_sent_text, "Email sent text does not contain expected message"
-        self.wait(5)
+        self.wait_for_seconds(5)
         self.is_visible("//div[contains(text(),'Successfully processed 2 item(s)')]")
 
         self.click(self.email_sent_modal_close_icon)
@@ -70,7 +66,7 @@ class EftRefundPage(EftRefundPO):
         """Verify the email error message for Manual EFT request."""
         email_sent_text = self.get_text(self.email_sent_modal)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
         assert "Sending 1 Email" in email_sent_text, "Email sent text does not contain expected message"
         assert "Failed to process 1 item(s)" in email_sent_text, "Email sent text does not contain error message"
         assert "Cannot send email to a ManualEFT request" in email_sent_text, "Email sent text does not contain specific error message"
@@ -90,7 +86,7 @@ class EftRefundPage(EftRefundPO):
         self.click("//tbody/tr[7]/td[6]/a[1]")
 
         # Switch to the new tab
-        self.wait(2)
+        self.wait_for_seconds(2)
         window_handles = self.page.context.pages
         new_tab = window_handles[-1]
 
@@ -111,7 +107,7 @@ class EftRefundPage(EftRefundPO):
         self.click("//tbody/tr[7]/td[8]/a[1]")
 
         # Switch to the new tab
-        self.wait(2)
+        self.wait_for_seconds(2)
         window_handles = self.page.context.pages
         new_tab = window_handles[-1]
 
@@ -200,7 +196,7 @@ class EftRefundPage(EftRefundPO):
         self.click(self.ddl_type_filter)
         self.click(self.ddl_type_filter_self_service)
         self.click(self.btn_apply_filter)
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Check all rows have Self Service type
         for row in range(1, 16):
@@ -213,7 +209,7 @@ class EftRefundPage(EftRefundPO):
         self.click(self.ddl_type_filter)
         self.click(self.ddl_type_filter_refund)
         self.click(self.btn_apply_filter)
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Check all rows have Refund type
         for row in range(1, 16):
@@ -226,7 +222,7 @@ class EftRefundPage(EftRefundPO):
         self.click(self.ddl_type_filter)
         self.click(self.ddl_type_filter_manual_override)
         self.click(self.btn_apply_filter)
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Check all rows have Manual Override type
         for row in range(1, 16):
@@ -239,7 +235,7 @@ class EftRefundPage(EftRefundPO):
         self.click(self.ddl_type_filter)
         self.click(self.ddl_type_filter_manual_eft)
         self.click(self.btn_apply_filter)
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Check all rows have Manual EFT type
         for row in range(1, 16):
@@ -263,7 +259,7 @@ class EftRefundPage(EftRefundPO):
         self.click(self.btn_apply_filter)
         self.click(self.customer_name)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
         # Switch to new tab
         window_handles = self.page.context.pages
         new_tab = window_handles[-1]
@@ -308,7 +304,7 @@ class EftRefundPage(EftRefundPO):
         """Filter by Zendesk Ticket Number and verify results."""
         self.click(self.ddl_show_items)
         self.click(self.ddl_show_250_items)
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Find first non-empty zendesk ticket
         zendesk_ticket = ""
@@ -339,7 +335,7 @@ class EftRefundPage(EftRefundPO):
         self.click(self.btn_apply_filter)
         self.click(self.ddl_show_items)
         self.click(self.ddl_show_30_items)
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         # Check first 30 rows have dates in July 2023
         for row in range(1, 31):
@@ -382,7 +378,7 @@ class EftRefundPage(EftRefundPO):
         self.click(self.ddl_export_bank)
         self.click(self.ddl_nedbank)
         self.click(self.btn_export)
-        self.wait(3)
+        self.wait_for_seconds(3)
         export_outcome = self.get_text(self.export_status)
         assert "SUCCESSFUL" in export_outcome, "Export was not successful"
         self.click(self.btn_export_close_icon)
@@ -393,7 +389,7 @@ class EftRefundPage(EftRefundPO):
         self.click(self.ddl_filter_by_order_id)
         self.fill(self.filter_by_search, exported_order_id)
         self.click(self.btn_apply_filter)
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         return exported_order_id
 
@@ -574,12 +570,12 @@ class EftRefundPage(EftRefundPO):
         self.fill(self.filter_by_search, exported_order_id)
         self.click(self.btn_apply_filter)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
         csv_file_name = self.get_text(self.eft_refunds_table_first_file_text)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
         self.click(self.exported_file_download_icon)
-        self.wait(15)
+        self.wait_for_seconds(15)
 
         # For running the test, use the file in the current directory
         file_path = csv_file_name
@@ -629,12 +625,12 @@ class EftRefundPage(EftRefundPO):
         self.fill(self.filter_by_search, exported_order_id)
         self.click(self.btn_apply_filter)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
         csv_file_name = self.get_text(self.eft_refunds_table_first_file_text)
 
-        self.wait(2)
+        self.wait_for_seconds(2)
         self.click(self.exported_file_download_icon)
-        self.wait(15)
+        self.wait_for_seconds(15)
 
         # For running the test, use the file in the current directory
         file_path = csv_file_name

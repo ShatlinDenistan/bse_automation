@@ -260,7 +260,7 @@ class VouchersPage(VouchersPO):
         """Filter vouchers by voucher code"""
         voucher_code = self.get_text(self.voucher_code_id)
         self.click(self.filter_by_field)
-        self.click(self.filter_by_voucher_code)
+        self.click(self.filter_voucher_code)
         self.fill(self.search_term_field, voucher_code)
         self.click(self.apply_filter_btn)
 
@@ -306,7 +306,7 @@ class VouchersPage(VouchersPO):
         customer_page.close()
 
         self.click(self.filter_by_field)
-        self.click(self.filter_by_used_by_customer_id)
+        self.click(self.filter_used_by_customer_id)
         self.fill(self.search_term_field, customer_id)
         self.click(self.apply_filter_btn)
 
@@ -334,10 +334,6 @@ class VouchersPage(VouchersPO):
 
         self.click(self.email_sent_modal_close_icon)
 
-    def get_table_data(self):
+    def get_voucher_table_data(self):
         """Helper method to get table data"""
         return self.get_table_data(table_xpath=self.results_table)
-
-    def scroll_to_element(self, element):
-        """Helper method to scroll to an element"""
-        element.scroll_into_view_if_needed()

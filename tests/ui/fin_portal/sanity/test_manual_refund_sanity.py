@@ -12,28 +12,25 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Processing A Refund | Credit Card | PayU."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${paygate_sql}")
+        self.order_data.get_orders("${paygate_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
-        self.customer_view.expand_customer_credit_accordion()
+        self.manual_refund_page.expand_customer_credit_accordion()
 
         self.step("Expand order items accordion and click refund")
-        self.order_view.expand_order_items_accordion_and_click_refund()
+        self.manual_refund_page.expand_order_items_accordion_and_click_refund()
 
         self.step("Click refund button and submit refund request")
         self.manual_refund_page.click_refund_button_and_submit_refund_request()
 
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Click view refund log button and verify details")
         self.manual_refund_page.click_view_refund_log_button_and_verify_details("PayU")
@@ -51,11 +48,8 @@ class TestManualRefundSanity(TestBase):
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -71,16 +65,13 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Masterpass."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${masterpass_sql}")
+        self.order_data.get_orders("${masterpass_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -95,7 +86,7 @@ class TestManualRefundSanity(TestBase):
         self.manual_refund_page.click_eft_refund_button_and_submit_refund_request()
 
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Click view refund log button and verify details")
         self.manual_refund_page.click_view_refund_log_button_and_verify_details("Paygate")
@@ -105,16 +96,13 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | sBux/NSFAS Wallet."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${sbux_sql}")
+        self.order_data.get_orders("${sbux_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -126,7 +114,7 @@ class TestManualRefundSanity(TestBase):
         self.manual_refund_page.click_refund_button_and_submit_refund_request()
 
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Click view refund log button and verify details")
         self.manual_refund_page.click_view_refund_log_button_and_verify_details("sBux")
@@ -136,16 +124,13 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Refund Excludes Coupon Amount."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${order_with_coupon_sql}")
+        self.order_data.get_orders("${order_with_coupon_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand order items accordion and click refund")
         self.order_view.expand_order_items_accordion_and_click_refund()
@@ -158,16 +143,13 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Credit Card and eBucks Part Payment."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${cc_ebucks_sql}")
+        self.order_data.get_orders("${cc_ebucks_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -179,7 +161,7 @@ class TestManualRefundSanity(TestBase):
         self.manual_refund_page.click_refund_button_and_submit_refund_request()
 
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Click view refund log button and verify part-payment details")
         self.manual_refund_page.click_view_refund_log_button_and_verify_part_payment_details("eBucks", "Paygate")
@@ -189,16 +171,13 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Instant EFT Ozow."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${ozow_sql}")
+        self.order_data.get_orders("${ozow_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -213,7 +192,7 @@ class TestManualRefundSanity(TestBase):
         self.manual_refund_page.click_eft_refund_button_and_submit_refund_request()
 
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Click view refund log button and verify details")
         self.manual_refund_page.click_view_refund_log_button_and_verify_details("iPay")
@@ -223,16 +202,13 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Donation Amount Not Refunded."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${donation_amount_sql}")
+        self.order_data.get_orders("${donation_amount_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -247,7 +223,7 @@ class TestManualRefundSanity(TestBase):
         self.manual_refund_page.click_refund_button_and_submit_refund_request()
 
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Click view refund log button and verify details")
         self.manual_refund_page.click_view_refund_log_button_and_verify_details("Paygate")
@@ -257,16 +233,13 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Mobicred."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${mobicred_sql}")
+        self.order_data.get_orders("${mobicred_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -278,7 +251,7 @@ class TestManualRefundSanity(TestBase):
         self.manual_refund_page.verify_that_refund_not_available()
 
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -296,11 +269,8 @@ class TestManualRefundSanity(TestBase):
         self.step("Cancel order item")
         self.cancel_order.cancel_order_item("${id_order_item1[0]}")
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -315,7 +285,7 @@ class TestManualRefundSanity(TestBase):
         self.cancel_order.cancel_order_item("${id_order_item2[0]}")
 
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -328,16 +298,13 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Manual Refunds | Cannot Process Refund When Order Is Marked As Risky."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${risky_orders_sql}")
+        self.order_data.get_orders("${risky_orders_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()
@@ -353,16 +320,13 @@ class TestManualRefundSanity(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Deposit."""
 
         self.step("Get orders from database")
-        self.utils.get_orders_from_database("${deposit_sql}")
+        self.order_data.get_orders("${deposit_sql}")
 
         self.step("Cancel paid order")
         self.cancel_order.cancel_paid_order()
 
-        self.step("Login to Fin-Portal")
-        self.login.login_fin_portal()
-
         self.step("Search for order")
-        self.search_page.search_for_order("${order_ids[0]}")
+        self.top_nav.search_for_order("${order_ids[0]}")
 
         self.step("Expand the customer credit accordion under customer info")
         self.customer_view.expand_customer_credit_accordion()

@@ -16,7 +16,7 @@ class CustomerCreditPage(CustomerCreditPO):
 
     def expand_credit_section_and_click_credit_button(self):
         """Expand the customer credit section and click the credit button."""
-        self.wait_for_timeout(1000)  # Using dynamic sleep equivalent
+        self.wait_for_seconds(1)  # Using dynamic sleep equivalent
         self.click(self.customer_credit_btn)
 
     def enter_amount_and_comment(self):
@@ -27,7 +27,7 @@ class CustomerCreditPage(CustomerCreditPO):
     def select_add_credit_button(self):
         """Click the Add Credit button."""
         self.click(self.add_credit_btn)
-        self.wait_for_visibility(self.confirm_dialog)
+        self.wait_till_element_visible(self.confirm_dialog)
 
     def select_ok_on_dialog(self):
         """Click OK on the confirmation dialog."""
@@ -39,8 +39,8 @@ class CustomerCreditPage(CustomerCreditPO):
         if current_date.startswith("@ 0"):
             current_date = current_date.replace("@ 0", "@ ")
 
-        self.expect_text_content(f"R {self.customer_credit_amount}")
-        self.expect_text_content("Not linked to an order")
+        self.wait_for_text(f"R {self.customer_credit_amount}")
+        self.wait_for_text("Not linked to an order")
         # Datetime verification is commented out as in the original
         # self.expect_to_be_visible(f"//td[contains(text(),'{current_date}')]")
         return True
@@ -48,5 +48,5 @@ class CustomerCreditPage(CustomerCreditPO):
     def verify_order_credit_applied(self):
         """Verify that order credit is applied correctly."""
         self.evaluate("window.scrollTo(0, 250)")
-        self.expect_text_content(self.customer_credit_amount)
+        self.wait_for_text(self.customer_credit_amount)
         return True

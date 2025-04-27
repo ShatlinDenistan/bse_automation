@@ -9,14 +9,11 @@ class TestEditOrderSanity(TestBase):
     def test_cannot_update_shipping_and_discount_on_authd_orders(self):
         """Verify that a user cannot update Shipping and Discount on Auth'd orders."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Get orders from database")
-        self.utils.database_utils.get_orders_from_database(self.config.PAYGATE_SQL)
+        order_ids = self.order_data.get_orders(self.order_queries.paygate_sql)
 
         self.step("Search for order")
-        self.utils.search_for_order(self.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Navigate to Edit Order screen")
         self.edit_order_page.navigate_to_edit_order_screen()
@@ -28,14 +25,11 @@ class TestEditOrderSanity(TestBase):
     def test_update_discount_amount(self):
         """Verify that user can update the discount amount."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Get orders from database")
-        self.utils.database_utils.get_orders_from_database(self.config.NEW_ORDER_WITH_DISCOUNT_AND_SHIPPING_AMOUNTS_SQL)
+        order_ids = self.order_data.get_orders(self.order_queries.new_order_with_discount_and_shipping_amounts_sql)
 
         self.step("Search for order")
-        self.utils.search_for_order(self.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Navigate to Edit Order screen")
         self.edit_order_page.navigate_to_edit_order_screen()

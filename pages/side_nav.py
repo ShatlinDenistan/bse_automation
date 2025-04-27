@@ -1,19 +1,7 @@
-from playwright.sync_api import Page
-
-from base.page_base import PageBase
+from pos.sidenav_po import SideNavPO
 
 
-class SideNavComponent(PageBase):
-    def __init__(self, page: Page):
-        self.page = page
-        super().__init__(page)
-        self.deposit_match_link = page.get_by_role("link", name="Deposit Match")
-        self.risk_queue_link = page.get_by_role("link", name="Risk Queue")
-        self.home_link = page.get_by_role("link", name="Home")
-        self.order_list_link = page.get_by_role("link", name="Order List")
-        self.financial_orders_link = page.get_by_role("link", name="Financial Orders")
-        self.eft_refunds_link = page.get_by_role("link", name="EFT Refunds")
-        self.escalated_refunds_link = page.get_by_role("link", name="Escalated Refunds")
+class SideNavComponent(SideNavPO):
 
     def click_deposit_match(self):
         self.click(self.deposit_match_link)

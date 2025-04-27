@@ -9,14 +9,11 @@ class TestEditOrder(TestBase):
     def test_update_payment_method(self):
         """Verify that a user can update payment method on an Authorized order."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Get orders from database")
-        self.utils.database_utils.get_orders_from_database(self.config.PAYGATE_SQL)
+        order_ids = self.order_data.get_orders(self.order_queries.paygate_sql)
 
         self.step("Search for order")
-        self.utils.search_for_order(self.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Navigate to Edit Order screen")
         self.edit_order_page.navigate_to_edit_order_screen()
@@ -34,23 +31,20 @@ class TestEditOrder(TestBase):
     def test_add_discount_amount_greater_than_order_total_amount(self):
         """Verify that a user cannot apply discount amount more than order total amount."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Get orders from database")
-        self.utils.database_utils.get_orders_from_database(self.config.NEW_ORDER_WITH_NO_DISCOUNT_AMOUNT_SQL)
+        order_ids = self.order_data.get_orders(self.order_queries.new_order_with_no_discount_amount_sql)
 
         self.step("Search for order")
-        self.utils.search_for_order(self.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Navigate to Edit Order screen")
         self.edit_order_page.navigate_to_edit_order_screen()
 
         self.step("Calculate and input discount amount exceeding order total")
-        self.edit_order_page.calculate_discount_amount_input_value(self.order_total)
+        self.edit_order_page.calculate_discount_amount_input_value("to fix")  # TODO: To be fixed
 
         self.step("Verify invalid discount amount message")
-        error_message = self.edit_order_page.verify_that_invalid_discount_amount_message()
+        error_message = self.edit_order_page.verify_invalid_discount_amount_message()
         assert "Discount amount cannot exceed the order item total of" in error_message
 
     @pytest.mark.QABA_532
@@ -58,14 +52,11 @@ class TestEditOrder(TestBase):
     def test_add_discount_and_shipping_amounts(self):
         """Verify that applying discount and shipping fee to a new order updates the Order's Auth Amount."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Get orders from database")
-        self.utils.database_utils.get_orders_from_database(self.config.NEW_ORDER_WITH_NO_DISCOUNT_AND_SHIPPING_AMOUNT_SQL)
+        order_ids = self.order_data.get_orders(self.order_queries.new_order_with_no_discount_and_shipping_amount_sql)
 
         self.step("Search for order")
-        self.utils.search_for_order(self.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Navigate to Edit Order screen")
         self.edit_order_page.navigate_to_edit_order_screen()
@@ -90,14 +81,11 @@ class TestEditOrder(TestBase):
     def test_order_item_update_to_shipped(self):
         """Verify that a user can update an order items status from Returned Canceled to Shipped."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Get orders from database")
-        self.utils.database_utils.get_orders_from_database(self.config.ORDER_WITH_RETURNED_CANCELED_ORDER_ITEM_SQL)
+        order_ids = self.order_data.get_orders(self.order_item_queries.order_with_returned_canceled_order_item_sql)
 
         self.step("Search for order")
-        self.utils.search_for_order(self.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Navigate to Update To Shipped screen")
         self.edit_order_page.navigate_to_update_to_shipped_screen()
@@ -113,14 +101,11 @@ class TestEditOrder(TestBase):
     def test_update_shipping_amount(self):
         """Verify that updating the shipping amount and the order total."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Get orders from database")
-        self.utils.database_utils.get_orders_from_database(self.config.NEW_ORDER_WITH_DISCOUNT_AND_SHIPPING_AMOUNTS_SQL)
+        order_ids = self.order_data.get_orders(self.order_queries.new_order_with_discount_and_shipping_amounts_sql)
 
         self.step("Search for order")
-        self.utils.search_for_order(self.order_ids[0])
+        self.top_nav.search_for_order(order_ids[0])
 
         self.step("Navigate to Edit Order screen")
         self.edit_order_page.navigate_to_edit_order_screen()
@@ -136,11 +121,8 @@ class TestEditOrder(TestBase):
     def test_payment_method_options(self):
         """Verify that the Payment Method drop-down list has all the available payment methods."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Search for order")
-        self.utils.search_for_order("98278540")
+        self.top_nav.search_for_order("98278540")
 
         self.step("Navigate to Edit Order screen")
         self.edit_order_page.navigate_to_edit_order_screen()

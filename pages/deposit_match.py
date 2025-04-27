@@ -2,36 +2,8 @@ from playwright.sync_api import expect
 
 from pos.deposit_match_po import DepositMatchPO
 
-# Additional locators for navigation
-CONTENT_ICON = "//i[@aria-hidden='true' and @class='content large icon']"
-DEPOSIT_MATCH_LINK = "//body/div[@id='root']/div[1]/a[3]"
-BATCHES_HEADING = "//h1[contains(text(),'Batches')]"
-GENERIC_OPTION = "//span[contains(text(),'Generic')]"
-PAYMENT_METHOD_DROPDOWN = "//div[@name='paymentMethod' and @aria-disabled='false' and @aria-expanded='false']"
-PAYMENT_METHOD_OPTION = "//body/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/div[1]/div[2]/div[1]"
-FILE_INPUT = "//input[@type='file']"
-UPLOAD_BUTTON = "//body/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/button[1]"
-BATCH_ID_ACTIVE_SECTION = "//a[@class='active section']"
-BATCH_ID_HEADER = "//th[contains(text(),'Batch Id')]"
-SEND_EMAIL_BUTTON = "//button[contains(text(),'Send Email')]"
-ALL_BATCHES_LINK = "//a[contains(text(),'All Batches')]"
-
 
 class DepositMatchPage(DepositMatchPO):
-    def __init__(self, page):
-        super().__init__(page)
-        self.content_icon = self.locator(CONTENT_ICON, "Content icon")
-        self.deposit_match_link = self.locator(DEPOSIT_MATCH_LINK, "Deposit match link")
-        self.batches_heading = self.locator(BATCHES_HEADING, "Batches heading")
-        self.generic_option = self.locator(GENERIC_OPTION, "Generic option")
-        self.payment_method_dropdown = self.locator(PAYMENT_METHOD_DROPDOWN, "Payment method dropdown")
-        self.payment_method_option = self.locator(PAYMENT_METHOD_OPTION, "Payment method option")
-        self.file_input = self.locator(FILE_INPUT, "File input")
-        self.upload_button = self.locator(UPLOAD_BUTTON, "Upload button")
-        self.batch_id_active_section = self.locator(BATCH_ID_ACTIVE_SECTION, "Batch ID active section")
-        self.batch_id_header = self.locator(BATCH_ID_HEADER, "Batch ID header")
-        self.send_email_button = self.locator(SEND_EMAIL_BUTTON, "Send Email button")
-        self.all_batches_link = self.locator(ALL_BATCHES_LINK, "All Batches link")
 
     def navigate_to_deposit_match(self):
         """Navigate to the Deposit Match page"""
@@ -54,7 +26,7 @@ class DepositMatchPage(DepositMatchPO):
         self.file_input.set_input_files(csv_file)
         self.click(self.upload_button)
         self.wait_for_seconds(15)
-        batch_id = self.text_content(self.batch_id_active_section)
+        batch_id = self.get_text(self.batch_id_active_section)
         return batch_id
 
     def upload_invalid_deposit_match_file(self, deposit_match_file):
@@ -68,7 +40,7 @@ class DepositMatchPage(DepositMatchPO):
 
     def verify_csv_error_occurred(self):
         """Verify that an error occurred with the CSV"""
-        error_text = self.text_content(self.error_message)
+        error_text = self.get_text(self.error_message)
         assert error_text == "Error Occurred", f"Expected 'Error Occurred', but got '{error_text}'"
 
     def download_batch_file(self):
@@ -80,7 +52,7 @@ class DepositMatchPage(DepositMatchPO):
         self.wait_for_seconds(15)
         self.click(self.refresh_button)
         expect(self.customer_name_lbl).to_be_visible(timeout=40000)
-        batch_id = self.text_content(self.batch_id_active_section)
+        batch_id = self.get_text(self.batch_id_active_section)
         return batch_id
 
     def click_show_items_dropdown_and_select_30_items(self):
@@ -126,9 +98,9 @@ class DepositMatchPage(DepositMatchPO):
 
     def enter_order_id_on_searchbox_and_apply_filer(self):
         """Enter order ID on searchbox and apply filter"""
-        order_id = self.text_content(self.order_no_text)
-        customer_name = self.text_content(self.cust_name_text)
-        amount = self.text_content(self.statem_amount_text)
+        order_id = self.get_text(self.order_no_text)
+        customer_name = self.get_text(self.cust_name_text)
+        amount = self.get_text(self.statem_amount_text)
 
         self.fill(self.deposit_match_search, order_id)
         self.click(self.apply_filter)
@@ -183,17 +155,13 @@ class DepositMatchPage(DepositMatchPO):
         """Go to the batch with authorized orders"""
         self.page.goto("http://fin-portal.master.env/all_batches/2007")
 
-    def select_batch_with_new_status_orders(self, new_order_ebucks_cc_sql, order_ids):
+    def select_batch_with_new_status_orders(self, order_ids):
         """Select batch with new status orders"""
-        from data.db.queries import get_orders_from_database
 
-        get_orders_from_database(new_order_ebucks_cc_sql)
+        self.order_data.get_orders(self.order_queries.new_order_ebucks_cc_sql)
         order_id_string = str(order_ids[0])
 
-        # Clear and create CSV file
-        import os
-
-        with open("testData/NewOrderUploadFile.csv", "w") as f:
+        with open(self.test_data_files.deposit_match_new_order_file, "w", encoding="utf-8") as f:
             f.write('"Description,Amount"\n')
             f.write(f"{order_id_string},100")
 
@@ -203,10 +171,10 @@ class DepositMatchPage(DepositMatchPO):
         self.click(self.generic_option)
         self.click(self.payment_method_dropdown)
         self.click(self.payment_method_option)
-        self.file_input.set_input_files("testData/NewOrderUploadFile.csv")
+        self.file_input.set_input_files(self.test_data_files.deposit_match_new_order_file)
         self.click(self.upload_button)
 
-        batch_id = self.text_content(self.batch_id_active_section)
+        batch_id = self.get_text(self.batch_id_active_section)
         return batch_id
 
     def select_new_order_and_authorise(self):
@@ -299,7 +267,7 @@ class DepositMatchPage(DepositMatchPO):
     def click_checkbox_next_to_first_order_in_the_batch(self):
         """Click checkbox next to first order in the batch"""
         self.click(self.order_number_checkbox)
-        unclaimed_order_id = self.text_content(self.order_number_text)
+        unclaimed_order_id = self.get_text(self.order_number_text)
         return unclaimed_order_id
 
     def click_the_unclaimed_payment_button(self):

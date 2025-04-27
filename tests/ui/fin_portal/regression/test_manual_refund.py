@@ -10,11 +10,11 @@ class TestManualRefund(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Credit Card | PayGate"""
 
         self.step("Get orders from database")
-        orders = self.utils.database_utils.get_orders_from_database("${paygate_sql}")
+        orders = self.order_data.get_orders("${paygate_sql}")
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.utils.cancel_order_utils.cancel_paid_order(order_id)
+        self.cancel_order.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -39,11 +39,11 @@ class TestManualRefund(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Instant EFT PayFast"""
 
         self.step("Get orders from database")
-        orders = self.utils.database_utils.get_orders_from_database("${payfast_sql}")
+        orders = self.order_data.get_orders("${payfast_sql}")
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.utils.cancel_order_utils.cancel_paid_order(order_id)
+        self.cancel_order.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -68,11 +68,11 @@ class TestManualRefund(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Cash On Delivery"""
 
         self.step("Get orders from database")
-        orders = self.utils.database_utils.get_orders_from_database("${cash_on_del_sql}")
+        orders = self.order_data.get_orders("${cash_on_del_sql}")
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.utils.cancel_order_utils.cancel_paid_order(order_id)
+        self.cancel_order.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -91,11 +91,11 @@ class TestManualRefund(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Discovery Miles"""
 
         self.step("Get orders from database")
-        orders = self.utils.database_utils.get_orders_from_database("${discovery_miles_sql}")
+        orders = self.order_data.get_orders("${discovery_miles_sql}")
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.utils.cancel_order_utils.cancel_paid_order(order_id)
+        self.cancel_order.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -120,11 +120,11 @@ class TestManualRefund(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | eBucks"""
 
         self.step("Get orders from database")
-        orders = self.utils.database_utils.get_orders_from_database("${ebucks_sql}")
+        orders = self.order_data.get_orders("${ebucks_sql}")
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.utils.cancel_order_utils.cancel_paid_order(order_id)
+        self.cancel_order.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -149,11 +149,11 @@ class TestManualRefund(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Staggered Credit Card Refunds"""
 
         self.step("Create new TAL orders")
-        order_data = self.utils.create_new_tal_orders("${2420369}", "Credit Card")
+        order_data = self.order_data.create_order("${2420369}", "Credit Card")
         order_id = order_data["order_ids"][0]
 
         self.step("Cancel order item")
-        self.utils.cancel_order_item_utils.cancel_order_item(order_data["id_order_item1"][0])
+        self.cancel_order_items.cancel_order_item(order_data["id_order_item1"][0])
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -168,7 +168,7 @@ class TestManualRefund(TestBase):
         refund_date_time = self.manual_refund_page.click_refund_button_and_submit_request()
 
         self.step("Cancel second order item")
-        self.utils.cancel_order_item_utils.cancel_order_item(order_data["id_order_item2"][0])
+        self.cancel_order_items.cancel_order_item(order_data["id_order_item2"][0])
 
         self.step("Search for order again")
         self.top_nav.search_for_order(order_id)
@@ -184,11 +184,11 @@ class TestManualRefund(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Payflex"""
 
         self.step("Get orders from database")
-        orders = self.utils.database_utils.get_orders_from_database("${payflex_sql}")
+        orders = self.order_data.get_orders("${payflex_sql}")
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.utils.cancel_order_utils.cancel_paid_order(order_id)
+        self.cancel_order.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)
@@ -216,11 +216,11 @@ class TestManualRefund(TestBase):
         """Fin-Portal | Manual Refunds | Processing A Refund | Takealot Credit"""
 
         self.step("Get orders from database")
-        orders = self.utils.database_utils.get_orders_from_database("${tal_credit_sql}")
+        orders = self.order_data.get_orders("${tal_credit_sql}")
         order_id = orders[0]
 
         self.step("Cancel paid order")
-        self.utils.cancel_order_utils.cancel_paid_order(order_id)
+        self.cancel_order.cancel_paid_order(order_id)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_id)

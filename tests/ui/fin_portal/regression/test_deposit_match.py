@@ -8,14 +8,11 @@ class TestDepositMatch(TestBase):
     def test_incorrect_upload_file_format_do_not_process(self):
         """Verify that the file does not meeting the Deposit Match file format requirements."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()
 
         self.step("Upload invalid Deposit Match file")
-        self.deposit_match_page.upload_invalid_deposit_match_file(self.config.DEPOSIT_MATCH_FILE)
+        self.deposit_match_page.upload_invalid_deposit_match_file(self.test_data_files.deposit_match_file)
 
         self.step("Verify CSV error occurred")
         self.deposit_match_page.verify_csv_error_occurred()
@@ -24,14 +21,11 @@ class TestDepositMatch(TestBase):
     def test_deposit_match_download_batch_file(self):
         """Verify that the file does not meeting the Deposit Match file format requirements."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()
 
         self.step("Upload a valid Deposit Match file")
-        self.deposit_match_page.upload_valid_deposit_match_file(self.config.DEPOSIT_MATCH_FILE)
+        self.deposit_match_page.upload_valid_deposit_match_file(self.test_data_files.deposit_match_file)
 
         self.step("Click the Refresh Button")
         self.deposit_match_page.click_the_refresh_button()
@@ -45,9 +39,6 @@ class TestDepositMatch(TestBase):
     @pytest.mark.QABA_523
     def test_deposit_match_all_batches_filters(self):
         """Only view filtered data on the All Batched screen."""
-
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
 
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()
@@ -68,9 +59,6 @@ class TestDepositMatch(TestBase):
     def test_deposit_match_batch_search(self):
         """Search for orders based on specific search criteria on the Batch screen."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()
 
@@ -81,7 +69,7 @@ class TestDepositMatch(TestBase):
         self.deposit_match_page.click_the_criteria_dropdown_list_and_select_orderid()
 
         self.step("Enter order ID on searchbox and apply filter")
-        order_id, customer_name, amount = self.deposit_match_page.enter_order_id_on_searchbox_and_apply_filer()
+        _, customer_name, amount = self.deposit_match_page.enter_order_id_on_searchbox_and_apply_filer()
 
         self.step("Click criteria dropdown and select Statement Amount")
         self.deposit_match_page.click_the_criteria_dropdown_list_and_select_statement_amount()
@@ -105,9 +93,6 @@ class TestDepositMatch(TestBase):
     def test_deposit_match_batch_filtering(self):
         """Only view filtered data on the Batch screen."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()
 
@@ -126,9 +111,6 @@ class TestDepositMatch(TestBase):
     @pytest.mark.QABA_524
     def test_deposit_match_unclaimed_payments_filters(self):
         """Search for orders based on specific search criteria on the Batch screen."""
-
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
 
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()
@@ -164,9 +146,6 @@ class TestDepositMatch(TestBase):
     def test_deposit_match_batch_unclaimed_payment(self):
         """Move deposits to the Unclaimed Payments page from the Batch screen for further investigation."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()
 
@@ -192,14 +171,11 @@ class TestDepositMatch(TestBase):
     def test_deposit_match_batch_remove_order(self):
         """As a user, I want to remove an order from the batch."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()
 
         self.step("Upload valid Deposit Match file")
-        self.deposit_match_page.upload_valid_deposit_match_file(self.config.DEPOSIT_MATCH_FILE)
+        self.deposit_match_page.upload_valid_deposit_match_file(self.test_data_files.deposit_match_file)
 
         self.step("Click the Refresh Button")
         self.deposit_match_page.click_the_refresh_button()
@@ -217,14 +193,11 @@ class TestDepositMatch(TestBase):
     def test_deposit_match_upload_file_staggered_uploads(self):
         """Upload multiple files one after the other and ensure that they are processed without any issues."""
 
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
-
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()
 
         self.step("Upload valid Deposit Match file")
-        batch_id1 = self.deposit_match_page.upload_valid_deposit_match_file(self.config.DEPOSIT_MATCH_FILE)
+        batch_id1 = self.deposit_match_page.upload_valid_deposit_match_file(self.test_data_files.deposit_match_file)
 
         self.step("Click the Refresh Button")
         self.deposit_match_page.click_the_refresh_button()
@@ -233,7 +206,7 @@ class TestDepositMatch(TestBase):
         self.deposit_match_page.navigate_to_all_batches(batch_id1)
 
         self.step("Upload another valid Deposit Match file")
-        batch_id2 = self.deposit_match_page.upload_valid_deposit_match_file(self.config.DEPOSIT_MATCH_FILE)
+        batch_id2 = self.deposit_match_page.upload_valid_deposit_match_file(self.test_data_files.deposit_match_file)
 
         self.step("Click the Refresh Button")
         self.deposit_match_page.click_the_refresh_button()
@@ -244,9 +217,6 @@ class TestDepositMatch(TestBase):
     @pytest.mark.QABA_507
     def test_deposit_match_batch_send_email(self):
         """Send a "Deposit Update" email to multiple customers from the Batch screen."""
-
-        self.step("Login to Fin-Portal")
-        self.login_page.login_finance_portal()
 
         self.step("Navigate to Deposit Match")
         self.deposit_match_page.navigate_to_deposit_match()

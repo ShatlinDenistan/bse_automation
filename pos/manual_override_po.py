@@ -1,38 +1,88 @@
 from base.page_base import PageBase
 
-# Selector constants
-MANUAL_OVERRIDE_HEADER = "//h1[contains(text(),'Manual Override')]"
-ORDER_NUMBER_INPUT = "//input[@id='orderNumber']"
-SEARCH_BUTTON = "//button[@id='searchBtn']"
-ORDER_TYPE_DROPDOWN = "//select[@id='orderTypeSelect']"
-ORDER_STATUS_DROPDOWN = "//select[@id='orderStatusSelect']"
-APPLY_BUTTON = "//button[@id='applyBtn']"
-CANCEL_BUTTON = "//button[@id='cancelBtn']"
-CONFIRM_MODAL = "//div[@class='modal-content']"
-CONFIRM_OK_BUTTON = "//button[@id='confirmYesBtn']"
-CONFIRM_CANCEL_BUTTON = "//button[@id='confirmNoBtn']"
-ORDER_TABLE = "//table[@id='orderTable']"
-ORDER_ROWS = "//table[@id='orderTable']/tbody/tr"
-NOTES_TEXTAREA = "//textarea[@id='notesField']"
-
 
 class ManualOverridePO(PageBase):
     """Page Object class for Manual Override screen"""
 
-    def __init__(self, page):
-        super().__init__(page)
+    # region Header
+    @property
+    def manual_override_header(self):
+        selector = "//h1[contains(text(),'Manual Override')]"
+        return self.locator(selector, "Manual Override Header")
 
-        # Initialize locators
-        self.manual_override_header = self.locator(MANUAL_OVERRIDE_HEADER, "Manual Override Header")
-        self.order_number_input = self.locator(ORDER_NUMBER_INPUT, "Order Number Input")
-        self.search_button = self.locator(SEARCH_BUTTON, "Search Button")
-        self.order_type_dropdown = self.locator(ORDER_TYPE_DROPDOWN, "Order Type Dropdown")
-        self.order_status_dropdown = self.locator(ORDER_STATUS_DROPDOWN, "Order Status Dropdown")
-        self.apply_button = self.locator(APPLY_BUTTON, "Apply Button")
-        self.cancel_button = self.locator(CANCEL_BUTTON, "Cancel Button")
-        self.confirm_modal = self.locator(CONFIRM_MODAL, "Confirmation Modal")
-        self.confirm_ok_button = self.locator(CONFIRM_OK_BUTTON, "Confirm OK Button")
-        self.confirm_cancel_button = self.locator(CONFIRM_CANCEL_BUTTON, "Confirm Cancel Button")
-        self.order_table = self.locator(ORDER_TABLE, "Order Table")
-        self.order_rows = self.locator(ORDER_ROWS, "Order Rows")
-        self.notes_textarea = self.locator(NOTES_TEXTAREA, "Notes Textarea")
+    # endregion
+
+    # region Input Fields
+    @property
+    def order_number_input(self):
+        selector = "//input[@id='orderNumber']"
+        return self.locator(selector, "Order Number Input")
+
+    @property
+    def notes_textarea(self):
+        selector = "//textarea[@id='notesField']"
+        return self.locator(selector, "Notes Textarea")
+
+    # endregion
+
+    # region Dropdowns
+    @property
+    def order_type_dropdown(self):
+        selector = "//select[@id='orderTypeSelect']"
+        return self.locator(selector, "Order Type Dropdown")
+
+    @property
+    def order_status_dropdown(self):
+        selector = "//select[@id='orderStatusSelect']"
+        return self.locator(selector, "Order Status Dropdown")
+
+    # endregion
+
+    # region Buttons
+    @property
+    def search_button(self):
+        selector = "//button[@id='searchBtn']"
+        return self.locator(selector, "Search Button")
+
+    @property
+    def apply_button(self):
+        selector = "//button[@id='applyBtn']"
+        return self.locator(selector, "Apply Button")
+
+    @property
+    def cancel_button(self):
+        selector = "//button[@id='cancelBtn']"
+        return self.locator(selector, "Cancel Button")
+
+    # endregion
+
+    # region Confirmation Modal
+    @property
+    def confirm_modal(self):
+        selector = "//div[@class='modal-content']"
+        return self.locator(selector, "Confirmation Modal")
+
+    @property
+    def confirm_ok_button(self):
+        selector = "//button[@id='confirmYesBtn']"
+        return self.locator(selector, "Confirm OK Button")
+
+    @property
+    def confirm_cancel_button(self):
+        selector = "//button[@id='confirmNoBtn']"
+        return self.locator(selector, "Confirm Cancel Button")
+
+    # endregion
+
+    # region Order Table
+    @property
+    def order_table(self):
+        selector = "//table[@id='orderTable']"
+        return self.locator(selector, "Order Table")
+
+    @property
+    def order_rows(self):
+        selector = "//table[@id='orderTable']/tbody/tr"
+        return self.locator(selector, "Order Rows")
+
+    # endregion

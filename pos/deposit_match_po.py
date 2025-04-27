@@ -1,113 +1,342 @@
 from base.page_base import PageBase
 
-# Search
-BATCH_DOWNLOAD = "//tbody/tr[1]/td[10]/div[1]/button[1]/i[1]"
-APPLY_FILTER = "//button[contains(text(),'Apply Filter')]"
-CLEAR_FILTER = "//button[contains(text(),'Clear Filter')]"
-DATE_FILTER = "//input[@name='dateRange']"
-BATCH_DATE = "//td[contains(text(),'12-May-2023')]"
-PAYMENT_METHOD_LST = "//tbody/tr[1]/td[5]"
-PAYMENT_METHOD_DDL = "//div[contains(text(),'Select payment method')]"
-PAYFAST_LST = "//span[contains(text(),'PayFast')]"
-CUSTOMER_NAME_LBL = "//th[contains(text(),'Customer Name')]"
-PAGE_TWO_NAV = "//body/div[@id='root']/div[3]/div[1]/div[1]/table[1]/tfoot[1]/tr[1]/th[1]/div[1]/div[6]/div[2]/a[2]"
-ITEM_LIST_DDL = "//div[contains(text(),'Show 15 Items')]"
-LIST_FILTER_30 = "//span[contains(text(),'30')]"
-LIST_FILTER_10 = "//body/div[@id='root']/div[3]/div/div/table/tfoot/tr/th/div/div[5]/div[1]/div[2]/div[1]"
-REFRESH_BUTTON = "//body/div[@id='root']/div[3]/div[1]/div[1]/div[4]/button[1]"
-ERROR_MESSAGE = "//*[contains(text(),'Error')]"
-CRITERIA_DROPDOWN = "//div[contains(text(),'Criteria')]"
-DEPOSIT_MATCH_SEARCH = "//input[@name='searchTerm']"
-ORDER_ID_DM = "//span[contains(text(),'Order ID')]"
-STATEMENT_AMOUNT_DM = "//span[contains(text(),'Statement Amount')]"
-CUSTOMER_ID_DM = "//span[contains(text(),'Customer ID')]"
-CUSTOMER_NAME_DM = "//span[contains(text(),'Customer Name')]"
-BATCH_ID = "//span[contains(text(),'Batch ID')]"
-ORDER_NO_TEXT = "//tbody/tr[1]/td[2]/a[1]"
-CUST_NAME_TEXT = "//tbody/tr[1]/td[3]/a[1]"
-STATEM_AMOUNT_TEXT = "//tbody/tr[1]/td[6]"
-CUSTOMER_NAME_LINK = "//tbody/tr[1]/td[3]/a[1]"
-CHK_ORDER = "//*[@id='root']/div[3]/div/div/table/tbody/tr[2]/td[1]/div"
-CHK_NEW_ORDER = "//*[@id='root']/div[3]/div/div/table/tbody/tr/td[1]/div"
-CANCEL_REASON_DROPDOWN = "//div[@name='cancelReason']"
-CANCEL_REASON = "//span[contains(text(),'Supplier out of stock')]"
-BTN_CANCEL_ORDER = "//button[contains(text(),'Cancel Order')]"
-BTN_CONFIRM_CANCEL_ORDER = "//button[contains(text(),'Cancel Orders')]"
-BTN_AUTHORISE_ORDER = "//button[contains(text(),'Authorise Order')]"
-VERIFY_AUTHORISE_ORDER = "//div[contains(text(),'Successfully processed 1 item(s)')]"
-TXT_CRITERIA_SEARCH = "//input[@name='searchTerm' and @type='text']"
-BATCH_ID_VALUE = "//tbody/tr[1]/td[2]/a[1]"
-MATCH_STATUS = "//div[@name='matchStatus' and @role='listbox']"
-CLOSE_FILTER_BUTTON = "//i[@aria-hidden='true' and @class='dropdown icon clear']"
-CLOSE_ICON = "//i[@aria-hidden='true' and @class='close icon']"
-REMOVE_ORDER = "//button[contains(text(),'Remove Order')]"
-ORDER_NUMBER_CHECKBOX = "//tbody/tr[1]/td[1]"
-ORDER_NUMBER_TEXT = "//tbody/tr[1]/td[2]"
-BTN_UNCLAIMED_PAYMENT = "//button[contains(text(),'Unclaimed Payment')]"
-UNCLAIMED_PAYMENTS_TAB = "//a[contains(text(),'Unclaimed Payments ')]"
-ORDER_NOT_FOUND = "//span[contains(text(),'Order Not Found')]"
-AMOUNT_DIFFER = "//span[contains(text(),'Amount Differ')]"
-AUTO_MATCH = "//span[contains(text(),'Auto Match')]"
-BTN_UPLOAD_CSV = "//button[contains(text(),'Upload CSV')]"
-SELECT_STATEMENT_TYPE = "//div[@name='statementType' and @role='listbox']"
-BTN_MATCH = "//tbody/tr[1]/td[10]/div[1]/button[1]"
-TXT_MATCH_ORDER_ID = "//input[@name='order_id' and  @type='number']"
-BTN_MATCH_SUBMIT = "//button[@class='ui blue button' and @type='submit']"
-
 
 class DepositMatchPO(PageBase):
-    def __init__(self, page):
-        super().__init__(page)
-        # Search
-        self.batch_download = self.locator(BATCH_DOWNLOAD, "Batch download button")
-        self.apply_filter = self.locator(APPLY_FILTER, "Apply filter button")
-        self.clear_filter = self.locator(CLEAR_FILTER, "Clear filter button")
-        self.date_filter = self.locator(DATE_FILTER, "Date filter input")
-        self.batch_date = self.locator(BATCH_DATE, "Batch date")
-        self.payment_method_lst = self.locator(PAYMENT_METHOD_LST, "Payment method list")
-        self.payment_method_ddl = self.locator(PAYMENT_METHOD_DDL, "Payment method dropdown")
-        self.payfast_lst = self.locator(PAYFAST_LST, "PayFast option")
-        self.customer_name_lbl = self.locator(CUSTOMER_NAME_LBL, "Customer Name label")
-        self.page_two_nav = self.locator(PAGE_TWO_NAV, "Page two navigation")
-        self.item_list_ddl = self.locator(ITEM_LIST_DDL, "Items list dropdown")
-        self.list_filter_30 = self.locator(LIST_FILTER_30, "30 items filter")
-        self.list_filter_10 = self.locator(LIST_FILTER_10, "10 items filter")
-        self.refresh_button = self.locator(REFRESH_BUTTON, "Refresh button")
-        self.error_message = self.locator(ERROR_MESSAGE, "Error message")
-        self.criteria_dropdown = self.locator(CRITERIA_DROPDOWN, "Criteria dropdown")
-        self.deposit_match_search = self.locator(DEPOSIT_MATCH_SEARCH, "Deposit match search")
-        self.order_id_dm = self.locator(ORDER_ID_DM, "Order ID option")
-        self.statement_amount_dm = self.locator(STATEMENT_AMOUNT_DM, "Statement Amount option")
-        self.customer_id_dm = self.locator(CUSTOMER_ID_DM, "Customer ID option")
-        self.customer_name_dm = self.locator(CUSTOMER_NAME_DM, "Customer Name option")
-        self.batch_id = self.locator(BATCH_ID, "Batch ID option")
-        self.order_no_text = self.locator(ORDER_NO_TEXT, "Order number text")
-        self.cust_name_text = self.locator(CUST_NAME_TEXT, "Customer name text")
-        self.statem_amount_text = self.locator(STATEM_AMOUNT_TEXT, "Statement amount text")
-        self.customer_name_link = self.locator(CUSTOMER_NAME_LINK, "Customer name link")
-        self.chk_order = self.locator(CHK_ORDER, "Order checkbox")
-        self.chk_new_order = self.locator(CHK_NEW_ORDER, "New order checkbox")
-        self.cancel_reason_dropdown = self.locator(CANCEL_REASON_DROPDOWN, "Cancel reason dropdown")
-        self.cancel_reason = self.locator(CANCEL_REASON, "Cancel reason option")
-        self.btn_cancel_order = self.locator(BTN_CANCEL_ORDER, "Cancel order button")
-        self.btn_confirm_cancel_order = self.locator(BTN_CONFIRM_CANCEL_ORDER, "Confirm cancel order button")
-        self.btn_authorise_order = self.locator(BTN_AUTHORISE_ORDER, "Authorise order button")
-        self.verify_authorise_order = self.locator(VERIFY_AUTHORISE_ORDER, "Authorise order verification")
-        self.txt_criteria_search = self.locator(TXT_CRITERIA_SEARCH, "Criteria search input")
-        self.batch_id_value = self.locator(BATCH_ID_VALUE, "Batch ID value")
-        self.match_status = self.locator(MATCH_STATUS, "Match status dropdown")
-        self.close_filter_button = self.locator(CLOSE_FILTER_BUTTON, "Close filter button")
-        self.close_icon = self.locator(CLOSE_ICON, "Close icon")
-        self.remove_order = self.locator(REMOVE_ORDER, "Remove order button")
-        self.order_number_checkbox = self.locator(ORDER_NUMBER_CHECKBOX, "Order number checkbox")
-        self.order_number_text = self.locator(ORDER_NUMBER_TEXT, "Order number text")
-        self.btn_unclaimed_payment = self.locator(BTN_UNCLAIMED_PAYMENT, "Unclaimed payment button")
-        self.unclaimed_payments_tab = self.locator(UNCLAIMED_PAYMENTS_TAB, "Unclaimed payments tab")
-        self.order_not_found = self.locator(ORDER_NOT_FOUND, "Order not found option")
-        self.amount_differ = self.locator(AMOUNT_DIFFER, "Amount differ option")
-        self.auto_match = self.locator(AUTO_MATCH, "Auto match option")
-        self.btn_upload_csv = self.locator(BTN_UPLOAD_CSV, "Upload CSV button")
-        self.select_statement_type = self.locator(SELECT_STATEMENT_TYPE, "Select statement type dropdown")
-        self.btn_match = self.locator(BTN_MATCH, "Match button")
-        self.txt_match_order_id = self.locator(TXT_MATCH_ORDER_ID, "Match order ID input")
-        self.btn_match_submit = self.locator(BTN_MATCH_SUBMIT, "Match submit button")
+
+    # region Search section
+
+    @property
+    def batch_download(self):
+        selector = "//tbody/tr[1]/td[10]/div[1]/button[1]/i[1]"
+        return self.locator(selector, "Batch download button")
+
+    @property
+    def apply_filter(self):
+        selector = "//button[contains(text(),'Apply Filter')]"
+        return self.locator(selector, "Apply filter button")
+
+    @property
+    def clear_filter(self):
+        selector = "//button[contains(text(),'Clear Filter')]"
+        return self.locator(selector, "Clear filter button")
+
+    @property
+    def date_filter(self):
+        selector = "//input[@name='dateRange']"
+        return self.locator(selector, "Date filter input")
+
+    @property
+    def batch_date(self):
+        selector = "//td[contains(text(),'12-May-2023')]"
+        return self.locator(selector, "Batch date")
+
+    @property
+    def refresh_button(self):
+        selector = "//body/div[@id='root']/div[3]/div[1]/div[1]/div[4]/button[1]"
+        return self.locator(selector, "Refresh button")
+
+    @property
+    def deposit_match_search(self):
+        selector = "//input[@name='searchTerm']"
+        return self.locator(selector, "Deposit match search")
+
+    @property
+    def txt_criteria_search(self):
+        selector = "//input[@name='searchTerm' and @type='text']"
+        return self.locator(selector, "Criteria search input")
+
+    # region Payment Method section
+
+    @property
+    def payment_method_lst(self):
+        selector = "//tbody/tr[1]/td[5]"
+        return self.locator(selector, "Payment method list")
+
+    @property
+    def payment_method_ddl(self):
+        selector = "//div[contains(text(),'Select payment method')]"
+        return self.locator(selector, "Payment method dropdown")
+
+    @property
+    def payfast_lst(self):
+        selector = "//span[contains(text(),'PayFast')]"
+        return self.locator(selector, "PayFast option")
+
+    @property
+    def payment_method_dropdown(self):
+        selector = "//div[@name='paymentMethod' and @aria-disabled='false' and @aria-expanded='false']"
+        return self.locator(selector, "Payment method dropdown")
+
+    @property
+    def payment_method_option(self):
+        selector = "//body/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/div[1]/div[2]/div[1]"
+        return self.locator(selector, "Payment method option")
+
+    # region Navigation section
+
+    @property
+    def page_two_nav(self):
+        selector = "//body/div[@id='root']/div[3]/div[1]/div[1]/table[1]/tfoot[1]/tr[1]/th[1]/div[1]/div[6]/div[2]/a[2]"
+        return self.locator(selector, "Page two navigation")
+
+    @property
+    def item_list_ddl(self):
+        selector = "//div[contains(text(),'Show 15 Items')]"
+        return self.locator(selector, "Items list dropdown")
+
+    @property
+    def list_filter_30(self):
+        selector = "//span[contains(text(),'30')]"
+        return self.locator(selector, "30 items filter")
+
+    @property
+    def list_filter_10(self):
+        selector = "//body/div[@id='root']/div[3]/div/div/table/tfoot/tr/th/div/div[5]/div[1]/div[2]/div[1]"
+        return self.locator(selector, "10 items filter")
+
+    @property
+    def content_icon(self):
+        selector = "//i[@aria-hidden='true' and @class='content large icon']"
+        return self.locator(selector, "Content icon")
+
+    @property
+    def deposit_match_link(self):
+        selector = "//body/div[@id='root']/div[1]/a[3]"
+        return self.locator(selector, "Deposit match link")
+
+    @property
+    def all_batches_link(self):
+        selector = "//a[contains(text(),'All Batches')]"
+        return self.locator(selector, "All Batches link")
+
+    @property
+    def unclaimed_payments_tab(self):
+        selector = "//a[contains(text(),'Unclaimed Payments ')]"
+        return self.locator(selector, "Unclaimed payments tab")
+
+    # region Search criteria section
+
+    @property
+    def criteria_dropdown(self):
+        selector = "//div[contains(text(),'Criteria')]"
+        return self.locator(selector, "Criteria dropdown")
+
+    @property
+    def order_id_dm(self):
+        selector = "//span[contains(text(),'Order ID')]"
+        return self.locator(selector, "Order ID option")
+
+    @property
+    def statement_amount_dm(self):
+        selector = "//span[contains(text(),'Statement Amount')]"
+        return self.locator(selector, "Statement amount option")
+
+    @property
+    def customer_id_dm(self):
+        selector = "//span[contains(text(),'Customer ID')]"
+        return self.locator(selector, "Customer ID option")
+
+    @property
+    def customer_name_dm(self):
+        selector = "//span[contains(text(),'Customer Name')]"
+        return self.locator(selector, "Customer Name option")
+
+    @property
+    def batch_id(self):
+        selector = "//span[contains(text(),'Batch ID')]"
+        return self.locator(selector, "Batch ID option")
+
+    # region Error and Status section
+
+    @property
+    def error_message(self):
+        selector = "//*[contains(text(),'Error')]"
+        return self.locator(selector, "Error message")
+
+    @property
+    def match_status(self):
+        selector = "//div[@name='matchStatus' and @role='listbox']"
+        return self.locator(selector, "Match status dropdown")
+
+    @property
+    def close_filter_button(self):
+        selector = "//i[@aria-hidden='true' and @class='dropdown icon clear']"
+        return self.locator(selector, "Close filter button")
+
+    @property
+    def close_icon(self):
+        selector = "//i[@aria-hidden='true' and @class='close icon']"
+        return self.locator(selector, "Close icon")
+
+    # region Order Details section
+
+    @property
+    def customer_name_lbl(self):
+        selector = "//th[contains(text(),'Customer Name')]"
+        return self.locator(selector, "Customer Name label")
+
+    @property
+    def order_no_text(self):
+        selector = "//tbody/tr[1]/td[2]/a[1]"
+        return self.locator(selector, "Order number text")
+
+    @property
+    def cust_name_text(self):
+        selector = "//tbody/tr[1]/td[3]/a[1]"
+        return self.locator(selector, "Customer name text")
+
+    @property
+    def statem_amount_text(self):
+        selector = "//tbody/tr[1]/td[6]"
+        return self.locator(selector, "Statement amount text")
+
+    @property
+    def customer_name_link(self):
+        selector = "//tbody/tr[1]/td[3]/a[1]"
+        return self.locator(selector, "Customer name link")
+
+    @property
+    def chk_order(self):
+        selector = "//*[@id='root']/div[3]/div/div/table/tbody/tr[2]/td[1]/div"
+        return self.locator(selector, "Order checkbox")
+
+    @property
+    def chk_new_order(self):
+        selector = "//*[@id='root']/div[3]/div/div/table/tbody/tr/td[1]/div"
+        return self.locator(selector, "New order checkbox")
+
+    @property
+    def batch_id_value(self):
+        selector = "//tbody/tr[1]/td[2]/a[1]"
+        return self.locator(selector, "Batch ID value")
+
+    @property
+    def order_number_checkbox(self):
+        selector = "//tbody/tr[1]/td[1]"
+        return self.locator(selector, "Order number checkbox")
+
+    @property
+    def order_number_text(self):
+        selector = "//tbody/tr[1]/td[2]"
+        return self.locator(selector, "Order number text")
+
+    # region Match status options
+
+    @property
+    def order_not_found(self):
+        selector = "//span[contains(text(),'Order Not Found')]"
+        return self.locator(selector, "Order not found option")
+
+    @property
+    def amount_differ(self):
+        selector = "//span[contains(text(),'Amount Differ')]"
+        return self.locator(selector, "Amount differ option")
+
+    @property
+    def auto_match(self):
+        selector = "//span[contains(text(),'Auto Match')]"
+        return self.locator(selector, "Auto match option")
+
+    # region Cancel/Order actions section
+
+    @property
+    def cancel_reason_dropdown(self):
+        selector = "//div[@name='cancelReason']"
+        return self.locator(selector, "Cancel reason dropdown")
+
+    @property
+    def cancel_reason(self):
+        selector = "//span[contains(text(),'Supplier out of stock')]"
+        return self.locator(selector, "Cancel reason option")
+
+    @property
+    def btn_cancel_order(self):
+        selector = "//button[contains(text(),'Cancel Order')]"
+        return self.locator(selector, "Cancel order button")
+
+    @property
+    def btn_confirm_cancel_order(self):
+        selector = "//button[contains(text(),'Cancel Orders')]"
+        return self.locator(selector, "Confirm cancel order button")
+
+    @property
+    def btn_authorise_order(self):
+        selector = "//button[contains(text(),'Authorise Order')]"
+        return self.locator(selector, "Authorise order button")
+
+    @property
+    def verify_authorise_order(self):
+        selector = "//div[contains(text(),'Successfully processed 1 item(s)')]"
+        return self.locator(selector, "Authorise order verification")
+
+    @property
+    def remove_order(self):
+        selector = "//button[contains(text(),'Remove Order')]"
+        return self.locator(selector, "Remove order button")
+
+    @property
+    def btn_unclaimed_payment(self):
+        selector = "//button[contains(text(),'Unclaimed Payment')]"
+        return self.locator(selector, "Unclaimed payment button")
+
+    # region Upload and match section
+
+    @property
+    def btn_upload_csv(self):
+        selector = "//button[contains(text(),'Upload CSV')]"
+        return self.locator(selector, "Upload CSV button")
+
+    @property
+    def select_statement_type(self):
+        selector = "//div[@name='statementType' and @role='listbox']"
+        return self.locator(selector, "Select statement type dropdown")
+
+    @property
+    def btn_match(self):
+        selector = "//tbody/tr[1]/td[10]/div[1]/button[1]"
+        return self.locator(selector, "Match button")
+
+    @property
+    def txt_match_order_id(self):
+        selector = "//input[@name='order_id' and  @type='number']"
+        return self.locator(selector, "Match order ID input")
+
+    @property
+    def btn_match_submit(self):
+        selector = "//button[@class='ui blue button' and @type='submit']"
+        return self.locator(selector, "Match submit button")
+
+    @property
+    def batches_heading(self):
+        selector = "//h1[contains(text(),'Batches')]"
+        return self.locator(selector, "Batches heading")
+
+    @property
+    def generic_option(self):
+        selector = "//span[contains(text(),'Generic')]"
+        return self.locator(selector, "Generic option")
+
+    @property
+    def file_input(self):
+        selector = "//input[@type='file']"
+        return self.locator(selector, "File input")
+
+    @property
+    def upload_button(self):
+        selector = "//body/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/button[1]"
+        return self.locator(selector, "Upload button")
+
+    @property
+    def batch_id_active_section(self):
+        selector = "//a[@class='active section']"
+        return self.locator(selector, "Batch ID active section")
+
+    @property
+    def batch_id_header(self):
+        selector = "//th[contains(text(),'Batch Id')]"
+        return self.locator(selector, "Batch ID header")
+
+    @property
+    def send_email_button(self):
+        selector = "//button[contains(text(),'Send Email')]"
+        return self.locator(selector, "Send Email button")

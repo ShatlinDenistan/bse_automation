@@ -4,9 +4,6 @@ from pos.manual_auth_po import ManualAuthPO
 class ManualAuthPage(ManualAuthPO):
     """Page class for Manual Authorization functionality"""
 
-    def __init__(self, page):
-        super().__init__(page)
-
     def verify_page_loaded(self):
         """Verify that the manual authorization page is loaded"""
         self.step("Verifying manual authorization page is loaded")
@@ -70,4 +67,4 @@ class ManualAuthPage(ManualAuthPO):
     def get_order_count(self):
         """Get the number of orders in the table"""
         self.step("Getting order count")
-        return self.get_locator_count(self.order_rows)
+        return self.order_rows.count()

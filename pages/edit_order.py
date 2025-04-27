@@ -5,8 +5,6 @@ from pos.edit_order_po import EditOrderPO
 
 
 class EditOrderPage(EditOrderPO):
-    def __init__(self, page):
-        super().__init__(page)
 
     def navigate_to_edit_order_screen(self):
         """Navigate to the Edit Order screen."""
@@ -48,10 +46,10 @@ class EditOrderPage(EditOrderPO):
         self.fill(self.discount_amount, str(add_discount_amount))
         self.click(self.update_button)
 
-    def verify_that_invalid_discount_amount_message(self):
+    def verify_invalid_discount_amount_message(self):
         """Verify that an invalid discount amount message is displayed."""
         expect(self.invalid_discount_amount).to_be_visible()
-        invalid_discount_amount_text = self.text_content(self.invalid_discount_amount)
+        invalid_discount_amount_text = self.get_text(self.invalid_discount_amount)
         assert "Discount amount cannot exceed the order item total of" in invalid_discount_amount_text
         return invalid_discount_amount_text
 
@@ -91,12 +89,12 @@ class EditOrderPage(EditOrderPO):
         self.wait_for_seconds(1)
         # Get Audit Log entry action type
         expect(self.audit_log_edit_order_action_type).to_be_visible()
-        action_type = self.text_content(self.audit_log_edit_order_action_type)
+        action_type = self.get_text(self.audit_log_edit_order_action_type)
         # Verify Action Type Equals to Edit Order
         assert "edit_order" in action_type
 
         # Get Audit Log entry data
-        data = self.text_content(self.audit_log_edit_order_data)
+        data = self.get_text(self.audit_log_edit_order_data)
         # Verify Edit Order Data
         assert "updated_values" in data
         assert "discount_update" in data
@@ -110,11 +108,11 @@ class EditOrderPage(EditOrderPO):
         self.click(self.order_financials_accordion)
 
         # Verify Shipping is added
-        shipping_amount_text = self.text_content(self.order_financials_shipping_amount)
+        shipping_amount_text = self.get_text(self.order_financials_shipping_amount)
         shipping_amount = shipping_amount_text.replace("R ", "")
 
         # Verify Discount is added
-        discount_amount_text = self.text_content(self.order_financials_discount_amount)
+        discount_amount_text = self.get_text(self.order_financials_discount_amount)
         discount_amount = discount_amount_text.replace("R ", "")
 
         return shipping_amount, discount_amount
@@ -129,7 +127,7 @@ class EditOrderPage(EditOrderPO):
         """Update order item status from Returned Canceled to Shipped."""
         expect(self.update_to_shipped_menu_option).to_be_visible()
 
-        message_text = self.text_content(self.update_to_shipped_modal_message)
+        message_text = self.get_text(self.update_to_shipped_modal_message)
         assert "Update status for order" in message_text
         self.click(self.update_to_shipped_button)
 
@@ -149,7 +147,7 @@ class EditOrderPage(EditOrderPO):
         # Get Audit Log entry action type
         self.wait_for_seconds(10)
         expect(self.audit_log_edit_order_action_type).to_be_visible()
-        action_type = self.text_content(self.audit_log_edit_order_action_type)
+        action_type = self.get_text(self.audit_log_edit_order_action_type)
         # Verify Action Type Equals to Edit Order
         assert "update_order_item_to_shipped" in action_type
 
@@ -173,7 +171,7 @@ class EditOrderPage(EditOrderPO):
         expect(self.order_financials_accordion).to_be_visible()
         self.click(self.order_financials_accordion)
 
-        shipping_amount_text = self.text_content(self.order_financials_shipping_amount)
+        shipping_amount_text = self.get_text(self.order_financials_shipping_amount)
         shipping_amount = shipping_amount_text.replace("R ", "")
 
         assert shipping_amount == "75.00", f"Expected shipping amount to be 75.00, but got {shipping_amount}"
@@ -190,7 +188,7 @@ class EditOrderPage(EditOrderPO):
         expect(self.order_financials_accordion).to_be_visible()
         self.click(self.order_financials_accordion)
 
-        discount_amount_text = self.text_content(self.order_financials_discount_amount)
+        discount_amount_text = self.get_text(self.order_financials_discount_amount)
         discount_amount = discount_amount_text.replace("R ", "")
 
         assert discount_amount == "10.00", f"Expected discount amount to be 10.00, but got {discount_amount}"
@@ -218,7 +216,7 @@ class EditOrderPage(EditOrderPO):
         ]
 
         self.click(self.payment_method_dropdown)
-        payment_options_text = self.text_content(self.payment_method_dropdown)
+        payment_options_text = self.get_text(self.payment_method_dropdown)
         actual_options = [option.strip() for option in payment_options_text.split("\n") if option.strip() and option.strip() != "-- none --"]
 
         assert sorted(actual_options) == sorted(expected_options), f"Expected {expected_options}, but got {actual_options}"

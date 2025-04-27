@@ -23,33 +23,33 @@ class OrderListPage(OrderListPO):
     def clear_filters(self):
         """Clear all filters."""
         self.click(self.clear_filter_button)
-        self.wait_for_element_visible(self.order_list_table)
+        self.wait_till_element_visible(self.order_list_table)
 
     def authorise_single_order(self):
         """Authorise a single order from the list."""
         self.click(self.past_10_days)
         self.apply_filter()
 
-        self.wait_for_element_visible(self.first_row_new_order_checkbox)
+        self.wait_till_element_visible(self.first_row_new_order_checkbox)
         self.wait_for_element_enabled(self.first_row_new_order_checkbox)
         self.click(self.first_row_new_order_checkbox)
         order_id = self.get_text(self.order_id_column)
 
         self.scroll_to_element(self.authorise_order_button)
         self.click(self.authorise_order_button)
-        self.wait(5)
+        self.wait_for_seconds(5)
 
-        self.wait_for_element_visible(self.authorise_orders_modal)
+        self.wait_till_element_visible(self.authorise_orders_modal)
         modal_text = self.get_text(self.authorise_orders_modal)
 
         assert "Authorizing Orders" in modal_text, "Modal doesn't show authorizing orders"
-        self.wait(3)
-        assert f"Successfully processed 1 item(s)" in modal_text, "Not showing success message"
+        self.wait_for_seconds(3)
+        assert "Successfully processed 1 item(s)" in modal_text, "Not showing success message"
         assert f"Successfully processed item: {order_id}" in modal_text, "Order ID not found in success message"
 
         self.click(self.authorise_orders_modal_close_icon)
 
-        self.fill_text(self.global_search_field, order_id)
+        self.fill(self.global_search_field, order_id)
         self.click(self.global_search_icon)
 
         self.scroll_to_element(self.authed_by_badge)
@@ -64,7 +64,7 @@ class OrderListPage(OrderListPO):
         self.click(self.past_10_days)
         self.apply_filter()
 
-        self.wait_for_element_visible(self.first_row_new_order_checkbox)
+        self.wait_till_element_visible(self.first_row_new_order_checkbox)
         self.wait_for_element_enabled(self.first_row_new_order_checkbox)
 
         self.click(self.first_row_new_order_checkbox)
@@ -77,14 +77,14 @@ class OrderListPage(OrderListPO):
 
         self.scroll_to_element(self.authorise_order_button)
         self.click(self.authorise_order_button)
-        self.wait(5)
+        self.wait_for_seconds(5)
 
-        self.wait_for_element_visible(self.authorise_orders_modal)
+        self.wait_till_element_visible(self.authorise_orders_modal)
         modal_text = self.get_text(self.authorise_orders_modal)
 
         assert "Authorizing Orders" in modal_text, "Modal doesn't show authorizing orders"
-        self.wait(12)
-        assert f"Successfully processed 3 item(s)" in modal_text, "Not showing success for 3 items"
+        self.wait_for_seconds(12)
+        assert "Successfully processed 3 item(s)" in modal_text, "Not showing success for 3 items"
         assert f"Successfully processed item: {order_id_1}" in modal_text, "Order ID 1 not found in success"
         assert f"Successfully processed item: {order_id_2}" in modal_text, "Order ID 2 not found in success"
         assert f"Successfully processed item: {order_id_3}" in modal_text, "Order ID 3 not found in success"
@@ -94,9 +94,9 @@ class OrderListPage(OrderListPO):
         # Verify all three orders
         order_ids = [order_id_1, order_id_2, order_id_3]
         for order_id in order_ids:
-            self.fill_text(self.global_search_field, order_id)
+            self.fill(self.global_search_field, order_id)
             self.click(self.global_search_icon)
-            self.wait(5)
+            self.wait_for_seconds(5)
 
             self.scroll_to_element(self.authed_by_badge)
             auth_by_text = self.get_text(self.authed_by_badge)
@@ -104,23 +104,23 @@ class OrderListPage(OrderListPO):
 
             if order_id != order_ids[-1]:  # Don't reload on last iteration
                 self.reload_page()
-                self.wait(5)
-                self.clear_element_text(self.global_search_field)
+                self.wait_for_seconds(5)
+                self.clear(self.global_search_field)
 
         return order_ids
 
     def cancel_single_order(self):
         """Cancel a single order from the list."""
-        self.wait_for_element_visible(self.first_row_new_order_checkbox)
+        self.wait_till_element_visible(self.first_row_new_order_checkbox)
         self.wait_for_element_enabled(self.first_row_new_order_checkbox)
         self.click(self.first_row_new_order_checkbox)
         order_id = self.get_text(self.order_id_column)
 
         self.scroll_to_element(self.cancel_order_button)
         self.click(self.cancel_order_button)
-        self.wait(2)
+        self.wait_for_seconds(2)
 
-        self.wait_for_element_visible(self.cancel_orders_modal_header)
+        self.wait_till_element_visible(self.cancel_orders_modal_header)
         header_text = self.get_text(self.cancel_orders_modal_header)
         assert "Please confirm" in header_text, "Confirmation header not showing"
 
@@ -143,16 +143,16 @@ class OrderListPage(OrderListPO):
 
         self.click(self.cancel_orders_button)
 
-        self.wait_for_element_visible(self.cancel_orders_modal)
+        self.wait_till_element_visible(self.cancel_orders_modal)
         modal_text = self.get_text(self.cancel_orders_modal)
 
         assert "Cancelling Orders" in modal_text, "Modal doesn't show cancelling orders"
-        assert f"Successfully processed 1 item(s)" in modal_text, "Not showing success message"
+        assert "Successfully processed 1 item(s)" in modal_text, "Not showing success message"
         assert f"Successfully processed item: {order_id}" in modal_text, "Order ID not found in success"
 
         self.click(self.cancel_orders_modal_close_icon)
 
-        self.fill_text(self.global_search_field, order_id)
+        self.fill(self.global_search_field, order_id)
         self.click(self.global_search_icon)
 
         self.scroll_to_element(self.canceled_by_badge)
@@ -171,7 +171,7 @@ class OrderListPage(OrderListPO):
         self.click(self.past_10_days)
         self.apply_filter()
 
-        self.wait_for_element_visible(self.first_row_new_order_checkbox)
+        self.wait_till_element_visible(self.first_row_new_order_checkbox)
         self.wait_for_element_enabled(self.first_row_new_order_checkbox)
 
         self.click(self.first_row_new_order_checkbox)
@@ -184,34 +184,34 @@ class OrderListPage(OrderListPO):
 
         self.scroll_to_element(self.cancel_order_button)
         self.click(self.cancel_order_button)
-        self.wait(5)
+        self.wait_for_seconds(5)
 
         self.click(self.cancellation_reason_dropdown)
         self.click(self.reason_customer_request)
         selected_reason = "Customer request"
 
         self.click(self.cancel_orders_button)
-        self.wait(5)
+        self.wait_for_seconds(5)
 
-        self.wait_for_element_visible(self.cancel_orders_modal)
+        self.wait_till_element_visible(self.cancel_orders_modal)
         modal_text = self.get_text(self.cancel_orders_modal)
 
         assert "Cancelling Orders" in modal_text, "Modal doesn't show cancelling orders"
-        self.wait(12)
-        assert f"Successfully processed 3 item(s)" in modal_text, "Not showing success for 3 items"
+        self.wait_for_seconds(12)
+        assert "Successfully processed 3 item(s)" in modal_text, "Not showing success for 3 items"
         assert f"Successfully processed item: {order_id_1}" in modal_text, "Order ID 1 not found in success"
         assert f"Successfully processed item: {order_id_2}" in modal_text, "Order ID 2 not found in success"
         assert f"Successfully processed item: {order_id_3}" in modal_text, "Order ID 3 not found in success"
 
-        self.wait(5)
+        self.wait_for_seconds(5)
         self.click(self.cancel_orders_modal_close_icon)
 
         # Verify all three orders
         order_ids = [order_id_1, order_id_2, order_id_3]
         for order_id in order_ids:
-            self.fill_text(self.global_search_field, order_id)
+            self.fill(self.global_search_field, order_id)
             self.click(self.global_search_icon)
-            self.wait(5)
+            self.wait_for_seconds(5)
 
             self.scroll_to_element(self.canceled_by_badge)
             canceled_by_text = self.get_text(self.canceled_by_badge)
@@ -224,31 +224,31 @@ class OrderListPage(OrderListPO):
                 assert "Test en-gcs" in order_item_reason, "User not showing in reason"
             elif order_id != order_ids[-1]:  # Don't reload on last iteration
                 self.reload_page()
-                self.wait(5)
+                self.wait_for_seconds(5)
 
         return order_ids, selected_reason
 
     def cancel_already_cancelled_order(self):
         """Try to cancel an already cancelled order."""
-        self.wait_for_element_visible(self.first_row_canceled_checkbox)
+        self.wait_till_element_visible(self.first_row_canceled_checkbox)
         self.wait_for_element_enabled(self.first_row_canceled_checkbox)
         self.click(self.first_row_canceled_checkbox)
         order_id = self.get_text(self.order_id_column_canceled)
 
         self.scroll_to_element(self.cancel_order_button)
         self.click(self.cancel_order_button)
-        self.wait(2)
+        self.wait_for_seconds(2)
 
         self.click(self.cancellation_reason_dropdown)
         self.click(self.reason_customer_request)
         self.click(self.cancel_orders_button)
 
-        self.wait(5)
-        self.wait_for_element_visible(self.cancel_orders_modal)
+        self.wait_for_seconds(5)
+        self.wait_till_element_visible(self.cancel_orders_modal)
         modal_text = self.get_text(self.cancel_orders_modal)
 
         assert "Cancelling Orders" in modal_text, "Modal doesn't show cancelling orders"
-        assert f"Failed to process 1 item(s)" in modal_text, "Not showing failure message"
+        assert "Failed to process 1 item(s)" in modal_text, "Not showing failure message"
         assert f"Failed to process item: {order_id} , Unable to process service request" in modal_text, "Error details not found"
 
         return order_id
@@ -256,24 +256,25 @@ class OrderListPage(OrderListPO):
     def filter_by_daily_deal(self):
         """Filter orders by daily deals."""
         self.click(self.clear_filter_button)
-        self.wait(2)
-        self.wait_for_element_visible(self.daily_deals_checkbox)
+        self.wait_for_seconds(2)
+        self.wait_till_element_visible(self.daily_deals_checkbox)
         self.click(self.daily_deals_checkbox)
         self.click(self.order_list_apply_filter_button)
 
         # Verify all orders are daily deals
-        order_id_elements = self.get_elements(self.all_order_id_columns)
-        for element in order_id_elements:
+        element_count = self.all_order_id_columns.count()
+        for i in range(element_count):
+            element = self.all_order_id_columns.nth(i)
             element_text = self.get_text(element)
             assert "Daily Deal" in element_text, "Found order that isn't a daily deal"
 
-        return len(order_id_elements)
+        return element_count
 
     def filter_by_auth_status(self):
         """Filter orders by authorization status."""
         self.click(self.clear_filter_button)
-        self.wait(2)
-        self.wait_for_element_visible(self.order_list_table)
+        self.wait_for_seconds(2)
+        self.wait_till_element_visible(self.order_list_table)
         self.click(self.auth_status_dropdown)
 
         # Choose a random status
@@ -288,17 +289,18 @@ class OrderListPage(OrderListPO):
         self.click(self.order_list_apply_filter_button)
 
         # Verify all orders have the selected status
-        auth_status_elements = self.get_elements(self.all_auth_status_columns)
-        for element in auth_status_elements:
+        element_count = self.all_auth_status_columns.count()
+        for i in range(element_count):
+            element = self.all_auth_status_columns.nth(i)
             element_text = self.get_text(element)
             assert selected_status in element_text, f"Found order with status other than {selected_status}"
 
-        return selected_status, len(auth_status_elements)
+        return selected_status, element_count
 
     def filter_by_payment_method(self):
         """Filter orders by payment method."""
         self.click(self.clear_filter_button)
-        self.wait_for_element_visible(self.order_list_table)
+        self.wait_till_element_visible(self.order_list_table)
         self.click(self.payment_method_dropdown)
 
         # Choose a random payment method
@@ -313,17 +315,18 @@ class OrderListPage(OrderListPO):
         self.click(self.order_list_apply_filter_button)
 
         # Verify all orders have the selected payment method
-        payment_method_elements = self.get_elements(self.all_payment_method_columns)
-        for element in payment_method_elements:
+        element_count = self.all_payment_method_columns.count()
+        for i in range(element_count):
+            element = self.all_payment_method_columns.nth(i)
             element_text = self.get_text(element)
             assert selected_method in element_text, f"Found order with payment method other than {selected_method}"
 
-        return selected_method, len(payment_method_elements)
+        return selected_method, element_count
 
     def filter_by_shipping_method(self):
         """Filter orders by shipping method (collect)."""
         self.click(self.clear_filter_button)
-        self.wait_for_element_visible(self.order_list_table)
+        self.wait_till_element_visible(self.order_list_table)
         self.click(self.shipping_method_dropdown)
 
         self.click(self.shipping_method_collect)
@@ -331,17 +334,18 @@ class OrderListPage(OrderListPO):
         self.click(self.order_list_apply_filter_button)
 
         # Verify all orders are collection orders
-        shipping_method_elements = self.get_elements(self.all_order_id_columns)
-        for element in shipping_method_elements:
+        element_count = self.all_order_id_columns.count()
+        for i in range(element_count):
+            element = self.all_order_id_columns.nth(i)
             element_text = self.get_text(element)
             assert "Collection" in element_text, "Found order that isn't a collection order"
 
-        return len(shipping_method_elements)
+        return element_count
 
     def filter_by_minimum_order_total(self):
         """Filter orders by minimum order total."""
         self.click(self.clear_filter_button)
-        self.wait_for_element_visible(self.order_list_table)
+        self.wait_till_element_visible(self.order_list_table)
 
         self.click(self.minimum_order_total_dropdown)
         self.click(self.minimum_order_total_r500)
@@ -349,20 +353,21 @@ class OrderListPage(OrderListPO):
         self.click(self.order_list_apply_filter_button)
 
         # Get the row count and verify each amount is above R500
-        rows = self.get_elements(self.order_list_table)
+        element_count = self.order_list_table.count()
 
-        for i in range(len(rows)):
-            # Using 1-based indexing for the XPath
-            order_total = self.get_text(f"//table[@class='ui small celled compact table']//tbody//tr[{i+1}]//td[7]")
+        for i in range(element_count):
+            # Using 1-based indexing for the XPath because the locator is built that way
+            row_index = i + 1
+            order_total = self.get_text(f"//table[@class='ui small celled compact table']//tbody//tr[{row_index}]//td[7]")
             numeric_value = float(order_total.replace("R", "").replace(",", ""))
             assert numeric_value > 500, f"Found order total less than R500: {numeric_value}"
 
-        return len(rows)
+        return element_count
 
     def filter_by_maximum_order_total(self):
         """Filter orders by maximum order total."""
         self.click(self.clear_filter_button)
-        self.wait_for_element_visible(self.order_list_table)
+        self.wait_till_element_visible(self.order_list_table)
 
         self.click(self.minimum_order_total_dropdown)
         self.click(self.minimum_order_total_r0)
@@ -373,20 +378,21 @@ class OrderListPage(OrderListPO):
         self.click(self.order_list_apply_filter_button)
 
         # Get the row count and verify each amount is below R500
-        rows = self.get_elements(self.order_list_table)
+        element_count = self.order_list_table.count()
 
-        for i in range(len(rows)):
-            # Using 1-based indexing for the XPath
-            order_total = self.get_text(f"//table[@class='ui small celled compact table']//tbody//tr[{i+1}]//td[7]")
+        for i in range(element_count):
+            # Using 1-based indexing for the XPath because the locator is built that way
+            row_index = i + 1
+            order_total = self.get_text(f"//table[@class='ui small celled compact table']//tbody//tr[{row_index}]//td[7]")
             numeric_value = float(order_total.replace("R", "").replace(",", ""))
             assert numeric_value < 500, f"Found order total greater than R500: {numeric_value}"
 
-        return len(rows)
+        return element_count
 
     def filter_by_multiple_filters(self):
         """Apply multiple filters at once."""
         self.click(self.clear_filter_button)
-        self.wait_for_element_visible(self.order_list_table)
+        self.wait_till_element_visible(self.order_list_table)
 
         self.click(self.auth_status_dropdown)
         self.click(self.auth_status_new)
@@ -400,21 +406,24 @@ class OrderListPage(OrderListPO):
         self.click(self.order_list_apply_filter_button)
 
         # Verify auth status
-        auth_status_elements = self.get_elements(self.all_auth_status_columns)
-        for element in auth_status_elements:
+        auth_status_count = self.all_auth_status_columns.count()
+        for i in range(auth_status_count):
+            element = self.all_auth_status_columns.nth(i)
             element_text = self.get_text(element)
             assert "New" in element_text, "Found order with Auth status other than New"
 
         # Verify payment method
-        payment_method_elements = self.get_elements(self.all_payment_method_columns)
-        for element in payment_method_elements:
+        payment_method_count = self.all_payment_method_columns.count()
+        for i in range(payment_method_count):
+            element = self.all_payment_method_columns.nth(i)
             element_text = self.get_text(element)
             assert "Credit Card" in element_text, "Found order with Payment method other than Credit Card"
 
         # Verify shipping method
-        shipping_method_elements = self.get_elements(self.all_order_id_columns)
-        for element in shipping_method_elements:
+        shipping_method_count = self.all_order_id_columns.count()
+        for i in range(shipping_method_count):
+            element = self.all_order_id_columns.nth(i)
             element_text = self.get_text(element)
             assert "Collection" in element_text, "Found order that isn't a Collection order"
 
-        return len(auth_status_elements)
+        return auth_status_count

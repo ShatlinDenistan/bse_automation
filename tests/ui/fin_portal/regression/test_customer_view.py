@@ -10,8 +10,6 @@ class TestFinPortalCustomerView(TestBase):
         """Verify that the customer details are displayed on the customer view page"""
 
         self.step("Search for customer")
-        # Note: Search for customer functionality would need to be implemented
-        # Assuming there's a search method that already exists
         self.top_nav.search_for_customer("1")
 
         self.step("Verify customer details")
@@ -205,14 +203,12 @@ class TestFinPortalCustomerView(TestBase):
         """Verify that a user can Upload & Remove ID document on the customer view page"""
 
         self.step("Get orders from database")
-        # This would need to be implemented or adapted to match the existing functionality
-        # Using a sample approach assuming utils.database_utils has a method for this
-        order_ids = self.utils.get_orders_from_database("paygate_sql")
+        order_ids = self.order_data.get_orders(self.order_queries.paygate_sql)
 
         self.step("Search for order")
         self.top_nav.search_for_order(order_ids[0])
 
         self.step("Upload and remove ID document")
-        customer_id_doc_path = self.config.get_doc_path("Customer_ID.jpeg")
+        customer_id_doc_path = self.test_data_files.customer_id_doc
         self.customer_view_page.upload_valid_id_doc(customer_id_doc_path)
         self.customer_view_page.remove_id_doc()

@@ -1,16 +1,11 @@
 import random
 import string
-from playwright.sync_api import Page
-import pytest
 
 from pos.customer_view_po import CustomerViewPO
 
 
 class CustomerViewPage(CustomerViewPO):
     """Page class for Customer View page with business logic methods"""
-
-    def __init__(self, page: Page):
-        super().__init__(page)
 
     def verify_customer_details(self):
         """Verify that customer details are displayed correctly"""
