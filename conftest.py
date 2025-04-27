@@ -73,7 +73,7 @@ def pytest_runtest_makereport(item):
 def pytest_exception_interact(node, call):
     """Hook to log exception info"""
     exception = call.excinfo.exconly()
-    logger.info("%s", exception)
+    logger.info(f"\n{exception}\n")
 
 
 def update_jira(request, result, duration):
@@ -127,7 +127,7 @@ def log_test_name(request):
         scenario = request.function.__doc__
         if scenario:
             scenario = scenario.replace("\n", " ")
-        common_utils.log(f"Scenario: {scenario if scenario else 'Scenario / docstring not provided'}")
+        common_utils.log(f"\nScenario: {scenario if scenario else 'No scenario docstring added for this test'}")
     yield
 
     report = request.node.stash[phase_report_key]

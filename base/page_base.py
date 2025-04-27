@@ -8,6 +8,7 @@ from data.queries.donation_queries import DonationQueries
 from data.queries.order_item_queries import OrderItemQueries
 from data.queries.order_queries import OrderQueries
 from data.test_data_files import TestDataFiles
+from pathlib import Path
 
 # Module-level constants
 
@@ -54,3 +55,28 @@ class PageBase(PlaywrightUtils):
                 self.show_10_items_span.click()
             case _:
                 raise ValueError("Page size not supported")
+
+    def save_page(self, filename="page_source.html"):
+        """Saves the current page's HTML source to a file."""
+        try:
+            # Get the page content
+            html_content = self.page.content()
+
+            # Define the directory path
+            directory_path = Path("./output/page_source")
+
+            # Create the directory if it doesn't exist
+            directory_path.mkdir(parents=True, exist_ok=True)
+
+            # Define the file path
+            file_path = directory_path / filename
+
+            # Write the content to the file
+            with open(file_path, "w", encoding="utf-8") as file:
+                file.write(html_content)
+
+            self.logger.info(f"Page source saved to: {file_path}")
+            return str(file_path)
+        except Exception as e:
+            self.logger.error(f"Failed to save page source: {str(e)}")
+            return None

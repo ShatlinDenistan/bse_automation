@@ -41,7 +41,7 @@ class OrderData(TestDataService):
     def get_orders(self, query):
         """Get orders from database using query"""
         json_content = self._execute_query(query)
-        return List(OrderModel().from_json(json_content))
+        return OrderModel.from_json(json_content)
 
     # def create_new_tal_orders(self, pay_full_amount=True, complete_payment=True, cancel_order=False):
     #     """Create new TAL orders"""

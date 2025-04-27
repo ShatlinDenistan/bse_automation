@@ -20,15 +20,26 @@ class OrderModel:
         if not json_content:
             return cls()
 
-        return cls(
+        # Handle case where json_content is not a list
+        if not isinstance(json_content, list):
+            json_content = [json_content]
+
+        # Handle empty list case
+        if len(json_content) == 0:
+            return cls()
+
+        items = json_content[0].get("items", [])
+
+        orders = cls(
             order_ids=json_content[0].get("idOrder"),
-            id_order_item1=json_content[0].get("items")[0].get("order_item_id"),
-            id_order_item2=json_content[0].get("items")[1].get("order_item_id"),
+            id_order_item1=items[0].get("order_item_id") if len(items) > 0 else None,
+            id_order_item2=items[1].get("order_item_id") if len(items) > 1 else None,
             order_discount=json_content[0].get("Discount"),
             order_shipping=json_content[0].get("Shipping"),
             order_total=json_content[0].get("Total"),
             donation_amount=json_content[0].get("donation"),
         )
+        return orders
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert the model to a dictionary."""

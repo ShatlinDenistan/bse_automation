@@ -154,7 +154,7 @@ class TestBase(PageInitializer, EndpointInitializer):
             html_content = self.page.content()
 
             # Define the directory path
-            directory_path = Path("./results/page_source")
+            directory_path = Path("./output/page_source")
 
             # Create the directory if it doesn't exist
             directory_path.mkdir(parents=True, exist_ok=True)
