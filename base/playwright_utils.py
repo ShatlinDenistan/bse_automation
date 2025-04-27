@@ -77,11 +77,11 @@ class PlaywrightUtils:
             return
 
         if self.config.SHOW_STEP_MSG:
-            logger.info(message)
+            logger.info(f"\t\t{message}")
 
-    MAIN_STEP_CSS = """position: fixed; top: 0; right: 10%; font-size: 13px; color: #FFFFFF; font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none;"""
+    MAIN_STEP_CSS = """position: fixed; top: 0; right: 20%; font-size: 13px; color: #000000; font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none;"""
 
-    SUB_STEP_CSS = "position: fixed; top: 15px; right: 10%; font-size: 13px; color: #FFFFFF; " "font-weight: normal; z-index: 2147483647; text-align: right; pointer-events: none;"
+    SUB_STEP_CSS = "position: fixed; top: 15px; right: 20%; font-size: 13px; color: #000000; " "font-weight: normal; z-index: 2147483647; text-align: right; pointer-events: none;"
 
     def _get_step_display_javascript(self, message: str) -> str:
         return f"""
@@ -174,6 +174,8 @@ class PlaywrightUtils:
             locator.focus()
             locator.clear()
             locator.fill(str(text))
+            if "password" in locator.name.lower():
+                text = "********"
             self.log_element_interaction(f"fill {locator.name} textbox with text '{text}'")
 
     def type(self, locator: Locator, text, delay=10):
@@ -182,6 +184,8 @@ class PlaywrightUtils:
             locator.focus()
             locator.clear()
             locator.type(str(text), delay=delay)
+            if "password" in locator.name.lower():
+                text = "********"
             self.log_element_interaction(f"type text '{text}' in '{locator.name}' textbox")
 
     def clear(self, locator: Locator):
@@ -449,4 +453,5 @@ class PlaywrightUtils:
         try:
             expect(locator).to_be_visible(timeout=timeout)
         except AssertionError as exc:
+            self.log_element_interaction(f"{locator.name}' could not be found")
             raise AssertionError(f"Element '{locator.name}' not visible within {timeout} milliseconds") from exc

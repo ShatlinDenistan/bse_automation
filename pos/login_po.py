@@ -7,12 +7,12 @@ class LoginPO(PageBase):
 
     @property
     def email_textbox(self):
-        selector = "//input[@role='textbox' and @name='Email']"
+        selector = "//input[@placeholder='Email']"
         return self.locator(selector, "Email Textbox")
 
     @property
     def password_textbox(self):
-        selector = "//input[@role='textbox' and @name='Password']"
+        selector = "//input[@placeholder='Password']"
         return self.locator(selector, "Password Textbox")
 
     @property

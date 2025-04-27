@@ -16,7 +16,7 @@ class TestConfig:
 
     # File paths
     CONTEXT_FILE = "./contexts/context.json"
-    TRACE_PATH = "./ouput/trace/"
+    TRACE_PATH = "./output/trace/"
     VIDEOS_PATH = "./output/videos/"
 
     # Logging settings

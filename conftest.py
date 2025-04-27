@@ -70,7 +70,7 @@ def pytest_runtest_makereport(item):
 
 
 @pytest.hookimpl
-def pytest_exception_interact(_, call):
+def pytest_exception_interact(node, call):
     """Hook to log exception info"""
     exception = call.excinfo.exconly()
     logger.info("%s", exception)
@@ -131,7 +131,10 @@ def log_test_name(request):
     yield
 
     report = request.node.stash[phase_report_key]
-    duration = f'{report["call"].duration:.4f}s'
+    try:
+        duration = f'{report["call"].duration:.4f}s'
+    except AttributeError:
+        duration = "-1"
 
     if ("call" not in report) or report["call"].failed:
         result = "fail"

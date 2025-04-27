@@ -5,6 +5,7 @@ import json
 import logging as logger
 import os
 import time
+from pathlib import Path
 
 import pytest
 from faker import Faker
@@ -58,15 +59,19 @@ class TestBase(PageInitializer, EndpointInitializer):
 
     def step(self, message: str):
         self.step_count += 1
-        message = f"Step {self.step_count} : {message.capitalize()}"
-        # self.show_step_on_front_end(message)
+
+        if self.step_count == 1:
+            logger.info("")
+        spaces = " " if self.step_count < 10 else ""
+        message = f"{self.step_count}.{spaces}{message.capitalize()}"
+        self.show_step_on_front_end(message)
         if self.config.SHOW_STEP_MSG:
             logger.info(message)
         test_proof_record_mode = os.getenv("TEST_PROOF_RECORDING_MODE")
         if test_proof_record_mode is not None and test_proof_record_mode.lower() == "true":
             self.wait_for_seconds(3)
 
-    MAIN_STEP_CSS = "position: fixed; top: 0; right: 10%; font-size: 13px; color: #FFFFFF; " "font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none;"
+    MAIN_STEP_CSS = "position: fixed; top: 0; right: 20%; font-size: 13px; color: #000000; " "font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none;"
 
     def _get_step_display_javascript(self, message: str) -> str:
         """
@@ -132,3 +137,37 @@ class TestBase(PageInitializer, EndpointInitializer):
     def reload_page(self):
         self.page.reload()
         self.wait_till_page_is_loaded()
+
+    def save_page(self, filename="page_source.html"):
+        """
+        Saves the current page's HTML source to a file.
+
+        Parameters:
+        filename (str): Optional. The name of the file to save the page source to.
+                        Default is 'page_source.html'.
+
+        Returns:
+        str: The full path to the saved file.
+        """
+        try:
+            # Get the page content
+            html_content = self.page.content()
+
+            # Define the directory path
+            directory_path = Path("./results/page_source")
+
+            # Create the directory if it doesn't exist
+            directory_path.mkdir(parents=True, exist_ok=True)
+
+            # Define the file path
+            file_path = directory_path / filename
+
+            # Write the content to the file
+            with open(file_path, "w", encoding="utf-8") as file:
+                file.write(html_content)
+
+            logger.info(f"Page source saved to: {file_path}")
+            return str(file_path)
+        except Exception as e:
+            logger.error(f"Failed to save page source: {str(e)}")
+            return None
