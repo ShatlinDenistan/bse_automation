@@ -71,7 +71,7 @@ class TestBase(PageInitializer, EndpointInitializer):
         if test_proof_record_mode is not None and test_proof_record_mode.lower() == "true":
             self.wait_for_seconds(3)
 
-    MAIN_STEP_CSS = "position: fixed; top: 0; right: 20%; font-size: 13px; color: #000000; " "font-weight: bold; z-index: 2147483647; text-align: right; pointer-events: none;"
+    MAIN_STEP_CSS = "position: fixed; top: 0; left: 40%; font-size: 14px; color: #000000; " "font-weight: bold; z-index: 2147483647; text-align: left; pointer-events: none;"
 
     def _get_step_display_javascript(self, message: str) -> str:
         """

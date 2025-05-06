@@ -6,7 +6,7 @@ from typing import Optional, Dict, Any
 class OrderModel:
     """Data class representing an order with properties extracted from JSON response."""
 
-    order_ids: Optional[str] = None
+    order_id: Optional[str] = None
     id_order_item1: Optional[str] = None
     id_order_item2: Optional[str] = None
     order_discount: Optional[float] = None
@@ -31,7 +31,7 @@ class OrderModel:
         items = json_content[0].get("items", [])
 
         orders = cls(
-            order_ids=json_content[0].get("idOrder"),
+            order_id=json_content[0].get("idOrder"),
             id_order_item1=items[0].get("order_item_id") if len(items) > 0 else None,
             id_order_item2=items[1].get("order_item_id") if len(items) > 1 else None,
             order_discount=json_content[0].get("Discount"),

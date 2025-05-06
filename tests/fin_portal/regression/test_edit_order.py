@@ -32,10 +32,10 @@ class TestEditOrder(TestBase):
         """Verify that a user cannot apply discount amount more than order total amount."""
 
         self.step("Get orders from database")
-        order_ids = self.order_data.get_orders(self.order_queries.new_order_with_no_discount_amount_sql)
+        orders = self.order_data.get_orders(self.order_queries.new_order_with_no_discount_amount_sql)
 
         self.step("Search for order")
-        self.top_nav.search_for_order(order_ids[0])
+        self.top_nav.search_for_order(orders.order_id)
 
         self.step("Navigate to Edit Order screen")
         self.edit_order_page.navigate_to_edit_order_screen()
