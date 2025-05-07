@@ -1,0 +1,5 @@
+bse-ui-test-automation:
+  description: BSE UI automated tests
+  repo: https://github.com/TAKEALOT/bse-ui-test-automation
+  team: MPBSE
+  metrics: []

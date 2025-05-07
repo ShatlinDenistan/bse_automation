@@ -1,0 +1,81 @@
+
+
+convert Robot Framework tests to Playwright tests following a specific structure. 
+Please convert these files according to these rules. 
+Dont need to give details in the chat about what you are doing, just do the conversions. I want the chats to be minimal:
+
+### Files to Convert
+
+```
+/Users/shatlin.denistan/workspace/takealot/bse_automation/robot/Tests/Sanity/Fin-Portal_Manual_Override_Sanity.robot
+/Users/shatlin.denistan/workspace/takealot/bse_automation/robot/Tests/Sanity/Fin-Portal_Manual_Refund_Sanity.robot
+```
+
+### Conversion Rules
+
+1. **PO (Page Object) Files:**
+   - Convert `.resource` files in `/backup/OR/` to Python classes in `/pos/` folder
+   - Each PO file must inherit from `PageBase` class which is in base/page_base.py
+   - Define all XPaths as module-level constants in UPPERCASE
+   - Remove `xpath=` or `css=` prefixes from selectors
+   - Initialize elements using `self.locator()` method with descriptive names
+   - Example for locator definition:
+     ```python
+     # Module-level constant
+     SUBMIT_BTN = "//button[@type='submit']"
+     
+     # In class constructor
+     self.submit_btn = self.locator(SUBMIT_BTN, "Submit button")
+     ```
+
+2. **Page Files:**
+   - Convert keyword files (`.resource` files in `/backup/KW/`) to Page classes in `/pages/` folder
+   - Each Page class must inherit from its corresponding PO class
+   - Use wrapper methods from `page_base.py` instead of direct Playwright methods
+   - Example: use `self.click()` instead of `self.page.click()`
+
+3. **Test Files:**
+   - Convert test files to Python tests in `/tests/ui` folder. check if they should be stored in regression or sanity folder
+   - Each test class must inherit from `TestBase`
+   - Don't include setup/teardown as they're handled elsewhere
+   - Use `self.page_name.method()` to access page objects
+   - Add appropriate `@pytest.mark` decorators based on Robot Framework tags
+   - skip login or verify title methods in the tests
+
+4. **Page Initializer:**
+   - For each new page class created, add a reference in `/base/page_initializer.py`
+   - Create an instance of the page with `self.page_name = PageName(page)`
+
+### Additional Requirements
+
+- Page objects are available through fixtures in all tests; no need to create instances in tests
+- To access the Playwright page object, use `self.page`
+- All locator interactions should use wrapper methods from `page_base.py`
+- All test methods should start with `test_` and include descriptive names
+- Maintain good documentation with docstrings explaining functionality, but keep the docstrings as one liners
+- if there are [Documentation] and [tags] in robot tests, use documentation as docstring as use tags as @pytest.mark to add tags to the tests
+- Group tests cleanly into self.step. For every self.step line, ensure there is atleast one blank line above
+- refer to utils/database_utils.py for database related methods
+- also refer to /Users/shatlin.denistan/workspace/takealot/bse_automation/robot/Utilities for additional methods that may require reference or conversion
+
+### Example Conversion
+
+**From Robot Framework:**
+```robotframework
+*** Test Cases ***
+Verify Element Visibility
+    [Documentation]    Verify element is visible
+    [Tags]    regression
+    Check If Element Is Visible
+```
+
+**To Playwright:**
+```python
+@pytest.mark.regression
+def test_verify_element_visibility(self):
+    """Verify element is visible."""
+    self.step("Verify element is visible")
+    assert self.example_page.check_if_element_is_visible(), "Element is not visible"
+```
+
+Please keep the structure consistent with the existing codebase and ensure all converted files follow the inheritance patterns described above.
