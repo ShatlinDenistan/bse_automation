@@ -10,13 +10,10 @@ class TopNavComponent(TopNavPO):
 
     def search_for_customer(self, search_term):
         """Search for a customer using the provided search term."""
-        self.click(self.search_bar)
-        self.click(self.txt_search)
-        self.fill(self.txt_search, search_term)
         self.click(self.ddl_search)
         self.click(self.ddl_customer)
+        self.type(self.txt_search, search_term)
         self.click(self.btn_search_button)
-        self.wait_for_text("Customer Info", timeout=self.config.MIN_TIMEOUT)
 
     def search_for_order(self, search_term):
         """Search for an order using the provided search term."""

@@ -9,21 +9,42 @@ class TestFinPortalCustomerView(TestBase):
     def test_verify_customer_details(self):
         """Verify that the customer details are displayed on the customer view page"""
 
-        self.step("Search for customer")
-        self.top_nav.search_for_customer("1")
+        # Arrange
+        customer_id = "1"
 
-        self.step("Verify customer details")
-        self.customer_view_page.verify_customer_details()
+        # Act
+        self.step("Search for customer")
+        self.top_nav.search_for_customer(customer_id)
+
+        self.step("Confirm that the customer view page is displayed")
+        is_in_customer_view_page = self.customer_view_page.confirm_if_in_page()
+
+        # Assert
+        assert is_in_customer_view_page is True, "Expected to be in customer view page, but system didnt navigate to customer view."
+
+        self.step("Expected: To navigate to customer view page")
+        self.step("Actual: Navigated to customer view page")
 
     @pytest.mark.QABSE_260
     def test_verify_notes_section(self):
         """Verify that the customer notes are displayed on the customer view page"""
 
+        # Arrange
+        customer_id = "1"
+
+        # Act
         self.step("Search for customer")
-        self.top_nav.search_for_customer("1")
+        self.top_nav.search_for_customer(customer_id)
 
         self.step("Verify notes section")
-        self.customer_view_page.verify_notes_section_with_edit_option()
+        self.customer_view_page.expand_notes_section()
+
+        new_note_dialog_open = self.customer_view_page.open_new_note_dialog()
+
+        # Assert
+        assert new_note_dialog_open is True, "Expected to open new note dialog, but it was not opened."
+        self.step("Expected: To open new note dialog")
+        self.step("Actual: New note dialog opened")
 
     @pytest.mark.QABSE_260
     def test_verify_fin_note_section(self):

@@ -1,12 +1,14 @@
 import os
 
+from config.secrets import SecretManager
+
 
 class TestConfig:
     """All the configurations for the tests"""
 
     # Environment settings
     _IS_DEV_ENV = os.getenv("ENVIRONMENT", "False").upper() == "DEV"
-
+    SECRETS = SecretManager().get_secrets()
     # URLs and Endpoints
     BFF_URL = os.getenv("BFF_ENV_URL")
     TEST_DATA_SERVICE = os.getenv("TEST_DATA_SERVICE")

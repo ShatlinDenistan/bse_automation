@@ -90,8 +90,8 @@ def _init_test(playwright: Playwright, _init_session_for_test, _api_session, req
     page.goto(f"{test_config.HOME_PAGE}/{PAGES.home}", wait_until="domcontentloaded")
     login_page = LoginPage(page)
     login_page.confirm_if_in_page()
-    user_name = os.getenv("USER_NAME")
-    password = os.getenv("PASSWORD")
+    user_name = test_config.SECRETS.get("username")
+    password = test_config.SECRETS.get("password")
     login_page.login(user_name, password)
     request.cls.page = page
     request.cls.browser = browser

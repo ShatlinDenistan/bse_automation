@@ -22,12 +22,12 @@ class CustomerViewPO(PageBase):
 
     @property
     def fin_notes_dropdown(self):
-        selector = "//span[contains(text(),'Fin Notes')]"
+        selector = "//span[normalize-space(text())='Fin Notes']"
         return self.locator(selector, "Fin Notes Dropdown")
 
     @property
     def notes_dropdown(self):
-        selector = "//span[contains(text(),'Notes')]"
+        selector = "//span[normalize-space(text())='Notes']"
         return self.locator(selector, "Notes Dropdown")
 
     @property
@@ -68,6 +68,11 @@ class CustomerViewPO(PageBase):
     # endregion
 
     # region Customer information elements
+
+    @property
+    def customer_info_div_header(self):
+        selector = "//div[.='Customer Info']"
+        return self.locator(selector, "Customer Info Div Header")
 
     @property
     def customer_fullname(self):
@@ -143,8 +148,8 @@ class CustomerViewPO(PageBase):
         return self.locator(selector, "Fin Notes Edit Button")
 
     @property
-    def notes_edit_btn(self):
-        selector = "//*[@id='root']/div[3]/div/div/div/div/div/div[2]/div/div[2]/div[2]/div[2]/div/div/div[2]/button"
+    def add_note_button(self):
+        selector = "//span[normalize-space(text())='Notes']/parent::div/following-sibling::div[1]//button[contains(.,'Note')]"
         return self.locator(selector, "Notes Edit Button")
 
     @property

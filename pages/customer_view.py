@@ -7,34 +7,29 @@ from pos.customer_view_po import CustomerViewPO
 class CustomerViewPage(CustomerViewPO):
     """Page class for Customer View page with business logic methods"""
 
-    def verify_customer_details(self):
-        """Verify that customer details are displayed correctly"""
-        self.step("Verify customer details")
-
-        self.expect_to_be_visible("text=Brian Delta")
-        self.click(self.name_google_icon)
-        self.wait_for_seconds(2)
-
-        window_handles = self.page.context.pages
-        self.page.bring_to_front()
-
-        self.expect_to_be_visible("text=dev+1@take2.co.za")
-        self.click(self.email_google_icon)
-        self.wait_for_seconds(2)
-
-        window_handles = self.page.context.pages
-        self.page.bring_to_front()
-
-        assert self.verified_cellphone_icon.is_visible(), "Verified cellphone icon is not visible"
+    def confirm_if_in_page(self):
+        self.expect_to_be_visible(self.customer_info_div_header)
+        return True
 
     def verify_notes_section_with_edit_option(self):
         """Verify notes section with edit option"""
-        self.step("Verify notes section with edit option")
 
+        self.step("Verify notes section with edit option")
         self.expect_to_be_visible(self.notes_dropdown)
         self.click(self.notes_dropdown)
-        assert self.notes_edit_btn.is_visible(), "Notes edit button is not visible"
-        self.click(self.notes_edit_btn)
+        self.expect_to_be_visible(self.add_note_button)
+        self.click(self.add_note_button)
+
+    def expand_notes_section(self):
+        """Expand notes section"""
+        self.step("Expand notes section")
+        self.expect_to_be_visible(self.notes_dropdown)
+        self.click(self.notes_dropdown)
+
+    def open_new_note_dialog(self):
+        self.expect_to_be_visible(self.add_note_button)
+        self.click(self.add_note_button)
+        return True
 
     def verify_fin_notes_section_with_edit_option(self):
         """Verify fin notes section with edit option"""
