@@ -1,6 +1,8 @@
 import os
+from dotenv import load_dotenv
 
-from config.secrets import SecretManager
+
+load_dotenv(override=True)
 
 
 class TestConfig:
@@ -8,11 +10,21 @@ class TestConfig:
 
     # Environment settings
     _IS_DEV_ENV = os.getenv("ENVIRONMENT", "False").upper() == "DEV"
-    SECRETS = SecretManager().get_secrets()
     # URLs and Endpoints
     BFF_URL = os.getenv("BFF_ENV_URL")
     TEST_DATA_SERVICE = os.getenv("TEST_DATA_SERVICE")
     HOME_PAGE = os.getenv("HOME_PAGE")
+    USER_NAME = os.getenv("USER_NAME")
+    PASSWORD = os.getenv("PASSWORD")
+    RECORD_VIDEO = os.getenv("RECORD_VIDEO", "False").upper() == "TRUE"
+    SAVE_CONTEXT = os.getenv("SAVE_CONTEXT", "False").upper() == "TRUE"
+    API_TOKEN = os.getenv("API_TOKEN")
+    ENVIRONMENT = os.getenv("ENVIRONMENT", "DEV").upper()
+    DB_USER = os.getenv("DBUSER")
+    DB_NAME = os.getenv("DBNAME")
+    DB_KEY = os.getenv("DBKEY")
+    DB_HOST = os.getenv("DBHOST")
+
     JIRA = "https://takealot.atlassian.net/"
     UPDATE_JIRA = os.getenv("UPDATE_JIRA", "False").upper() == "TRUE"
 
